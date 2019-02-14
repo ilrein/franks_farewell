@@ -1,0 +1,14 @@
+{
+    "providers": {
+        "awscloudformation": {
+            "AuthRoleName": "franksfarewell-20190211104545-authRole",
+            "UnauthRoleArn": "arn:aws:iam::256243921653:role/franksfarewell-20190211104545-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::256243921653:role/franksfarewell-20190211104545-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "franksfarewell-20190211104545-deployment",
+            "UnauthRoleName": "franksfarewell-20190211104545-unauthRole",
+            "StackName": "franksfarewell-20190211104545",
+            "StackId": "arn:aws:cloudformation:us-east-1:256243921653:stack/franksfarewell-20190211104545/18dde650-2e14-11e9-8730-0a33c80c982c"
+        }
+    }
+}
