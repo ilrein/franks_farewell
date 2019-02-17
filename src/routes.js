@@ -15,6 +15,7 @@ import Dashboard from './pages/Dashboard';
 
 // Layouts
 import MainLayout from './layouts/MainLayout';
+// import BasicLayout from './layouts/BasicLayout';
 
 const Wrapper = styled.div`
   height: 100%;

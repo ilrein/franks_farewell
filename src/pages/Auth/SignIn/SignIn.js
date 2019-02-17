@@ -12,10 +12,13 @@ import { Auth } from 'aws-amplify';
 import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+import fadeIn from '../../../anime/fadeIn';
+
 const Wrapper = styled.div`
   height: 100%;
   padding: 2rem 0;
   background-color: #eee;
+  animation: ${fadeIn} 1s ease;
 `;
 
 class SignIn extends Component {
@@ -69,9 +72,7 @@ class SignIn extends Component {
     } = this.state;
 
     return (
-      <Wrapper
-        className="fadeIn animated"
-      >
+      <Wrapper>
         <Container>
           <Header as="h1">
             Sign In

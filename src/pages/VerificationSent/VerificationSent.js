@@ -10,9 +10,12 @@ import { Auth } from 'aws-amplify';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+import fadeIn from '../../../anime/fadeIn';
+
 const Wrapper = styled.div`
   background-color: #eee;
   padding-top: 2rem;
+  animation: ${fadeIn} 1s ease;
 `;
 
 class VerificationSent extends Component {

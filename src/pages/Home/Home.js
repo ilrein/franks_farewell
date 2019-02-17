@@ -14,6 +14,7 @@ const Wrapper = styled.div`
   align-items: center;
   text-align: center;
   flex-direction: column;
+  height: 100%;
   animation: ${fadeIn} 1s ease;
 `;
 
