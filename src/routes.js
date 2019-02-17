@@ -6,11 +6,15 @@ import {
 } from 'react-router-dom';
 import styled from 'styled-components';
 
+// Pages
 import HomePage from './pages/Home';
 import SignUp from './pages/Auth/SignUp';
 import SignIn from './pages/Auth/SignIn';
 import VerificationSent from './pages/VerificationSent';
 import Dashboard from './pages/Dashboard';
+
+// Layouts
+import MainLayout from './layouts/MainLayout';
 
 const Wrapper = styled.div`
   height: 100%;
@@ -38,17 +42,19 @@ const Routes = () => (
           component={SignIn}
         />
 
-        {/* <Route
+        <Route
           exact
           path="/verify"
           component={VerificationSent}
-        /> */}
-
-        <Route
-          exact
-          path="/dashboard"
-          component={Dashboard}
         />
+
+        <MainLayout>
+          <Route
+            exact
+            path="/dashboard"
+            component={Dashboard}
+          />
+        </MainLayout>
       </Switch>
     </Wrapper>
   </Router>
