@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "aws-amplify": "^1.1.19",
+    "dotenv": "^6.2.0",
+    "isomorphic-fetch": "^2.2.1",
     "prop-types": "^15.7.2",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
