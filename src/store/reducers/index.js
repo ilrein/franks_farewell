@@ -4,6 +4,8 @@ import {
 
 function user(state = [], action) {
   switch (action.type) {
+    case 'CAPTURE_USER':
+      return action.payload;
     default:
       return state;
   }

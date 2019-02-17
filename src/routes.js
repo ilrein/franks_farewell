@@ -10,7 +10,7 @@ import styled from 'styled-components';
 import HomePage from './pages/Home';
 import SignUp from './pages/Auth/SignUp';
 import SignIn from './pages/Auth/SignIn';
-import VerificationSent from './pages/VerificationSent';
+import VerificationSent from './pages/Auth/VerificationSent';
 import Dashboard from './pages/Dashboard';
 
 // Layouts

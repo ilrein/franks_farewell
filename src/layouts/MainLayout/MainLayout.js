@@ -14,7 +14,7 @@ import {
 import { Auth } from 'aws-amplify';
 import PropTypes from 'prop-types';
 
-import UserContainer from '../../containers/UserContainer';
+import AuthContainer from '../../containers/AuthContainer';
 import fadeIn from '../../anime/fadeIn';
 
 const Wrapper = styled.div`
@@ -61,7 +61,7 @@ class MainLayout extends Component {
     } = this.props;
 
     return (
-      <UserContainer>
+      <AuthContainer>
         <Wrapper>
           <Sidebar.Pushable as={Segment}>
             <Sidebar
@@ -112,7 +112,7 @@ class MainLayout extends Component {
             </Sidebar.Pusher>
           </Sidebar.Pushable>
         </Wrapper>
-      </UserContainer>
+      </AuthContainer>
     );
   }
 }
