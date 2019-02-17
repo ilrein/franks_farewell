@@ -12,16 +12,15 @@ import { connect } from 'react-redux';
  */
 
 const UserContainer = ({ user, children }) => {
-  const [data, setData] = useState(user);
+  const [data] = useState(user);
 
   const getUser = async () => {
-    const result = await fetch(`${process.env.API_URL}/api/${data.attributes.sub}`);
+    const result = await fetch(`${process.env.REACT_APP_API_URL}/api/users/${data.attributes.sub}`);
     const json = await result.json();
     console.log(json);
   }
 
   useEffect(() => {
-    console.log(process.env);
     getUser();
   }, [data]);
 
