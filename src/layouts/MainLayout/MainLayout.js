@@ -15,6 +15,7 @@ import { Auth } from 'aws-amplify';
 import PropTypes from 'prop-types';
 
 import AuthContainer from '../../containers/AuthContainer';
+import UserContainer from '../../containers/UserContainer';
 import fadeIn from '../../anime/fadeIn';
 
 const Wrapper = styled.div`
@@ -62,56 +63,58 @@ class MainLayout extends Component {
 
     return (
       <AuthContainer>
-        <Wrapper>
-          <Sidebar.Pushable as={Segment}>
-            <Sidebar
-              as={Menu}
-              animation="push"
-              icon="labeled"
-              inverted
-              vertical
-              visible={visible}
-              width="thin"
-            >
-              <Brand>
-                ScriptumStyle
-              </Brand>
+        <UserContainer>
+          <Wrapper>
+            <Sidebar.Pushable as={Segment}>
+              <Sidebar
+                as={Menu}
+                animation="push"
+                icon="labeled"
+                inverted
+                vertical
+                visible={visible}
+                width="thin"
+              >
+                <Brand>
+                  ScriptumStyle
+                </Brand>
 
-              <Link to="/dashboard">
-                <Menu.Item>
-                  <Icon name="dashboard" />
-                  Dashboard
+                <Link to="/dashboard">
+                  <Menu.Item>
+                    <Icon name="dashboard" />
+                    Dashboard
+                  </Menu.Item>
+                </Link>
+
+                <Menu.Item
+                  as="a"
+                  onClick={() => this.logout(history)}
+                >
+                  <Icon name="log out" />
+                  Log Out
                 </Menu.Item>
-              </Link>
+              </Sidebar>
 
-              <Menu.Item
-                as="a"
-                onClick={() => this.logout(history)}
+              <Sidebar.Pusher
+                dimmed={visible}
+                onClick={visible ? this.toggleVisibility : null}
               >
-                <Icon name="log out" />
-                Log Out
-              </Menu.Item>
-            </Sidebar>
-
-            <Sidebar.Pusher
-              dimmed={visible}
-              onClick={visible ? this.toggleVisibility : null}
-            >
-              <Segment
-                basic
-              >
-                <HeaderWrapper>
-                  <Button
-                    basic
-                    icon="sidebar"
-                    onClick={this.toggleVisibility}
-                  />
-                </HeaderWrapper>
-                {children}
-              </Segment>
-            </Sidebar.Pusher>
-          </Sidebar.Pushable>
-        </Wrapper>
+                <Segment
+                  basic
+                >
+                  <HeaderWrapper>
+                    <Button
+                      basic
+                      icon="sidebar"
+                      onClick={this.toggleVisibility}
+                    />
+                  </HeaderWrapper>
+                  {children}
+                </Segment>
+              </Sidebar.Pusher>
+            </Sidebar.Pushable>
+          </Wrapper>
+        </UserContainer>
       </AuthContainer>
     );
   }

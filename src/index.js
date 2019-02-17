@@ -10,7 +10,7 @@ import 'semantic-ui-css/semantic.min.css';
 import './global.css';
 import configureStore from './store';
 
-require('dotenv').config()
+// require('dotenv').config();
 
 const store = configureStore();
 

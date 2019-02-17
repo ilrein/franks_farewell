@@ -3,6 +3,7 @@ import React, {
   useEffect,
 } from 'react';
 import fetch from 'isomorphic-fetch';
+import { connect } from 'react-redux';
 /**
  * checks to see if a User Object
  * is found in the database
@@ -10,18 +11,27 @@ import fetch from 'isomorphic-fetch';
  * from the AuthContainer
  */
 
-const UserContainer = () => {
-  const [data, setData] = useState(null);
+const UserContainer = ({ user, children }) => {
+  const [data, setData] = useState(user);
 
-  useEffect(async () => {
-    // const result = await fetch('')
-  });
+  const getUser = async () => {
+    const result = await fetch(`${process.env.API_URL}/api/${data.attributes.sub}`);
+    const json = await result.json();
+    console.log(json);
+  }
+
+  useEffect(() => {
+    console.log(process.env);
+    getUser();
+  }, [data]);
 
   return (
     <>
-      UserContainer
+      {children}
     </>
   );
 }
 
-export default UserContainer;
+export default connect(({ user }) => ({
+  user,
+}))(UserContainer);
