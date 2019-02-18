@@ -1,1 +1,4 @@
 export const APP_NAME = 'J360';
+
+export const CAPTURE_COGNITO_USER = 'CAPTURE_COGNITO_USER';
+export const CAPTURE_USER = 'CAPTURE_USER';

@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
+import { CAPTURE_COGNITO_USER } from '../../constants';
+
 const Wrapper = styled.div`
   height: 100%;
 `;
@@ -68,7 +70,7 @@ class AuthContainer extends Component {
 
 const mapDispatchToProps = dispatch => ({
   captureUser: payload => dispatch({
-    type: 'CAPTURE_USER',
+    type: CAPTURE_COGNITO_USER,
     payload,
   }),
 });

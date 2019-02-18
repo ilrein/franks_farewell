@@ -11,13 +11,11 @@ import { connect } from 'react-redux';
  * from the AuthContainer
  */
 
-const UserContainer = ({ user, children }) => {
-  const [data] = useState(user);
+const UserContainer = ({ userReducer, children }) => {
+  const [data] = useState(userReducer.cognitoUser);
 
   const getUser = async () => {
-    const result = await fetch(`${process.env.REACT_APP_API_URL}/api/users/${data.attributes.sub}`);
-    const json = await result.json();
-    console.log(json);
+    await fetch(`${process.env.REACT_APP_API_URL}/api/users/${data.attributes.sub}`);
   }
 
   useEffect(() => {
@@ -31,6 +29,8 @@ const UserContainer = ({ user, children }) => {
   );
 }
 
-export default connect(({ user }) => ({
-  user,
+export default connect(({
+  userReducer,
+}) => ({
+  userReducer,
 }))(UserContainer);

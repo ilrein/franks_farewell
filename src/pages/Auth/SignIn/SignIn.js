@@ -112,6 +112,12 @@ class SignIn extends Component {
                 </Link>
               </Form.Field>
 
+              <Form.Field>
+                <Link to="/verify">
+                  Verify an email
+                </Link>
+              </Form.Field>
+
               <Form.Button
                 onClick={this.handleSubmit}
                 primary
