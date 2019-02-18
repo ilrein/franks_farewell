@@ -4,6 +4,8 @@ import React, {
 } from 'react';
 import fetch from 'isomorphic-fetch';
 import { connect } from 'react-redux';
+
+import { CAPTURE_USER } from '../../constants';
 /**
  * checks to see if a User Object
  * is found in the database
@@ -11,11 +13,17 @@ import { connect } from 'react-redux';
  * from the AuthContainer
  */
 
-const UserContainer = ({ userReducer, children }) => {
+const UserContainer = ({
+  userReducer,
+  captureUser,
+  children,
+}) => {
   const [data] = useState(userReducer.cognitoUser);
 
   const getUser = async () => {
-    await fetch(`${process.env.REACT_APP_API_URL}/api/users/${data.attributes.sub}`);
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/api/users/${data.attributes.sub}`);
+    const user = await res.json();
+    captureUser(user);
   }
 
   useEffect(() => {
@@ -29,8 +37,13 @@ const UserContainer = ({ userReducer, children }) => {
   );
 }
 
-export default connect(({
+const mapDispatchToProps = dispatch => ({
+  captureUser: payload => dispatch({
+    type: CAPTURE_USER,
+    payload,
+  })
+});
+
+export default connect(({ userReducer }) => ({
   userReducer,
-}) => ({
-  userReducer,
-}))(UserContainer);
+}), mapDispatchToProps)(UserContainer);
