@@ -6,6 +6,7 @@ import {
   Segment,
   Divider,
   Message,
+  Checkbox,
 } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { Auth } from 'aws-amplify';
@@ -30,6 +31,7 @@ class SignUp extends Component {
     email: '',
     password: '',
     passwordConfirmation: '',
+    type: 'jane',
 
     // errors
     emailTooShort: false,
@@ -41,6 +43,11 @@ class SignUp extends Component {
   setValue = ({ name, value }) => this.setState(prevState => ({
     ...prevState,
     [name]: value,
+  }));
+
+  setType = (type) => this.setState(prevState => ({
+  ...prevState,
+    type,
   }));
 
   handleSubmit = () => {
@@ -94,8 +101,12 @@ class SignUp extends Component {
         },
       })
         .then(async ({ userSub }) => {
-          // lets create a user type
+          const { type } = this.state;
+          // lets create a user with a type
           // with the new sub
+          // we only use cognito for JWTs
+          // and rely on MongoDB methods
+          // to manipulate our user obj
           try {
             await fetch(`${process.env.REACT_APP_API_URL}/auth/create`, {
               method: 'POST',
@@ -105,6 +116,7 @@ class SignUp extends Component {
               body: JSON.stringify({
                 user: {
                   sub: userSub,
+                  type,
                 }
               }),
             });
@@ -132,6 +144,7 @@ class SignUp extends Component {
       email,
       password,
       passwordConfirmation,
+      type,
 
       // errors
       emailTooShort,
@@ -190,6 +203,25 @@ class SignUp extends Component {
                 error={passwordsDontMatch}
                 required
               />
+
+              <Form.Field>
+                <Checkbox
+                  label="I am looking for work"
+                  name="type"
+                  onChange={(event, { value }) => this.setType(value)}
+                  value="jane"
+                  checked={type === 'jane'}
+                />
+              </Form.Field>
+              <Form.Field>
+                <Checkbox
+                  label="I am looking for contractors"
+                  name="type"
+                  onChange={(event, { value }) => this.setType(value)}
+                  value="company"
+                  checked={type === 'company'}
+                />
+              </Form.Field>
 
               <Divider />
 
