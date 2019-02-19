@@ -4,6 +4,7 @@ import React, {
 } from 'react';
 import fetch from 'isomorphic-fetch';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import { CAPTURE_USER } from '../../constants';
 /**
@@ -17,13 +18,18 @@ const UserContainer = ({
   userReducer,
   captureUser,
   children,
+  history,
 }) => {
   const [data] = useState(userReducer.cognitoUser);
 
   const getUser = async () => {
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/api/users/${data.attributes.sub}`);
-    const user = await res.json();
-    captureUser(user);
+    try {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/users/${data.attributes.sub}`);
+      const user = await res.json();
+      captureUser(user);
+    } catch (error) {
+      history.push('/sign-in');
+    }
   }
 
   useEffect(() => {
@@ -46,4 +52,4 @@ const mapDispatchToProps = dispatch => ({
 
 export default connect(({ userReducer }) => ({
   userReducer,
-}), mapDispatchToProps)(UserContainer);
+}), mapDispatchToProps)(withRouter(UserContainer));
