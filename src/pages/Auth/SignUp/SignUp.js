@@ -209,8 +209,8 @@ class SignUp extends Component {
                   label="I am looking for work"
                   name="type"
                   onChange={(event, { value }) => this.setType(value)}
-                  value="jane"
-                  checked={type === 'jane'}
+                  value="specialist"
+                  checked={type === 'specialist'}
                 />
               </Form.Field>
               <Form.Field>
@@ -218,8 +218,8 @@ class SignUp extends Component {
                   label="I am looking for contractors"
                   name="type"
                   onChange={(event, { value }) => this.setType(value)}
-                  value="company"
-                  checked={type === 'company'}
+                  value="admin"
+                  checked={type === 'admin'}
                 />
               </Form.Field>
 
