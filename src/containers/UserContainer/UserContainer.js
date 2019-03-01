@@ -4,9 +4,12 @@ import React, {
 } from 'react';
 import fetch from 'isomorphic-fetch';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 
-import { CAPTURE_USER } from '../../constants';
+import {
+  API_GET_USER,
+  API_CREATE_USER,
+  CAPTURE_USER,
+} from '../../constants';
 /**
  * checks to see if a User Object
  * is found in the database
@@ -17,23 +20,59 @@ const UserContainer = ({
   userReducer,
   captureUser,
   children,
-  history,
 }) => {
-  const [data] = useState(userReducer.cognitoUser);
+  const [cognitoUser] = useState(userReducer.cognitoUser);
+  /**
+   * @function {}
+   * looks for a user object on /api/users/
+   * creates one if not found
+   * looks for initial value of custom:type in CognitoUser
+   */
+  const getUser = async () => {
+    try {
+      const res = await fetch(API_GET_USER(cognitoUser.attributes.sub), {
+        headers: {
+          'Content-Type': 'application/json',
+          'jwt-token': cognitoUser.signInUserSession.accessToken.jwtToken,
+        }
+      });
+      const user = await res.json();
+      /**
+       * Create a user obj is not found
+       */
+      if (user === null) {
+        try {
+          const CREATE_USER = await fetch(API_CREATE_USER, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'jwt-token': cognitoUser.signInUserSession.accessToken.jwtToken,
+            },
+            body: JSON.stringify({
+              user: {
+                sub: cognitoUser.attributes.sub,
+                type: cognitoUser.attributes['custom:type'],
+              }
+            })
+          });
 
-  // const getUser = async () => {
-  //   try {
-  //     const res = await fetch(`${process.env.REACT_APP_API_URL}/api/users/${data.attributes.sub}`);
-  //     const user = await res.json();
-  //     captureUser(user);
-  //   } catch (error) {
-  //     history.push('/sign-in');
-  //   }
-  // }
+          const newUser = await CREATE_USER.json();
+          captureUser(newUser);
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        captureUser(user);
+      }
+      captureUser(user);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
-  // useEffect(() => {
-  //   getUser();
-  // }, [data]);
+  useEffect(() => {
+    getUser();
+  }, [cognitoUser]);
 
   return (
     <>
@@ -51,4 +90,4 @@ const mapDispatchToProps = dispatch => ({
 
 export default connect(({ userReducer }) => ({
   userReducer,
-}), mapDispatchToProps)(withRouter(UserContainer));
+}), mapDispatchToProps)(UserContainer);

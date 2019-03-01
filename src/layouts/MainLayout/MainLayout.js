@@ -13,6 +13,7 @@ import {
 } from 'react-router-dom';
 import { Auth } from 'aws-amplify';
 import PropTypes from 'prop-types';
+import { toast } from 'react-toastify';
 
 import AuthContainer from '../../containers/AuthContainer';
 import UserContainer from '../../containers/UserContainer';
@@ -49,7 +50,10 @@ class MainLayout extends Component {
 
   logout = (history) => {
     Auth.signOut()
-      .then(() => history.push('/'));
+      .then(() => {
+        toast.info('Signed out');
+        history.push('/');
+      });
   };
 
   render() {

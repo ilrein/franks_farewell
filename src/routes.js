@@ -60,7 +60,9 @@ const Routes = () => (
           />
         </MainLayout>
       </Switch>
-      <ToastContainer />
+      <ToastContainer
+        autoClose={3500}
+      />
     </Wrapper>
   </Router>
 );
