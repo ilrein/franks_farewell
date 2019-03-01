@@ -13,7 +13,6 @@ import { CAPTURE_USER } from '../../constants';
  * based on the "sub" pulled in
  * from the AuthContainer
  */
-
 const UserContainer = ({
   userReducer,
   captureUser,
