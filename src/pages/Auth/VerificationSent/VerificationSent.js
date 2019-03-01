@@ -9,12 +9,14 @@ import styled from 'styled-components';
 import { Auth } from 'aws-amplify';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { toast } from 'react-toastify';
 
 import fadeIn from '../../../anime/fadeIn';
 
 const Wrapper = styled.div`
   background-color: #eee;
   padding-top: 2rem;
+  min-height: 100%;
   animation: ${fadeIn} 1s ease;
 `;
 
@@ -47,7 +49,10 @@ class VerificationSent extends Component {
         email,
         verificationCode,
       )
-        .then(() => history.push('/sign-in'))
+        .then(() => {
+          toast.success(`Verified ${email}`);
+          history.push('/sign-in');
+        })
         .catch(({ message }) => {
           this.setState(prevState => ({
             ...prevState,

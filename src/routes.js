@@ -5,6 +5,8 @@ import {
   Switch,
 } from 'react-router-dom';
 import styled from 'styled-components';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Pages
 import HomePage from './pages/Home';
@@ -16,6 +18,7 @@ import Dashboard from './pages/Dashboard';
 // Layouts
 import MainLayout from './layouts/MainLayout';
 // import BasicLayout from './layouts/BasicLayout';
+
 
 const Wrapper = styled.div`
   height: 100%;
@@ -57,6 +60,7 @@ const Routes = () => (
           />
         </MainLayout>
       </Switch>
+      <ToastContainer />
     </Wrapper>
   </Router>
 );

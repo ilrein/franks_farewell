@@ -11,6 +11,7 @@ import styled from 'styled-components';
 import { Auth } from 'aws-amplify';
 import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { toast } from 'react-toastify';
 
 import fadeIn from '../../../anime/fadeIn';
 
@@ -52,7 +53,10 @@ class SignIn extends Component {
         username: email,
         password,
       })
-        .then(() => history.push('/dashboard'))
+        .then(() => {
+          toast.success(`Signed in ${email}`);
+          history.push('/dashboard');
+        })
         .catch(({ message }) => {
           this.setState(prevState => ({
             ...prevState,

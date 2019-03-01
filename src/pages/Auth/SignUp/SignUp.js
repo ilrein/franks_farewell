@@ -12,7 +12,7 @@ import styled from 'styled-components';
 import { Auth } from 'aws-amplify';
 import { withRouter, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import fetch from 'isomorphic-fetch';
+import { toast } from 'react-toastify';
 
 import fadeIn from '../../../anime/fadeIn';
 
@@ -25,13 +25,14 @@ const Wrapper = styled.div`
 
 class SignUp extends Component {
   state = {
+    // UI phases
     loading: false,
 
     // fields
     email: '',
     password: '',
     passwordConfirmation: '',
-    type: 'jane',
+    type: 'specialist',
 
     // errors
     emailTooShort: false,
@@ -39,15 +40,12 @@ class SignUp extends Component {
     passwordsDontMatch: false,
     cognitoErrorMessage: null,
   }
-
+  /**
+   * sets a state value dynamically
+   */
   setValue = ({ name, value }) => this.setState(prevState => ({
     ...prevState,
     [name]: value,
-  }));
-
-  setType = (type) => this.setState(prevState => ({
-  ...prevState,
-    type,
   }));
 
   handleSubmit = () => {
@@ -56,6 +54,7 @@ class SignUp extends Component {
       email,
       password,
       passwordConfirmation,
+      type,
     } = this.state;
     /**
      * form validations
@@ -98,33 +97,12 @@ class SignUp extends Component {
         password,
         attributes: {
           email,
+          'custom:type': type,
         },
       })
-        .then(async ({ userSub }) => {
-          const { type } = this.state;
-          // lets create a user with a type
-          // with the new sub
-          // we only use cognito for JWTs
-          // and rely on MongoDB methods
-          // to manipulate our user obj
-          try {
-            await fetch(`${process.env.REACT_APP_API_URL}/auth/create`, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                user: {
-                  sub: userSub,
-                  type,
-                }
-              }),
-            });
-            history.push('/verify');
-          } catch (error) {
-            console.log(error);
-            this.setState(prevState => ({ ...prevState, loading: false }));
-          }
+        .then(() => {
+          toast.success(`Successfully created ${email}`);
+          history.push('/verify');
         })
         .catch(({
           message,
@@ -208,7 +186,7 @@ class SignUp extends Component {
                 <Checkbox
                   label="I am looking for work"
                   name="type"
-                  onChange={(event, { value }) => this.setType(value)}
+                  onChange={(event, data) => this.setValue(data)}
                   value="specialist"
                   checked={type === 'specialist'}
                 />
@@ -217,7 +195,7 @@ class SignUp extends Component {
                 <Checkbox
                   label="I am looking for contractors"
                   name="type"
-                  onChange={(event, { value }) => this.setType(value)}
+                  onChange={(event, data) => this.setValue(data)}
                   value="admin"
                   checked={type === 'admin'}
                 />
