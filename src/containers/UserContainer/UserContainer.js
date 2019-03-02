@@ -41,6 +41,8 @@ const UserContainer = ({
        * Create a user obj is not found
        */
       if (user === null) {
+        const { attributes } = cognitoUser;
+
         try {
           const CREATE_USER = await fetch(API_CREATE_USER, {
             method: 'POST',
@@ -50,8 +52,9 @@ const UserContainer = ({
             },
             body: JSON.stringify({
               user: {
-                sub: cognitoUser.attributes.sub,
-                type: cognitoUser.attributes['custom:type'],
+                sub: attributes.sub,
+                type: attributes['custom:type'],
+                email: attributes.email,
               }
             })
           });

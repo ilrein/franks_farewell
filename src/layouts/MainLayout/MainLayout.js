@@ -8,16 +8,18 @@ import {
 } from 'semantic-ui-react';
 import styled from 'styled-components';
 import {
-  Link,
   withRouter,
 } from 'react-router-dom';
 import { Auth } from 'aws-amplify';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
+import { connect } from 'react-redux';
 
 import AuthContainer from '../../containers/AuthContainer';
 import UserContainer from '../../containers/UserContainer';
 import fadeIn from '../../anime/fadeIn';
+import AdminNavOptions from './AdminNavOptions';
+import SpecialistNavOptions from './SpecialistNavOptions';
 
 const Wrapper = styled.div`
   height: 100%;
@@ -60,9 +62,11 @@ class MainLayout extends Component {
     const {
       visible,
     } = this.state;
+
     const {
       children,
       history,
+      user,
     } = this.props;
 
     return (
@@ -83,12 +87,19 @@ class MainLayout extends Component {
                   ScriptumStyle
                 </Brand>
 
-                <Link to="/dashboard">
-                  <Menu.Item>
-                    <Icon name="dashboard" />
-                    Dashboard
-                  </Menu.Item>
-                </Link>
+                {
+                  user &&
+                  user.type === 'admin'
+                    ? <AdminNavOptions />
+                    : null
+                }
+
+                {
+                  user &&
+                  user.type === 'specialist'
+                    ? <SpecialistNavOptions />
+                    : null
+                }
 
                 <Menu.Item
                   as="a"
@@ -127,6 +138,9 @@ class MainLayout extends Component {
 MainLayout.propTypes = {
   children: PropTypes.node.isRequired,
   history: PropTypes.shape().isRequired,
+  user: PropTypes.shape().isRequired,
 };
 
-export default withRouter(MainLayout);
+export default connect(
+  ({ userReducer }) => ({ user: userReducer.user, }),
+)(withRouter(MainLayout));

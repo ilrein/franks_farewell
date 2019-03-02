@@ -1,7 +1,7 @@
 {
     "projectName": "franksfarewell",
     "projectPath": "/Users/iliareingold/projects/franks_farewell",
-    "defaultEditor": "code",
+    "defaultEditor": "sublime",
     "frontendHandler": {
         "javascript": "/usr/local/lib/node_modules/@aws-amplify/cli/node_modules/amplify-frontend-javascript"
     },
