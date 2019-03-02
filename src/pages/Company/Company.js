@@ -1,9 +1,11 @@
 import React from 'react';
 
+import CompanyContainer from '../../containers/CompanyContainer';
+
 const Company = () => (
-  <div>
+  <CompanyContainer>
     Company
-  </div>
+  </CompanyContainer>
 );
 
 export default Company;
