@@ -14,6 +14,7 @@ import SignUp from './pages/Auth/SignUp';
 import SignIn from './pages/Auth/SignIn';
 import VerificationSent from './pages/Auth/VerificationSent';
 import Dashboard from './pages/Dashboard';
+import Company from './pages/Company';
 
 // Layouts
 import MainLayout from './layouts/MainLayout';
@@ -57,6 +58,12 @@ const Routes = () => (
             exact
             path="/dashboard"
             component={Dashboard}
+          />
+
+          <Route
+            exact
+            path="/company"
+            component={Company}
           />
         </MainLayout>
       </Switch>
