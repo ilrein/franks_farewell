@@ -61,6 +61,7 @@ const UserContainer = ({
 
           const newUser = await CREATE_USER.json();
           captureUser(newUser);
+          return;
         } catch (error) {
           console.log(error);
         }

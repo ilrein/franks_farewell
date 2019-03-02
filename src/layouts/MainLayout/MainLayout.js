@@ -138,7 +138,11 @@ class MainLayout extends Component {
 MainLayout.propTypes = {
   children: PropTypes.node.isRequired,
   history: PropTypes.shape().isRequired,
-  user: PropTypes.shape().isRequired,
+  user: PropTypes.shape(),
+};
+
+MainLayout.defaultProps = {
+  user: {},
 };
 
 export default connect(
