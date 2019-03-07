@@ -24,8 +24,14 @@ const AdminNavOptions = () => (
     </Link>
     <Link to="/company">
       <Hover>
-        <Icon name="building outline" />
+        <Icon name="building" />
         Company
+      </Hover>
+    </Link>
+    <Link to="/locations">
+      <Hover>
+        <Icon name="building outline" />
+        Locations
       </Hover>
     </Link>
   </>

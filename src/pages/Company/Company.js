@@ -1,11 +1,9 @@
 import React, {
   useState,
-  useEffect,
 } from 'react';
 import {
   Form,
   Header,
-  Segment,
   Button,
 } from 'semantic-ui-react';
 import styled from 'styled-components';
@@ -30,7 +28,7 @@ const Wrapper = styled.div`
  */
 const Company = ({ user }) => {
   const [name, setName] = useState('');
-  const [savingCompanyLoading, setSavingCompanyLoading] = useState('');
+  const [savingCompanyLoading, setSavingCompanyLoading] = useState(false);
   
   const submitCompany = () => {
     setSavingCompanyLoading(true);
@@ -62,6 +60,8 @@ const Company = ({ user }) => {
           />
           <Button
             primary
+            loading={savingCompanyLoading}
+            onClick={submitCompany}
           >
             Save
           </Button>
