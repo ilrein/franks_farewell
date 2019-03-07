@@ -59,18 +59,8 @@ const Company = ({
           },
         }),
       });
-      /**
-       * MongoDB returns the object BEFORE
-       * the updated result, so we can't rely on the 
-       * literal response to directly save into Redux
-       * we will update the object manually for our UI
-       */
       const result = await updateUser.json();
-      const MODDED_USER = {
-        ...result,
-        companyId,
-      };
-      captureUser(MODDED_USER);
+      captureUser(result);
     } catch (error) {
       console.log(error); // eslint-disable-line
     }
@@ -131,18 +121,9 @@ const Company = ({
       });
 
       const result = await update.json();
-      /**
-       * MongoDB updated objects return
-       * the object before its update,
-       * manually configure the redux state :)
-       */
-      const MODDED_COMPANY = {
-        ...result,
-        name,
-      };
-      captureCompany(MODDED_COMPANY);
+      captureCompany(result);
       setSavingCompanyLoading(false);
-      toast.success(`Updated ${MODDED_COMPANY.name}`);
+      toast.success(`Updated ${result.name}`);
     } catch (error) {
       console.log(error); // eslint-disable-line
     }
