@@ -16,4 +16,5 @@ export const CAPTURE_COMPANY = 'CAPTURE_COMPANY';
 
 // Company endpoints
 export const API_GET_COMPANY = SUB => `${process.env.REACT_APP_API_URL}/api/company/${SUB}`;
+export const API_UPDATE_COMPANY = SUB => `${process.env.REACT_APP_API_URL}/api/company/${SUB}`;
 export const API_CREATE_COMPANY = `${process.env.REACT_APP_API_URL}/api/company/create`;

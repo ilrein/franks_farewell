@@ -11,9 +11,11 @@ import styled from 'styled-components';
 import fetch from 'isomorphic-fetch';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { toast } from 'react-toastify';
 
 import {
   API_CREATE_COMPANY,
+  API_UPDATE_COMPANY,
   CAPTURE_COMPANY,
   API_UPDATE_USER,
   CAPTURE_USER,
@@ -31,6 +33,7 @@ const Wrapper = styled.div`
  */
 const Company = ({
   userReducer,
+  company,
   captureCompany,
   captureUser,
 }) => {
@@ -38,7 +41,7 @@ const Company = ({
   const [ownerSub] = useState(user.sub);
   const [jwtToken] = useState(cognitoUser.signInUserSession.accessToken.jwtToken);
 
-  const [name, setName] = useState('');
+  const [name, setName] = useState(company.name);
   const [savingCompanyLoading, setSavingCompanyLoading] = useState(false);
   const [companySubmissionError, setCompanySubmissionError] = useState(null);
 
@@ -103,9 +106,45 @@ const Company = ({
        */
       updateUserWithCompanyId(result._id);
       setSavingCompanyLoading(false);
+      toast.success(`Saved ${result.name}`);
     } catch (error) {
       setCompanySubmissionError(error);
       setSavingCompanyLoading(false);
+    }
+  };
+
+  const updateCompany = async () => {
+    setSavingCompanyLoading(true);
+
+    try {
+      const update = await fetch(API_UPDATE_COMPANY(user.companyId), {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'jwt-token': jwtToken,
+        },
+        body: JSON.stringify({
+          company: {
+            name,
+          },
+        }),
+      });
+
+      const result = await update.json();
+      /**
+       * MongoDB updated objects return
+       * the object before its update,
+       * manually configure the redux state :)
+       */
+      const MODDED_COMPANY = {
+        ...result,
+        name,
+      };
+      captureCompany(MODDED_COMPANY);
+      setSavingCompanyLoading(false);
+      toast.success(`Updated ${MODDED_COMPANY.name}`);
+    } catch (error) {
+      console.log(error); // eslint-disable-line
     }
   };
 
@@ -142,13 +181,29 @@ const Company = ({
             value={name}
             onChange={(event, { value }) => setName(value)}
           />
-          <Button
-            primary
-            loading={savingCompanyLoading}
-            onClick={submitCompany}
-          >
-            Save
-          </Button>
+
+          {
+            user
+              && user.companyId
+              ? (
+                <Button
+                  primary
+                  loading={savingCompanyLoading}
+                  onClick={updateCompany}
+                >
+                  Update
+                </Button>
+              )
+              : (
+                <Button
+                  primary
+                  loading={savingCompanyLoading}
+                  onClick={submitCompany}
+                >
+                  Save
+                </Button>
+              )
+          }
         </Form>
       </Wrapper>
     </>
@@ -157,6 +212,7 @@ const Company = ({
 
 Company.propTypes = {
   userReducer: PropTypes.shape().isRequired,
+  company: PropTypes.shape().isRequired,
   captureCompany: PropTypes.func.isRequired,
   captureUser: PropTypes.func.isRequired,
 };
@@ -173,6 +229,12 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(
-  ({ userReducer }) => ({ userReducer }),
+  ({
+    userReducer,
+    company,
+  }) => ({
+    userReducer,
+    company,
+  }),
   mapDispatchToProps,
 )(Company);
