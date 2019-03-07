@@ -23,13 +23,22 @@ const MonthYearDisplay = styled.div`
 const MonthSwapper = () => {
   const [monthYear, setMonthYear] = useState(dayjs().format('MMM YYYY'));
 
+  const subtractMonth = () => {
+    const newMonth = dayjs(monthYear).subtract(1, 'month').format('MMM YYYY');
+    setMonthYear(newMonth);
+  };
+
   const addMonth = () => {
-    // monthYear.add(1, 'month');
-  }
+    const newMonth = dayjs(monthYear).add(1, 'month').format('MMM YYYY');
+    setMonthYear(newMonth);
+  };
 
   return (
     <Wrapper>
-      <Button icon>
+      <Button
+        icon
+        onClick={subtractMonth}
+      >
         <Icon name="chevron left" />
       </Button>
 
