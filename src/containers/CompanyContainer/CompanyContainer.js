@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 const CompanyContainer = ({
   children,
@@ -11,7 +12,12 @@ const CompanyContainer = ({
     <>
       {children}
     </>
-  )
+  );
+};
+
+CompanyContainer.propTypes = {
+  children: PropTypes.shape().isRequired,
+  user: PropTypes.shape().isRequired,
 };
 
 export default connect(

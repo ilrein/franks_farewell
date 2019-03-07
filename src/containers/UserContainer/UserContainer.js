@@ -34,7 +34,7 @@ const UserContainer = ({
         headers: {
           'Content-Type': 'application/json',
           'jwt-token': cognitoUser.signInUserSession.accessToken.jwtToken,
-        }
+        },
       });
       const user = await res.json();
       /**
@@ -55,8 +55,8 @@ const UserContainer = ({
                 sub: attributes.sub,
                 type: attributes['custom:type'],
                 email: attributes.email,
-              }
-            })
+              },
+            }),
           });
 
           const newUser = await CREATE_USER.json();
@@ -65,14 +65,12 @@ const UserContainer = ({
         } catch (error) {
           console.log(error);
         }
-      } else {
-        captureUser(user);
       }
       captureUser(user);
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
     getUser();
@@ -83,13 +81,13 @@ const UserContainer = ({
       {children}
     </>
   );
-}
+};
 
 const mapDispatchToProps = dispatch => ({
   captureUser: payload => dispatch({
     type: CAPTURE_USER,
     payload,
-  })
+  }),
 });
 
 export default connect(({ userReducer }) => ({
