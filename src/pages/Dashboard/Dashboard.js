@@ -38,20 +38,22 @@ const Dashboard = () => (
           />
         </Link>
 
-        <CoolCard>
-          <Card.Content>
-            <Card.Header>
-              Locations
-            </Card.Header>
-            <Card.Description>
-              Manage locations
-            </Card.Description>
-          </Card.Content>
-          <Card.Content extra>
-            <Icon name="building" />
-            0 locations
-          </Card.Content>
-        </CoolCard>
+        <Link to="/locations">
+          <CoolCard>
+            <Card.Content>
+              <Card.Header>
+                Locations
+              </Card.Header>
+              <Card.Description>
+                Manage locations
+              </Card.Description>
+            </Card.Content>
+            <Card.Content extra>
+              <Icon name="building" />
+              0 locations
+            </Card.Content>
+          </CoolCard>
+        </Link>
 
         <CoolCard>
           <Card.Content>

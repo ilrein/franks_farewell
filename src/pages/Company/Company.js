@@ -44,12 +44,12 @@ const Company = ({ user }) => {
           && user.companyId !== null
             ? (
               <Header>
-                Create a Company
+                Update a Company
               </Header>        
             )
             : (
               <Header>
-                Update
+                Create a Company
               </Header>        
             )
         }
