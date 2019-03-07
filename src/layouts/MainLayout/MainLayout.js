@@ -17,6 +17,8 @@ import { connect } from 'react-redux';
 
 import AuthContainer from '../../containers/AuthContainer';
 import UserContainer from '../../containers/UserContainer';
+import CompanyContainer from '../../containers/CompanyContainer';
+
 import fadeIn from '../../anime/fadeIn';
 import AdminNavOptions from './AdminNavOptions';
 import SpecialistNavOptions from './SpecialistNavOptions';
@@ -72,63 +74,65 @@ class MainLayout extends Component {
     return (
       <AuthContainer>
         <UserContainer>
-          <Wrapper>
-            <Sidebar.Pushable as={Segment}>
-              <Sidebar
-                as={Menu}
-                animation="push"
-                icon="labeled"
-                inverted
-                vertical
-                visible={visible}
-                width="thin"
-              >
-                <Brand>
-                  ScriptumStyle
-                </Brand>
-
-                {
-                  user &&
-                  user.type === 'admin'
-                    ? <AdminNavOptions />
-                    : null
-                }
-
-                {
-                  user &&
-                  user.type === 'specialist'
-                    ? <SpecialistNavOptions />
-                    : null
-                }
-
-                <Menu.Item
-                  as="a"
-                  onClick={() => this.logout(history)}
+          <CompanyContainer>
+            <Wrapper>
+              <Sidebar.Pushable as={Segment}>
+                <Sidebar
+                  as={Menu}
+                  animation="push"
+                  icon="labeled"
+                  inverted
+                  vertical
+                  visible={visible}
+                  width="thin"
                 >
-                  <Icon name="log out" />
-                  Log Out
-                </Menu.Item>
-              </Sidebar>
+                  <Brand>
+                    ScriptumStyle
+                  </Brand>
 
-              <Sidebar.Pusher
-                dimmed={visible}
-                onClick={visible ? this.toggleVisibility : null}
-              >
-                <Segment
-                  basic
+                  {
+                    user &&
+                    user.type === 'admin'
+                      ? <AdminNavOptions />
+                      : null
+                  }
+
+                  {
+                    user &&
+                    user.type === 'specialist'
+                      ? <SpecialistNavOptions />
+                      : null
+                  }
+
+                  <Menu.Item
+                    as="a"
+                    onClick={() => this.logout(history)}
+                  >
+                    <Icon name="log out" />
+                    Log Out
+                  </Menu.Item>
+                </Sidebar>
+
+                <Sidebar.Pusher
+                  dimmed={visible}
+                  onClick={visible ? this.toggleVisibility : null}
                 >
-                  <HeaderWrapper>
-                    <Button
-                      basic
-                      icon="sidebar"
-                      onClick={this.toggleVisibility}
-                    />
-                  </HeaderWrapper>
-                  {children}
-                </Segment>
-              </Sidebar.Pusher>
-            </Sidebar.Pushable>
-          </Wrapper>
+                  <Segment
+                    basic
+                  >
+                    <HeaderWrapper>
+                      <Button
+                        basic
+                        icon="sidebar"
+                        onClick={this.toggleVisibility}
+                      />
+                    </HeaderWrapper>
+                    {children}
+                  </Segment>
+                </Sidebar.Pusher>
+              </Sidebar.Pushable>
+            </Wrapper>
+          </CompanyContainer>
         </UserContainer>
       </AuthContainer>
     );
