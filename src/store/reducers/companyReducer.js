@@ -2,15 +2,10 @@ import {
   CAPTURE_COMPANY,
 } from '../../constants';
 
-function companyReducer(state = {
-  company: {},
-}, action) {
+function companyReducer(state = {}, action) {
   switch (action.type) {
     case CAPTURE_COMPANY:
-      return {
-        ...state,
-        company: action.payload,
-      };
+      return action.payload;
     default:
       return state;
   }
