@@ -6,7 +6,7 @@ const CompanyContainer = ({
   children,
   user,
 }) => {
-  const [company] = useState(user.company);
+  const [company] = useState(user.companyId);
 
   return (
     <>

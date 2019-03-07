@@ -18,6 +18,7 @@ const Box = styled.div`
 `;
 
 const CoolCard = styled(Card)`
+  margin: 0.5rem 0 !important;
   transition: all 0.25s ease !important;
   &:hover {
     background-color: aliceblue !important;
