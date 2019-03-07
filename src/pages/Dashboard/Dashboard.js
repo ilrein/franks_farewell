@@ -27,8 +27,9 @@ const CoolCard = styled(Card)`
   }
 `;
 
-const Dashboard = ({ user }) => {
-  const [companyId] = useState(user.companyId);
+const Dashboard = ({ company }) => {
+  const [companyId] = useState(company._id);
+  const [name] = useState(company.name);
 
   return (
     <Wrapper>
@@ -40,7 +41,7 @@ const Dashboard = ({ user }) => {
           <Link to="/company">
             <CoolCard
               header="Company"
-              description="Configure company settings"
+              description={name ? `Update ${name}` : 'Configure company settings'}
             />
           </Link>
 
@@ -97,9 +98,9 @@ const Dashboard = ({ user }) => {
 };
 
 Dashboard.propTypes = {
-  user: PropTypes.shape().isRequired,
+  company: PropTypes.shape().isRequired,
 };
 
 export default connect(
-  ({ userReducer }) => ({ user: userReducer.user }),
+  ({ company }) => ({ company }),
 )(Dashboard);
