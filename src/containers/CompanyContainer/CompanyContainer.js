@@ -22,6 +22,7 @@ const CompanyContainer = ({
   userReducer,
   captureCompany,
   location,
+  company,
 }) => {
   const { user, cognitoUser } = userReducer;
   const { companyId } = user;
@@ -31,7 +32,7 @@ const CompanyContainer = ({
    * @param { sub } String
    */
   const getCompany = async () => {
-    if (!isNil(companyId)) {
+    if (!isNil(companyId) && isNil(company._id)) {
       try {
         const get = await fetch(API_GET_COMPANY(companyId), {
           headers: {
@@ -84,6 +85,7 @@ CompanyContainer.propTypes = {
   userReducer: PropTypes.shape().isRequired,
   captureCompany: PropTypes.func.isRequired,
   location: PropTypes.shape().isRequired,
+  company: PropTypes.shape().isRequired,
 };
 
 const mapDispatchToProps = dispatch => ({
@@ -94,6 +96,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(
-  ({ userReducer }) => ({ userReducer }),
+  ({ userReducer, company }) => ({ userReducer, company }),
   mapDispatchToProps,
 )(withRouter(CompanyContainer));
