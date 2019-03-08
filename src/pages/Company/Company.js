@@ -92,7 +92,7 @@ const Company = ({
       const result = await createCompany.json();
       captureCompany(result);
       /**
-       * lets update the user with the companyId now
+       * let's update the user with the companyId now
        */
       updateUserWithCompanyId(result._id);
       setSavingCompanyLoading(false);
@@ -103,6 +103,9 @@ const Company = ({
     }
   };
 
+  /**
+   * Update a community
+   */
   const updateCompany = async () => {
     setSavingCompanyLoading(true);
 
