@@ -24,7 +24,7 @@ const CompanyContainer = ({
   location,
 }) => {
   const { user, cognitoUser } = userReducer;
-  const [companyId] = useState(user.companyId);
+  const { companyId } = user;
   const [jwtToken] = useState(cognitoUser.signInUserSession.accessToken.jwtToken);
   /**
    * Check for company
@@ -45,6 +45,8 @@ const CompanyContainer = ({
       } catch (error) {
         console.log(error); // eslint-disable-line
       }
+    } else {
+      console.log('no company id');
     }
   };
 
