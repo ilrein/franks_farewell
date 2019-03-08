@@ -26,7 +26,7 @@ const CoolCard = styled(Card)`
 
 const Dashboard = ({ company }) => {
   // const [companyId] = useState(company._id);
-  const [name] = useState(company.name);
+  const [name] = useState(company.name || '');
 
   return (
     <Wrapper>

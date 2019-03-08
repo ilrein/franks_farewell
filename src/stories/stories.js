@@ -1,13 +1,15 @@
 import React from 'react';
 import 'semantic-ui-css/semantic.min.css';
 import { storiesOf } from '@storybook/react'; // eslint-disable-line
-// import { action } from '@storybook/addon-actions';
+import { action } from '@storybook/addon-actions'; // eslint-disable-line
 
 // Calendar jazz
 import Calendar from '../components/Calendar';
 import MonthSwapper from '../components/Calendar/MonthSwapper';
-import WeeklyNavbar from '../components/Calendar/WeeklyNavbar';
 import Weekday from '../components/Calendar/Weekday';
+
+// More
+import PlacesAutoComplete from '../components/PlacesAutoComplete';
 
 storiesOf('Calendar', module)
   .add('Container', () => (
@@ -17,11 +19,6 @@ storiesOf('Calendar', module)
 storiesOf('MonthSwapper', module)
   .add('default', () => (
     <MonthSwapper />
-  ));
-
-storiesOf('WeeklyNavbar', module)
-  .add('default', () => (
-    <WeeklyNavbar />
   ));
 
 storiesOf('Weekday', module)
@@ -34,5 +31,12 @@ storiesOf('Weekday', module)
   .add('not in current month', () => (
     <Weekday
       day={1}
+    />
+  ));
+
+storiesOf('PlacesAutoComplete', module)
+  .add('default', () => (
+    <PlacesAutoComplete
+      onPlaceSelected={place => action(place)}
     />
   ));

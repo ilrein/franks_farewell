@@ -9759,7 +9759,7 @@ prompts@^0.1.9:
     kleur "^2.0.1"
     sisteransi "^0.1.1"
 
-prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.5.0, prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -10071,6 +10071,13 @@ react-focus-lock@^1.17.7:
     focus-lock "^0.5.2"
     prop-types "^15.6.2"
     react-clientside-effect "^1.2.0"
+
+react-google-autocomplete@^1.0.18:
+  version "1.0.18"
+  resolved "https://registry.yarnpkg.com/react-google-autocomplete/-/react-google-autocomplete-1.0.18.tgz#db09194ab3f2d0eade141b88c67986e2b8ddb5cb"
+  integrity sha512-HwlMNHVnw53OU5Uv84eKOzzRqN9NOOF+HleixLfxsKXGpZH6qa9Xl5XBk5xIpUw4O2sQYmTRKIGWGlqMzvQ/jA==
+  dependencies:
+    prop-types "^15.5.0"
 
 react-helmet-async@^0.2.0:
   version "0.2.0"

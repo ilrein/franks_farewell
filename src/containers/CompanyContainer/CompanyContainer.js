@@ -6,6 +6,11 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import fetch from 'isomorphic-fetch';
 import isNil from 'ramda/src/isNil';
+import { Message } from 'semantic-ui-react';
+import {
+  Link,
+  withRouter,
+} from 'react-router-dom';
 
 import {
   API_GET_COMPANY,
@@ -16,6 +21,7 @@ const CompanyContainer = ({
   children,
   userReducer,
   captureCompany,
+  location,
 }) => {
   const { user, cognitoUser } = userReducer;
   const [companyId] = useState(user.companyId);
@@ -48,15 +54,34 @@ const CompanyContainer = ({
 
   return (
     <>
-      {children}
+      {
+        isNil(companyId)
+          && location.pathname !== '/company'
+          ? (
+            <Message>
+              <p>
+                Must create a company.
+              </p>
+              <Link to="/company">
+                Create a company now.
+              </Link>
+            </Message>
+          )
+          : children
+      }
     </>
   );
 };
 
 CompanyContainer.propTypes = {
-  children: PropTypes.shape().isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.shape()),
+    PropTypes.string,
+    PropTypes.node,
+  ]).isRequired,
   userReducer: PropTypes.shape().isRequired,
   captureCompany: PropTypes.func.isRequired,
+  location: PropTypes.shape().isRequired,
 };
 
 const mapDispatchToProps = dispatch => ({
@@ -69,4 +94,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   ({ userReducer }) => ({ userReducer }),
   mapDispatchToProps,
-)(CompanyContainer);
+)(withRouter(CompanyContainer));

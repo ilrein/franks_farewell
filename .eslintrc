@@ -1,5 +1,9 @@
 {
   "extends": "airbnb",
+  "parser": "babel-eslint",
+  "globals": {
+    "window": true
+  },
   "rules": {
     "no-console": 1,
     "no-unused-vars": 1,

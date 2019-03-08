@@ -41,7 +41,7 @@ const Company = ({
   const [ownerSub] = useState(user.sub);
   const [jwtToken] = useState(cognitoUser.signInUserSession.accessToken.jwtToken);
 
-  const [name, setName] = useState(company.name);
+  const [name, setName] = useState(company.name || '');
   const [savingCompanyLoading, setSavingCompanyLoading] = useState(false);
   const [companySubmissionError, setCompanySubmissionError] = useState(null);
 
