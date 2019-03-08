@@ -5,6 +5,7 @@ import styled from 'styled-components';
 // import { Link } from 'react-router-dom';
 
 import CompanyContainer from '../../containers/CompanyContainer';
+import LocationsContainer from '../../containers/LocationsContainer';
 
 const Wrapper = styled.div`
   padding: 2rem;
@@ -20,7 +21,9 @@ const Locations = ({ user }) => {
   return (
     <Wrapper>
       <CompanyContainer>
-        locations
+        <LocationsContainer>
+          locations
+        </LocationsContainer>
       </CompanyContainer>
     </Wrapper>
   );

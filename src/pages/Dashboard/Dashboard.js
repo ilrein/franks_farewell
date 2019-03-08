@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Header,
   Container,
@@ -26,7 +26,11 @@ const CoolCard = styled(Card)`
   }
 `;
 
-const Dashboard = ({ userReducer, company }) => {
+const Dashboard = ({
+  userReducer,
+  company,
+  locations,
+}) => {
   // const [companyId] = useState(company._id);
   const { name } = company;
 
@@ -64,7 +68,9 @@ const Dashboard = ({ userReducer, company }) => {
                     </Card.Content>
                     <Card.Content extra>
                       <Icon name="building" />
-                      0 locations
+                      {locations.totalDocs}
+                      &nbsp;
+                      locations
                     </Card.Content>
                   </CoolCard>
                 </Link>
@@ -117,5 +123,13 @@ Dashboard.propTypes = {
 };
 
 export default connect(
-  ({ userReducer, company }) => ({ userReducer, company }),
+  ({
+    userReducer,
+    company,
+    locations,
+  }) => ({
+    userReducer,
+    company,
+    locations,
+  }),
 )(Dashboard);
