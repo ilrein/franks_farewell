@@ -46,8 +46,6 @@ const CompanyContainer = ({
       } catch (error) {
         console.log(error); // eslint-disable-line
       }
-    } else {
-      console.log('no company id');
     }
   };
 

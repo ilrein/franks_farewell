@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import {
-  Form,
-  Header,
-  Button,
-} from 'semantic-ui-react';
 import styled from 'styled-components';
 // import { Link } from 'react-router-dom';
 
@@ -22,30 +17,10 @@ const Wrapper = styled.div`
 const Locations = ({ user }) => {
   const [companyId] = useState(user.companyId);
 
-  const [name, setName] = useState('');
-  const [savingLocation, setSavingLocation] = useState(false);
-
   return (
     <Wrapper>
       <CompanyContainer>
-        <Form>
-          <Header>
-            Locations
-          </Header>
-          <Form.Input
-            label="Name"
-            value={name}
-            onChange={(event, { value }) => setName(value)}
-            required
-          />
-
-          <Button
-            type="submit"
-            primary
-          >
-            Submit
-          </Button>
-        </Form>
+        locations
       </CompanyContainer>
     </Wrapper>
   );
