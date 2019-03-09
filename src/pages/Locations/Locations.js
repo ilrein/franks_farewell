@@ -89,7 +89,9 @@ const Locations = ({
             locations.docs.length > 0
               ? (
                 locations.docs.map(doc => (
-                  <div>
+                  <div
+                    key={doc._id}
+                  >
                     <Card
                       header={doc.name}
                       description={doc.address}
