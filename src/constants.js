@@ -21,6 +21,8 @@ export const API_CREATE_COMPANY = `${process.env.REACT_APP_API_URL}/api/company/
 
 // Location Actions
 export const CAPTURE_LOCATIONS = 'CAPTURE_LOCATIONS';
+export const CREATE_LOCATION = 'CREATE_LOCATION';
 
 // Location endpoints
 export const API_GET_LOCATIONS = `${process.env.REACT_APP_API_URL}/api/locations`;
+export const API_CREATE_LOCATION = `${process.env.REACT_APP_API_URL}/api/locations/create`;
