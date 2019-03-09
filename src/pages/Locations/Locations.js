@@ -6,9 +6,15 @@ import {
   Header,
   Button,
   Divider,
+  Card,
 } from 'semantic-ui-react';
+import fetch from 'isomorphic-fetch';
 // import { Link } from 'react-router-dom';
 
+import {
+  API_GET_LOCATIONS,
+  CAPTURE_LOCATIONS,
+} from '../../constants';
 import CompanyContainer from '../../containers/CompanyContainer';
 import LocationsContainer from '../../containers/LocationsContainer';
 import NewLocationModal from './NewLocationModal';
@@ -29,10 +35,31 @@ const Nav = styled.div`
  * @param { companyId } ObjectId
  */
 const Locations = ({
-  user,
+  userReducer,
   locations,
+  captureLocations,
 }) => {
-  const [companyId] = useState(user.companyId); // eslint-disable-line
+  const [open, setOpen] = useState(false);
+
+  const { user, cognitoUser } = userReducer;
+  const { companyId } = user;
+  const [jwtToken] = useState(cognitoUser.signInUserSession.accessToken.jwtToken);
+
+  const onCreateLocation = async () => {
+    try {
+      const data = await fetch(`${API_GET_LOCATIONS}?companyId=${companyId}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'jwt-token': jwtToken,
+        },
+      });
+
+      const LOCATIONS = await data.json();
+      captureLocations(LOCATIONS);
+    } catch (error) {
+      //
+    }
+  };
 
   return (
     <Wrapper>
@@ -45,23 +72,32 @@ const Locations = ({
               Locations
             </Header>
             <NewLocationModal
-              trigger={(
-                <Button
-                  color="green"
-                  icon="plus"
-                  labelPosition="left"
-                  content="New Location"
-                />
-              )}
+              open={open}
+              setOpen={setOpen}
+              onCreateLocation={onCreateLocation}
+            />
+            <Button
+              color="green"
+              icon="plus"
+              labelPosition="left"
+              content="New Location"
+              onClick={() => setOpen(true)}
             />
           </Nav>
           <Divider />
           {
-            locations.length > 0
+            locations.docs.length > 0
               ? (
-                <div>locations</div>
+                locations.docs.map(doc => (
+                  <div>
+                    <Card
+                      header={doc.name}
+                      description={doc.address}
+                    />
+                  </div>
+                ))
               )
-              : <div>no locations found</div>
+              : <div>No locations found. Create one now.</div>
           }
         </LocationsContainer>
       </CompanyContainer>
@@ -70,17 +106,21 @@ const Locations = ({
 };
 
 Locations.propTypes = {
-  user: PropTypes.shape().isRequired,
-  // cognitoUser: PropTypes.shape().isRequired,
   locations: PropTypes.shape().isRequired,
 };
 
 export default connect(
   ({
+    locations,
     userReducer,
-    locations,
   }) => ({
-    user: userReducer.user,
     locations,
+    userReducer,
+  }),
+  dispatch => ({
+    captureLocations: payload => dispatch({
+      type: CAPTURE_LOCATIONS,
+      payload,
+    }),
   }),
 )(Locations);

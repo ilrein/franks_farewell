@@ -10,41 +10,59 @@ import {
 import fetch from 'isomorphic-fetch';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { toast } from 'react-toastify';
 
 import PlacesAutoComplete from '../../components/PlacesAutoComplete';
 import {
   API_CREATE_LOCATION,
-  CREATE_LOCATION,
 } from '../../constants';
 
 const NewLocationModal = ({
+  user,
   cognitoUser,
-  trigger,
+  open,
+  setOpen,
+  onCreateLocation,
 }) => {
   const [address, setAddress] = useState(null);
   const [name, setName] = useState('');
   const [savingLocation, setSavingLocation] = useState(false);
   const [jwtToken] = useState(cognitoUser.signInUserSession.accessToken.jwtToken);
 
+  const { companyId } = user;
+
   const submit = async () => {
-    const post = await fetch(API_CREATE_LOCATION, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'jwt-token': jwtToken,
-      },
-      body: {
+    setSavingLocation(true);
+    try {
+      const post = await fetch(API_CREATE_LOCATION, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'jwt-token': jwtToken,
+        },
+        body: JSON.stringify({
+          location: {
+            companyId,
+            name,
+            address: address.formatted_address,
+          },
+        }),
+      });
 
-      }
-    });
-
-    const location = await post.json();
-    console.log(location);
+      await post.json();
+      setSavingLocation(false);
+      toast.success(`Created ${name}`);
+      onCreateLocation();
+      setOpen(false);
+    } catch (error) {
+      console.log(error); // eslint-disable-line
+    }
   };
 
   return (
     <Modal
-      trigger={trigger}
+      open={open}
+      closeOnDimmerClick
     >
       <Modal.Content>
         <Form>
@@ -56,6 +74,7 @@ const NewLocationModal = ({
             value={name}
             onChange={(event, { value }) => setName(value)}
             required
+            placeholder="Enter a name"
           />
           <div className="ui field required">
             <label>
@@ -65,6 +84,16 @@ const NewLocationModal = ({
               onPlaceSelected={place => setAddress(place)}
             />
           </div>
+          <Button
+            onClick={(e) => {
+              e.preventDefault();
+              setOpen(false);
+            }}
+            loading={savingLocation}
+          >
+            Close
+          </Button>
+
           <Button
             type="submit"
             primary
@@ -81,15 +110,20 @@ const NewLocationModal = ({
 
 NewLocationModal.propTypes = {
   cognitoUser: PropTypes.shape().isRequired,
-  trigger: PropTypes.node.isRequired,
+  open: PropTypes.bool.isRequired,
+  setOpen: PropTypes.func.isRequired,
+  onCreateLocation: PropTypes.func.isRequired,
 };
 
 export default connect(
-  ({ userReducer }) => ({ cognitoUser: userReducer.cognitoUser }),
-  dispatch => ({
-    captureCompany: payload => dispatch({
-      type: CREATE_LOCATION,
-      payload,
-    }),
+  ({ userReducer }) => ({
+    cognitoUser: userReducer.cognitoUser,
+    user: userReducer.user,
   }),
+  // dispatch => ({
+  //   captureLocation: payload => dispatch({
+  //     type: CREATE_LOCATION,
+  //     payload,
+  //   }),
+  // }),
 )(NewLocationModal);
