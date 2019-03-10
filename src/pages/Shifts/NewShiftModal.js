@@ -4,6 +4,8 @@ import {
   Header,
   Button,
   Modal,
+  Dropdown,
+  Divider,
 } from 'semantic-ui-react';
 import fetch from 'isomorphic-fetch';
 import { connect } from 'react-redux';
@@ -16,9 +18,17 @@ const NewShiftModal = ({
   open,
   setOpen,
   onCreateShift,
+  locations,
 }) => {
-  const [saving, setSaving] = useState(false);
   const { companyId } = user;
+  const [saving, setSaving] = useState(false);
+  const [locationId, setLocationId] = useState(null);
+
+  const formatSemanticOptions = docs => docs.map(doc => ({
+    key: doc._id,
+    value: doc._id,
+    text: doc.name,
+  }));
 
   const submit = () => {
 
@@ -33,13 +43,32 @@ const NewShiftModal = ({
           <Header>
             New Shift
           </Header>
-          <Form.Input
-            label="Name"
-            // value={name}
-            // onChange={(event, { value }) => setName(value)}
+          <Form.Dropdown
+            label="Location"
             required
-            placeholder="Enter a name"
+            placeholder="Select location"
+            fluid
+            search
+            selection
+            options={formatSemanticOptions(locations.docs)}
+            onChange={(event, { value }) => setLocationId(value)}
           />
+
+          {
+            locationId
+              ? (
+                <>
+                  <Form.Input
+                    label="Role/Position"
+                    placeholder="test"
+                  />
+                </>
+              )
+              : null
+          }
+
+          <Divider />
+
           <Button
             onClick={(e) => {
               e.preventDefault();
@@ -67,15 +96,21 @@ const NewShiftModal = ({
 NewShiftModal.propTypes = {
   cognitoUser: PropTypes.shape().isRequired,
   user: PropTypes.shape().isRequired,
+  locations: PropTypes.shape().isRequired,
   open: PropTypes.bool.isRequired,
   setOpen: PropTypes.func.isRequired,
   onCreateShift: PropTypes.func.isRequired,
 };
 
 export default connect(
-  ({ userReducer, shifts }) => ({
+  ({
+    userReducer,
+    shifts,
+    locations,
+  }) => ({
     cognitoUser: userReducer.cognitoUser,
     user: userReducer.user,
     shifts,
+    locations,
   }),
 )(NewShiftModal);
