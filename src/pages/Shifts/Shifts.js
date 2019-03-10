@@ -32,6 +32,13 @@ const Nav = styled.div`
   align-items: center;
 `;
 
+const LinkSegment = styled(Segment)`
+  &:hover {
+    cursor: pointer;
+    background-color: aliceblue !important;
+  }
+`;
+
 const Shifts = ({
   userReducer,
   shifts,
@@ -88,31 +95,47 @@ const Shifts = ({
               />
             </Nav>
             <Divider />
-            {
-              shifts.docs.length > 0
-                ? (
-                  shifts.docs.map(shift => (
-                    <Segment
-                      compact
-                    >
-                      <Label>
-                        {shift.status}
-                      </Label>
-                      &nbsp;
-                      {
-                        dayjs(shift.startTime).format('h:mm A')
-                      }
-                      &nbsp;
-                      -
-                      &nbsp;
-                      {
-                        dayjs(shift.endTime).format('h:mm A')
-                      }
-                    </Segment>
-                  ))
-                )
-                : <div>No shifts found.</div>
-            }
+            <div>
+              {
+                shifts.docs.length > 0
+                  ? (
+                    shifts.docs.map(doc => (
+                      <LinkSegment>
+                        {
+                          doc.status === 'PENDING'
+                            ? (
+                              <Label color="yellow">
+                                {doc.status}
+                              </Label>
+                            )
+                            : (
+                              <Label>
+                                {doc.status}
+                              </Label>
+                            )
+                        }
+                        &nbsp;
+                        <Label>
+                          {
+                            dayjs(doc.date).format('MMM. ddd D YYYY')
+                          }
+                        </Label>
+                        &nbsp;
+                        {
+                          dayjs(doc.startTime).format('h:mm A')
+                        }
+                        &nbsp;
+                        -
+                        &nbsp;
+                        {
+                          dayjs(doc.endTime).format('h:mm A')
+                        }
+                      </LinkSegment>
+                    ))
+                  )
+                  : <div>No shifts found.</div>
+              }
+            </div>
           </Wrapper>
         </SkillsetsContainer>
       </ShiftsContainer>
