@@ -34,7 +34,7 @@ const Shifts = ({
   const [jwtToken] = useState(cognitoUser.signInUserSession.accessToken.jwtToken);
 
   const onCreateShift = () => {
-
+    setOpen(false);
   };
 
   return (
@@ -64,7 +64,7 @@ const Shifts = ({
             {
               shifts.docs.length > 0
                 ? (
-                  shifts.map(shift => (
+                  shifts.docs.map(shift => (
                     <div>{shift._id}</div>
                   ))
                 )

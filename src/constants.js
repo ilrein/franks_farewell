@@ -33,6 +33,7 @@ export const CAPTURE_SHIFTS = 'CAPTURE_SHIFTS';
 
 // Shift endpoints
 export const API_GET_SHIFTS = `${process.env.REACT_APP_API_URL}/api/jobs`;
+export const API_CREATE_SHIFT = `${process.env.REACT_APP_API_URL}/api/jobs/create`;
 
 // Skillset Actions
 export const CAPTURE_SKILLSETS = 'CAPTURE_SKILLSETS';

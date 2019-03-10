@@ -13,9 +13,15 @@ import { toast } from 'react-toastify';
 import Calendar from 'react-calendar';
 import styled from 'styled-components';
 import dayjs from 'dayjs';
+import isNil from 'ramda/src/isNil';
+import isEmpty from 'ramda/src/isEmpty';
 
 import fadeIn from '../../anime/fadeIn';
 import TimePicker from '../../components/TimePicker';
+
+import {
+  API_CREATE_SHIFT,
+} from '../../constants';
 
 const CalendarContainer = styled.div`
   animation: ${fadeIn} 1s ease;
@@ -37,12 +43,20 @@ const NewShiftModal = ({
   skillsets,
 }) => {
   const { companyId } = user;
+  const [jwtToken] = useState(cognitoUser.signInUserSession.accessToken.jwtToken);
+
   const [saving, setSaving] = useState(false);
   const [locationId, setLocationId] = useState(null);
-  const [date, setDate] = useState(null);
+  const [role, setRole] = useState(null);
+  const [date, setDate] = useState(new Date());
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
   const [duration, setDuration] = useState('');
+
+  // errors
+  const [roleIsEmptyError, setRoleIsEmptyError] = useState(false);
+  const [startTimeIsEmptyError, setStartTimeEmptyError] = useState(false);
+  const [endTimeIsEmptyError, setEndTimeIsEmptyError] = useState(false);
 
   const formatSemanticOptions = docs => docs.map(doc => ({
     key: doc._id,
@@ -56,8 +70,58 @@ const NewShiftModal = ({
     text: `${doc.title} - ${formatter.format(doc.payrate)}`,
   }));
 
-  const submit = () => {
+  const submit = async () => {
+    if (isNil(role)) {
+      setRoleIsEmptyError(true);
+      return;
+    }
+    setRoleIsEmptyError(false); 
+
+    if (isNil(startTime)) {
+      setStartTimeEmptyError(true);
+      return;
+    }
+    setStartTimeEmptyError(false);
+
+    if (isNil(endTime)) {
+      setEndTimeIsEmptyError(true);
+      return;
+    }
+    setEndTimeIsEmptyError(false);
+
     setSaving(true);
+    try {
+      const POST = await fetch(API_CREATE_SHIFT, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'jwt-token': jwtToken,
+        },
+        body: JSON.stringify({
+          job: {
+            companyId,
+            locationId,
+            date,
+            startTime,
+            endTime,
+            skillset: role,
+          },
+        }),
+      });
+
+      const result = await POST.json();
+      if (result.errors) {
+        toast.error(result.message);
+        setSaving(false);
+        return;
+      }
+      toast.success(`Created shift on: ${date} for ${duration} hours`);
+      onCreateShift();
+      setSaving(false);
+    } catch (error) {
+      console.log(error); // eslint-disable-line
+      setSaving(false);
+    }
   };
 
   const setTime = (type, time) => {
@@ -77,8 +141,7 @@ const NewShiftModal = ({
 
   return (
     <Modal
-      // open={open}
-      open
+      open={open}
     >
       <Modal.Content>
         <Form>
@@ -109,7 +172,8 @@ const NewShiftModal = ({
                     search
                     selection
                     options={formatSkillsets(skillsets.docs)}
-                    onChange={(event, { value }) => setLocationId(value)}
+                    onChange={(event, { value }) => setRole(value)}
+                    error={roleIsEmptyError}
                   />
 
 
@@ -121,7 +185,7 @@ const NewShiftModal = ({
                     <CalendarContainer>
                       <Calendar
                         onChange={data => setDate(data)}
-                        value={new Date()}
+                        value={date}
                       />
                     </CalendarContainer>
                   </div>
@@ -133,6 +197,7 @@ const NewShiftModal = ({
                       </label>
                       <TimePicker
                         onChange={value => setTime('startTime', value)}
+                        error={startTimeIsEmptyError}
                       />
                     </div>
 
@@ -143,6 +208,7 @@ const NewShiftModal = ({
                       <TimePicker
                         onChange={value => setTime('endTime', value)}
                         disabled={startTime === null}
+                        error={endTimeIsEmptyError}
                       />
                     </div>
 

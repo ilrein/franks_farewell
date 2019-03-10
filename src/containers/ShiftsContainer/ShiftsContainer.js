@@ -20,13 +20,13 @@ const ShiftsContainer = ({
   captureShifts,
 }) => {
   const { user, cognitoUser } = userReducer;
-  const { companyId } = user;
   const [jwtToken] = useState(cognitoUser.signInUserSession.accessToken.jwtToken);
   /**
    * Check for locations
    * @param { companyId } String
    */
   const getShifts = async () => {
+    const { companyId } = user;
     try {
       const data = await fetch(`${API_GET_SHIFTS}?companyId=${companyId}`, {
         headers: {
@@ -35,8 +35,9 @@ const ShiftsContainer = ({
         },
       });
 
-      const locations = await data.json();
-      captureShifts(locations);
+      const shifts = await data.json();
+      // console.log(shifts);
+      captureShifts(shifts);
     } catch (error) {
       //
     }
