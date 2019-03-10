@@ -12,8 +12,10 @@ import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import Calendar from 'react-calendar';
 import styled from 'styled-components';
+import dayjs from 'dayjs';
 
 import fadeIn from '../../anime/fadeIn';
+import TimePicker from '../../components/TimePicker';
 
 const CalendarContainer = styled.div`
   animation: ${fadeIn} 1s ease;
@@ -37,8 +39,10 @@ const NewShiftModal = ({
   const { companyId } = user;
   const [saving, setSaving] = useState(false);
   const [locationId, setLocationId] = useState(null);
-  const [startTime, setStartTime] = useState('9:00');
-  const [endTime, setEndTime] = useState('17:00');
+  const [date, setDate] = useState(null);
+  const [startTime, setStartTime] = useState(null);
+  const [endTime, setEndTime] = useState(null);
+  const [duration, setDuration] = useState('');
 
   const formatSemanticOptions = docs => docs.map(doc => ({
     key: doc._id,
@@ -54,6 +58,21 @@ const NewShiftModal = ({
 
   const submit = () => {
 
+  };
+
+  const setTimeAndCalculateDuration = (type, time) => {
+    const DATE = dayjs().format('YYYY-MM-D');
+    if (type === 'startTime') {
+      const moment = dayjs(`${DATE} ${time}`);
+      setStartTime(moment);
+      if (endTime !== null) {
+        setDuration(moment.diff(endTime, 'hour'));
+      }
+    } else if (type === 'endTime') {
+      const moment = dayjs(`${DATE} ${time}`);
+      setEndTime(moment);
+      setDuration(moment.diff(startTime, 'hour'));
+    }
   };
 
   return (
@@ -101,33 +120,37 @@ const NewShiftModal = ({
 
                     <CalendarContainer>
                       <Calendar
-                        onChange={data => console.log(data)}
+                        onChange={data => setDate(data)}
                         value={new Date()}
                       />
                     </CalendarContainer>
                   </div>
 
-                  <div className="field">
-                    <label>
-                      Start Time
-                    </label>
-                    {/* <TimePicker
-                      onChange={setStartTime}
-                      value={startTime}
-                      disableClock
-                    /> */}
-                  </div>
+                  <Form.Group widths="equal">
+                    <div className="field required">
+                      <label>
+                        Start Time
+                      </label>
+                      <TimePicker
+                        onChange={value => setTimeAndCalculateDuration('startTime', value)}
+                      />
+                    </div>
 
-                  <div className="field">
-                    <label>
-                      End Time
-                    </label>
-                    {/* <TimePicker
-                      onChange={setEndTime}
-                      value={endTime}
-                      disableClock
-                    /> */}
-                  </div>
+                    <div className="field required">
+                      <label>
+                        End Time
+                      </label>
+                      <TimePicker
+                        onChange={value => setTimeAndCalculateDuration('endTime', value)}
+                      />
+                    </div>
+
+                    <Form.Input
+                      label="Duration"
+                      disabled
+                      value={duration}
+                    />
+                  </Form.Group>
                   <Divider />
                 </>
               )
