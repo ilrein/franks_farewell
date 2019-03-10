@@ -109,6 +109,8 @@ const Locations = ({
 
 Locations.propTypes = {
   locations: PropTypes.shape().isRequired,
+  userReducer: PropTypes.shape().isRequired,
+  captureLocations: PropTypes.func.isRequired,
 };
 
 export default connect(
