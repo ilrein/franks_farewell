@@ -52,7 +52,7 @@ const Dashboard = ({
                 && user.type === 'admin'
                   ? (
                     <Grid
-                      columns={4}
+                      columns={3}
                       stackable
                     >
                       <Grid.Row>
@@ -143,7 +143,7 @@ const Dashboard = ({
                           </Link>
                         </Grid.Column>
 
-                        <Grid.Column>
+                        {/* <Grid.Column>
                           <CoolCard>
                             <Card.Content>
                               <Card.Header>
@@ -158,7 +158,7 @@ const Dashboard = ({
                               0 users
                             </Card.Content>
                           </CoolCard>
-                        </Grid.Column>
+                        </Grid.Column> */}
                       </Grid.Row>
                     </Grid>
                   )

@@ -4,10 +4,18 @@ import {
   Header,
   Divider,
   Button,
+  Segment,
+  Label,
 } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import fetch from 'isomorphic-fetch';
+import dayjs from 'dayjs';
 
+import {
+  API_GET_SHIFTS,
+  CAPTURE_SHIFTS,
+} from '../../constants';
 import LocationsContainer from '../../containers/LocationsContainer';
 import ShiftsContainer from '../../containers/ShiftsContainer';
 import SkillsetsContainer from '../../containers/SkillsetsContainer';
@@ -27,14 +35,33 @@ const Nav = styled.div`
 const Shifts = ({
   userReducer,
   shifts,
+  captureShifts,
 }) => {
   const [open, setOpen] = useState(false);
   const { user, cognitoUser } = userReducer;
-  const { companyId } = user;
   const [jwtToken] = useState(cognitoUser.signInUserSession.accessToken.jwtToken);
+
+  const getShifts = async () => {
+    const { companyId } = user;
+    try {
+      const data = await fetch(`${API_GET_SHIFTS}?companyId=${companyId}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'jwt-token': jwtToken,
+        },
+      });
+
+      const SHIFTS = await data.json();
+      // console.log(shifts);
+      captureShifts(SHIFTS);
+    } catch (error) {
+      //
+    }
+  };
 
   const onCreateShift = () => {
     setOpen(false);
+    getShifts();
   };
 
   return (
@@ -65,7 +92,23 @@ const Shifts = ({
               shifts.docs.length > 0
                 ? (
                   shifts.docs.map(shift => (
-                    <div>{shift._id}</div>
+                    <Segment
+                      compact
+                    >
+                      <Label>
+                        {shift.status}
+                      </Label>
+                      &nbsp;
+                      {
+                        dayjs(shift.startTime).format('h:mm A')
+                      }
+                      &nbsp;
+                      -
+                      &nbsp;
+                      {
+                        dayjs(shift.endTime).format('h:mm A')
+                      }
+                    </Segment>
                   ))
                 )
                 : <div>No shifts found.</div>
@@ -89,5 +132,11 @@ export default connect(
   }) => ({
     shifts,
     userReducer,
+  }),
+  dispatch => ({
+    captureShifts: payload => dispatch({
+      type: CAPTURE_SHIFTS,
+      payload,
+    }),
   }),
 )(Shifts);
