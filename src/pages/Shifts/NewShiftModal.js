@@ -37,6 +37,8 @@ const NewShiftModal = ({
   const { companyId } = user;
   const [saving, setSaving] = useState(false);
   const [locationId, setLocationId] = useState(null);
+  const [startTime, setStartTime] = useState('9:00');
+  const [endTime, setEndTime] = useState('17:00');
 
   const formatSemanticOptions = docs => docs.map(doc => ({
     key: doc._id,
@@ -107,17 +109,30 @@ const NewShiftModal = ({
 
                   <div className="field">
                     <label>
-                      Time
+                      Start Time
                     </label>
-
-                    time
+                    {/* <TimePicker
+                      onChange={setStartTime}
+                      value={startTime}
+                      disableClock
+                    /> */}
                   </div>
+
+                  <div className="field">
+                    <label>
+                      End Time
+                    </label>
+                    {/* <TimePicker
+                      onChange={setEndTime}
+                      value={endTime}
+                      disableClock
+                    /> */}
+                  </div>
+                  <Divider />
                 </>
               )
               : null
           }
-
-          <Divider />
 
           <Button
             onClick={(e) => {

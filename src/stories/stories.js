@@ -10,6 +10,7 @@ import Weekday from '../components/Calendar/Weekday';
 
 // More
 import PlacesAutoComplete from '../components/PlacesAutoComplete';
+import TimePicker from '../components/TimePicker';
 
 storiesOf('Calendar', module)
   .add('Container', () => (
@@ -38,5 +39,12 @@ storiesOf('PlacesAutoComplete', module)
   .add('default', () => (
     <PlacesAutoComplete
       onPlaceSelected={place => action(place)}
+    />
+  ));
+
+storiesOf('TimePicker', module)
+  .add('default', () => (
+    <TimePicker
+      onChange={time => action(time)}
     />
   ));
