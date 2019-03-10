@@ -9,6 +9,7 @@ import { arrayOfHours } from './utils';
 const TimePicker = ({
   placeholder,
   onChange,
+  ...restProps,
 }) => {
   const format = args => args.map((arg, index) => ({
     key: index,
@@ -23,6 +24,7 @@ const TimePicker = ({
       selection
       options={format(arrayOfHours())}
       onChange={(event, { value }) => onChange(value)}
+      {...restProps}
     />
   );
 };

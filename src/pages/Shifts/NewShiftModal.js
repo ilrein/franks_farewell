@@ -57,23 +57,23 @@ const NewShiftModal = ({
   }));
 
   const submit = () => {
-
+    setSaving(true);
   };
 
-  const setTimeAndCalculateDuration = (type, time) => {
+  const setTime = (type, time) => {
     const DATE = dayjs().format('YYYY-MM-D');
+    const moment = dayjs(`${DATE} ${time}`);
     if (type === 'startTime') {
-      const moment = dayjs(`${DATE} ${time}`);
       setStartTime(moment);
+
       if (endTime !== null) {
-        setDuration(moment.diff(endTime, 'hour'));
+        setDuration(endTime.diff(moment, 'hour'));
       }
     } else if (type === 'endTime') {
-      const moment = dayjs(`${DATE} ${time}`);
       setEndTime(moment);
       setDuration(moment.diff(startTime, 'hour'));
     }
-  };
+  };  
 
   return (
     <Modal
@@ -132,7 +132,7 @@ const NewShiftModal = ({
                         Start Time
                       </label>
                       <TimePicker
-                        onChange={value => setTimeAndCalculateDuration('startTime', value)}
+                        onChange={value => setTime('startTime', value)}
                       />
                     </div>
 
@@ -141,7 +141,8 @@ const NewShiftModal = ({
                         End Time
                       </label>
                       <TimePicker
-                        onChange={value => setTimeAndCalculateDuration('endTime', value)}
+                        onChange={value => setTime('endTime', value)}
+                        disabled={startTime === null}
                       />
                     </div>
 
