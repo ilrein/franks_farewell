@@ -8,8 +8,9 @@ import {
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import ShiftsContainer from '../../containers/ShiftsContainer';
 import LocationsContainer from '../../containers/LocationsContainer';
+import ShiftsContainer from '../../containers/ShiftsContainer';
+import SkillsetsContainer from '../../containers/SkillsetsContainer';
 import NewShiftModal from './NewShiftModal';
 
 const Wrapper = styled.div`
@@ -39,42 +40,45 @@ const Shifts = ({
   return (
     <LocationsContainer>
       <ShiftsContainer>
-        <Wrapper>
-          <Nav>
-            <Header>
-              Shifts
-            </Header>
+        <SkillsetsContainer>
+          <Wrapper>
+            <Nav>
+              <Header>
+                Shifts
+              </Header>
 
-            <Button
-              color="green"
-              icon="plus"
-              labelPosition="left"
-              content="New Shift"
-              onClick={() => setOpen(true)}
-            />
-            <NewShiftModal
-              open={open}
-              setOpen={setOpen}
-              onCreateShift={onCreateShift}
-            />
-          </Nav>
-          <Divider />
-          {
-            shifts.docs.length > 0
-              ? (
-                shifts.map(shift => (
-                  <div>{shift._id}</div>
-                ))
-              )
-              : <div>No shifts found.</div>
-          }
-        </Wrapper>
+              <Button
+                color="green"
+                icon="plus"
+                labelPosition="left"
+                content="New Shift"
+                onClick={() => setOpen(true)}
+              />
+              <NewShiftModal
+                open={open}
+                setOpen={setOpen}
+                onCreateShift={onCreateShift}
+              />
+            </Nav>
+            <Divider />
+            {
+              shifts.docs.length > 0
+                ? (
+                  shifts.map(shift => (
+                    <div>{shift._id}</div>
+                  ))
+                )
+                : <div>No shifts found.</div>
+            }
+          </Wrapper>
+        </SkillsetsContainer>
       </ShiftsContainer>
     </LocationsContainer>
   );
 }
 
 Shifts.propTypes = {
+  userReducer: PropTypes.shape().isRequired,
   shifts: PropTypes.shape().isRequired,
 };
 

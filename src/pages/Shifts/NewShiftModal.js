@@ -4,13 +4,26 @@ import {
   Header,
   Button,
   Modal,
-  Dropdown,
   Divider,
 } from 'semantic-ui-react';
 import fetch from 'isomorphic-fetch';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
+import Calendar from 'react-calendar';
+import styled from 'styled-components';
+
+import fadeIn from '../../anime/fadeIn';
+
+const CalendarContainer = styled.div`
+  animation: ${fadeIn} 1s ease;
+`;
+
+const formatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+  minimumFractionDigits: 2,
+});
 
 const NewShiftModal = ({
   user,
@@ -19,6 +32,7 @@ const NewShiftModal = ({
   setOpen,
   onCreateShift,
   locations,
+  skillsets,
 }) => {
   const { companyId } = user;
   const [saving, setSaving] = useState(false);
@@ -30,13 +44,20 @@ const NewShiftModal = ({
     text: doc.name,
   }));
 
+  const formatSkillsets = docs => docs.map(doc => ({
+    key: doc._id,
+    value: doc._id,
+    text: `${doc.title} - ${formatter.format(doc.payrate)}`,
+  }));
+
   const submit = () => {
 
   };
 
   return (
     <Modal
-      open={open}
+      // open={open}
+      open
     >
       <Modal.Content>
         <Form>
@@ -56,12 +77,41 @@ const NewShiftModal = ({
 
           {
             locationId
+            && skillsets.totalDocs > 0
               ? (
                 <>
-                  <Form.Input
+                  <Form.Dropdown
                     label="Role/Position"
-                    placeholder="test"
+                    required
+                    placeholder="Select role"
+                    fluid
+                    search
+                    selection
+                    options={formatSkillsets(skillsets.docs)}
+                    onChange={(event, { value }) => setLocationId(value)}
                   />
+
+
+                  <div className="field">
+                    <label>
+                      Date
+                    </label>
+
+                    <CalendarContainer>
+                      <Calendar
+                        onChange={data => console.log(data)}
+                        value={new Date()}
+                      />
+                    </CalendarContainer>
+                  </div>
+
+                  <div className="field">
+                    <label>
+                      Time
+                    </label>
+
+                    time
+                  </div>
                 </>
               )
               : null
@@ -107,10 +157,12 @@ export default connect(
     userReducer,
     shifts,
     locations,
+    skillsets,
   }) => ({
     cognitoUser: userReducer.cognitoUser,
     user: userReducer.user,
     shifts,
     locations,
+    skillsets,
   }),
 )(NewShiftModal);
