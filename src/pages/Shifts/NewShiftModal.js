@@ -17,7 +17,7 @@ const NewShiftModal = ({
   setOpen,
   onCreateShift,
 }) => {
-  const [saving, setSaving] = useState('');
+  const [saving, setSaving] = useState(false);
   const { companyId } = user;
 
   const submit = () => {
