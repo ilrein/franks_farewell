@@ -16,6 +16,7 @@ import VerificationSent from './pages/Auth/VerificationSent';
 import Dashboard from './pages/Dashboard';
 import Company from './pages/Company';
 import Locations from './pages/Locations';
+import Shifts from './pages/Shifts';
 
 // Layouts
 import MainLayout from './layouts/MainLayout';
@@ -73,6 +74,12 @@ const Routes = () => (
             exact
             path="/locations"
             component={Locations}
+          />
+
+          <Route
+            exact
+            path="/shifts"
+            component={Shifts}
           />
         </MainLayout>
       </Switch>

@@ -102,20 +102,22 @@ const Dashboard = ({
                       </Grid.Column>
 
                       <Grid.Column>
-                        <CoolCard>
-                          <Card.Content>
-                            <Card.Header>
-                              Shifts
-                            </Card.Header>
-                            <Card.Description>
-                              Manage shifts
-                            </Card.Description>
-                          </Card.Content>
-                          <Card.Content extra>
-                            <Icon name="calendar" />
-                            0 shifts
-                          </Card.Content>
-                        </CoolCard>
+                        <Link to="shifts">
+                          <CoolCard>
+                            <Card.Content>
+                              <Card.Header>
+                                Shifts
+                              </Card.Header>
+                              <Card.Description>
+                                Manage shifts
+                              </Card.Description>
+                            </Card.Content>
+                            <Card.Content extra>
+                              <Icon name="calendar" />
+                              0 shifts
+                            </Card.Content>
+                          </CoolCard>
+                        </Link>
                       </Grid.Column>
 
                       <Grid.Column>

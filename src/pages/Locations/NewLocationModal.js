@@ -62,7 +62,6 @@ const NewLocationModal = ({
   return (
     <Modal
       open={open}
-      closeOnDimmerClick
     >
       <Modal.Content>
         <Form>
@@ -110,6 +109,7 @@ const NewLocationModal = ({
 
 NewLocationModal.propTypes = {
   cognitoUser: PropTypes.shape().isRequired,
+  user: PropTypes.shape().isRequired,
   open: PropTypes.bool.isRequired,
   setOpen: PropTypes.func.isRequired,
   onCreateLocation: PropTypes.func.isRequired,
@@ -120,10 +120,4 @@ export default connect(
     cognitoUser: userReducer.cognitoUser,
     user: userReducer.user,
   }),
-  // dispatch => ({
-  //   captureLocation: payload => dispatch({
-  //     type: CREATE_LOCATION,
-  //     payload,
-  //   }),
-  // }),
 )(NewLocationModal);

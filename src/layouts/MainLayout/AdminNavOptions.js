@@ -34,6 +34,12 @@ const AdminNavOptions = () => (
         Locations
       </Hover>
     </Link>
+    <Link to="/shifts">
+      <Hover>
+        <Icon name="calendar" />
+        Shifts
+      </Hover>
+    </Link>
   </>
 );
 
