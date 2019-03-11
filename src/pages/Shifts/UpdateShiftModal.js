@@ -41,10 +41,14 @@ const UpdateShiftModal = ({
   onCreateShift,
   locations,
   skillsets,
+  shiftDoc,
 }) => {
   const { companyId } = user;
   const [jwtToken] = useState(cognitoUser.signInUserSession.accessToken.jwtToken);
 
+  console.log(shiftDoc); // eslint-disable-line
+
+  // function states
   const [saving, setSaving] = useState(false);
   const [locationId, setLocationId] = useState(null);
   const [role, setRole] = useState(null);
@@ -58,6 +62,7 @@ const UpdateShiftModal = ({
   const [startTimeIsEmptyError, setStartTimeEmptyError] = useState(false);
   const [endTimeIsEmptyError, setEndTimeIsEmptyError] = useState(false);
 
+  // for semantic dropdown
   const formatSemanticOptions = docs => docs.map(doc => ({
     key: doc._id,
     value: doc._id,
@@ -146,7 +151,7 @@ const UpdateShiftModal = ({
       <Modal.Content>
         <Form>
           <Header>
-            New Shift
+            Update Shift
           </Header>
           <Form.Dropdown
             label="Location"

@@ -20,6 +20,7 @@ import LocationsContainer from '../../containers/LocationsContainer';
 import ShiftsContainer from '../../containers/ShiftsContainer';
 import SkillsetsContainer from '../../containers/SkillsetsContainer';
 import NewShiftModal from './NewShiftModal';
+import UpdateShiftModal from './UpdateShiftModal';
 
 const Wrapper = styled.div`
   padding: 2rem;
@@ -45,6 +46,9 @@ const Shifts = ({
   captureShifts,
 }) => {
   const [open, setOpen] = useState(false);
+  const [openUpdate, setOpenUpdate] = useState(false);
+  const [currentDoc, setCurrentDoc] = useState(null);
+
   const { user, cognitoUser } = userReducer;
   const [jwtToken] = useState(cognitoUser.signInUserSession.accessToken.jwtToken);
 
@@ -93,6 +97,12 @@ const Shifts = ({
                 setOpen={setOpen}
                 onCreateShift={onCreateShift}
               />
+              <UpdateShiftModal
+                open={openUpdate}
+                setOpen={setOpenUpdate}
+                onCreateShift={onCreateShift}
+                shiftDoc={currentDoc}
+              />
             </Nav>
             <Divider />
             <div>
@@ -100,37 +110,67 @@ const Shifts = ({
                 shifts.docs.length > 0
                   ? (
                     shifts.docs.map(doc => (
-                      <LinkSegment>
-                        {
-                          doc.status === 'PENDING'
-                            ? (
-                              <Label color="yellow">
-                                {doc.status}
-                              </Label>
-                            )
-                            : (
-                              <Label>
-                                {doc.status}
-                              </Label>
-                            )
-                        }
-                        &nbsp;
-                        <Label>
-                          {
-                            dayjs(doc.date).format('MMM. ddd D YYYY')
-                          }
-                        </Label>
-                        &nbsp;
-                        {
-                          dayjs(doc.startTime).format('h:mm A')
-                        }
-                        &nbsp;
-                        -
-                        &nbsp;
-                        {
-                          dayjs(doc.endTime).format('h:mm A')
-                        }
-                      </LinkSegment>
+                      doc.status === 'PENDING'
+                        ? (
+                          <LinkSegment
+                            onClick={() => {
+                              setOpenUpdate(true);
+                              setCurrentDoc(doc);
+                            }}
+                          >
+                            <Label>
+                              Created:
+                              &nbsp;
+                              {dayjs(doc.createdOn).format('MMM. ddd YYYY @ h:mm A')}
+                            </Label>
+                            <Label
+                              color="yellow"
+                            >
+                              {doc.status}
+                            </Label>
+                            &nbsp;
+                            <Label>
+                              On:
+                              &nbsp;
+                              {
+                                dayjs(doc.date).format('MMM. ddd D YYYY')
+                              }
+                            </Label>
+                            &nbsp;
+                            {
+                              dayjs(doc.startTime).format('h:mm A')
+                            }
+                            &nbsp;
+                            -
+                            &nbsp;
+                            {
+                              dayjs(doc.endTime).format('h:mm A')
+                            }
+                          </LinkSegment>
+                        )
+                        : (
+                          <LinkSegment>
+                            <Label>
+                              {doc.status}
+                            </Label>
+                            &nbsp;
+                            <Label>
+                              {
+                                dayjs(doc.date).format('MMM. ddd D YYYY')
+                              }
+                            </Label>
+                            &nbsp;
+                            {
+                              dayjs(doc.startTime).format('h:mm A')
+                            }
+                            &nbsp;
+                            -
+                            &nbsp;
+                            {
+                              dayjs(doc.endTime).format('h:mm A')
+                            }
+                          </LinkSegment>
+                        )
                     ))
                   )
                   : <div>No shifts found.</div>
