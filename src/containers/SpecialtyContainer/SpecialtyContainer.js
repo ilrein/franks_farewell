@@ -1,6 +1,7 @@
 import React, {
   useState,
 } from 'react';
+import fetch from 'isomorphic-fetch';
 
 const SpecialtyContainer = ({
   children,
