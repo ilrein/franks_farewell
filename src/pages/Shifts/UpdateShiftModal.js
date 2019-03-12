@@ -69,9 +69,9 @@ const UpdateShiftModal = ({
   const [deleteConfirmIsOpen, setDeleteConfirmIsOpen] = useState(false);
 
   // errors
-  const [roleIsEmptyError, setRoleIsEmptyError] = useState(false);
-  const [startTimeIsEmptyError, setStartTimeEmptyError] = useState(false);
-  const [endTimeIsEmptyError, setEndTimeIsEmptyError] = useState(false);
+  // const [roleIsEmptyError, setRoleIsEmptyError] = useState(false);
+  // const [startTimeIsEmptyError, setStartTimeEmptyError] = useState(false);
+  // const [endTimeIsEmptyError, setEndTimeIsEmptyError] = useState(false);
 
   const updateShift = async () => {
     const DATE = dayjs(date).format('YYYY-MM-D');
@@ -188,7 +188,7 @@ const UpdateShiftModal = ({
                     </label>
                     <TimePicker
                       onChange={value => setStartTime(value)}
-                      error={startTimeIsEmptyError}
+                      // error={startTimeIsEmptyError}
                       value={startTime}
                     />
                   </div>
@@ -200,7 +200,7 @@ const UpdateShiftModal = ({
                     <TimePicker
                       onChange={value => setEndTime(value)}
                       disabled={startTime === null}
-                      error={endTimeIsEmptyError}
+                      // error={endTimeIsEmptyError}
                       value={endTime}
                     />
                   </div>
