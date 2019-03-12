@@ -261,6 +261,7 @@ NewShiftModal.propTypes = {
   cognitoUser: PropTypes.shape().isRequired,
   user: PropTypes.shape().isRequired,
   locations: PropTypes.shape().isRequired,
+  skillsets: PropTypes.shape().isRequired,
   open: PropTypes.bool.isRequired,
   setOpen: PropTypes.func.isRequired,
   onCreateShift: PropTypes.func.isRequired,

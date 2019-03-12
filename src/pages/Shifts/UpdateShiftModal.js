@@ -9,23 +9,23 @@ import {
 import fetch from 'isomorphic-fetch';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { toast } from 'react-toastify';
-import Calendar from 'react-calendar';
-import styled from 'styled-components';
-import dayjs from 'dayjs';
-import isNil from 'ramda/src/isNil';
+// import { toast } from 'react-toastify';
+// import Calendar from 'react-calendar';
+// import styled from 'styled-components';
+// import dayjs from 'dayjs';
+// import isNil from 'ramda/src/isNil';
 // import isEmpty from 'ramda/src/isEmpty';
 
-import fadeIn from '../../anime/fadeIn';
-import TimePicker from '../../components/TimePicker';
+// import fadeIn from '../../anime/fadeIn';
+// import TimePicker from '../../components/TimePicker';
 
 import {
-  API_CREATE_SHIFT,
+  API_DELETE_SHIFT,
 } from '../../constants';
 
-const CalendarContainer = styled.div`
-  animation: ${fadeIn} 1s ease;
-`;
+// const CalendarContainer = styled.div`
+//   animation: ${fadeIn} 1s ease;
+// `;
 
 const formatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
@@ -38,109 +38,37 @@ const UpdateShiftModal = ({
   cognitoUser,
   open,
   setOpen,
-  onCreateShift,
-  locations,
-  skillsets,
+  onDeleteShift,
+  // locations,
+  // skillsets,
   shiftDoc,
 }) => {
   const { companyId } = user;
   const [jwtToken] = useState(cognitoUser.signInUserSession.accessToken.jwtToken);
+  
+  // delete states
+  const [deleting, setDeleting] = useState(false);
+  const [deleteConfirmIsOpen, setDeleteConfirmIsOpen] = useState(false);
 
-  // console.log(shiftDoc); // eslint-disable-line
-
-  // function states
-  const [saving, setSaving] = useState(false);
-  const [locationId, setLocationId] = useState(null);
-  const [role, setRole] = useState(null);
-  const [date, setDate] = useState(new Date());
-  const [startTime, setStartTime] = useState(null);
-  const [endTime, setEndTime] = useState(null);
-  const [duration, setDuration] = useState('');
-
-  // errors
-  const [roleIsEmptyError, setRoleIsEmptyError] = useState(false);
-  const [startTimeIsEmptyError, setStartTimeEmptyError] = useState(false);
-  const [endTimeIsEmptyError, setEndTimeIsEmptyError] = useState(false);
-
-  // for semantic dropdown
-  const formatSemanticOptions = docs => docs.map(doc => ({
-    key: doc._id,
-    value: doc._id,
-    text: doc.name,
-  }));
-
-  const formatSkillsets = docs => docs.map(doc => ({
-    key: doc._id,
-    value: doc._id,
-    text: `${doc.title} - ${formatter.format(doc.payrate)}`,
-  }));
-
-  const submit = async () => {
-    if (isNil(role)) {
-      setRoleIsEmptyError(true);
-      return;
-    }
-    setRoleIsEmptyError(false);
-
-    if (isNil(startTime)) {
-      setStartTimeEmptyError(true);
-      return;
-    }
-    setStartTimeEmptyError(false);
-
-    if (isNil(endTime)) {
-      setEndTimeIsEmptyError(true);
-      return;
-    }
-    setEndTimeIsEmptyError(false);
-
-    setSaving(true);
+  const deleteShift = async () => {
+    setDeleting(true);
     try {
-      const POST = await fetch(API_CREATE_SHIFT, {
-        method: 'POST',
+      const remove = await fetch(API_DELETE_SHIFT(shiftDoc._id), {
+        method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
           'jwt-token': jwtToken,
         },
-        body: JSON.stringify({
-          job: {
-            companyId,
-            locationId,
-            date,
-            startTime,
-            endTime,
-            skillset: role,
-          },
-        }),
       });
-
-      const result = await POST.json();
-      if (result.errors) {
-        toast.error(result.message);
-        setSaving(false);
-        return;
-      }
-      toast.success(`Created shift on: ${date} for ${duration} hours`);
-      onCreateShift();
-      setSaving(false);
+  
+      await remove.json();
+      setDeleting(false);
+      setDeleteConfirmIsOpen(false);
+      onDeleteShift();
     } catch (error) {
       console.log(error); // eslint-disable-line
-      setSaving(false);
-    }
-  };
-
-  const setTime = (type, time) => {
-    const DATE = dayjs().format('YYYY-MM-D');
-    const moment = dayjs(`${DATE} ${time}`);
-    if (type === 'startTime') {
-      setStartTime(moment);
-
-      if (endTime !== null) {
-        setDuration(endTime.diff(moment, 'hour'));
-      }
-    } else if (type === 'endTime') {
-      setEndTime(moment);
-      setDuration(moment.diff(startTime, 'hour'));
+      setDeleting(false);
+      setDeleteConfirmIsOpen(false);
     }
   };
 
@@ -148,119 +76,91 @@ const UpdateShiftModal = ({
     <Modal
       open={open}
     >
-      <Modal.Content>
-        <Form>
-          <Header>
-            Update Shift
-          </Header>
-          <Form.Dropdown
-            label="Location"
-            required
-            placeholder="Select location"
-            fluid
-            search
-            selection
-            options={formatSemanticOptions(locations.docs)}
-            onChange={(event, { value }) => setLocationId(value)}
-          />
+      {
+        shiftDoc
+          ? (
+            <Modal.Content>
+              <Form>
+                <Header>
+                  Update Shift
+                </Header>
+                <Form.Input
+                  disabled
+                  value={shiftDoc.location.name}
+                />
 
-          {
-            locationId
-              && skillsets.totalDocs > 0
-              ? (
-                <>
-                  <Form.Dropdown
-                    label="Role/Position"
-                    required
-                    placeholder="Select role"
-                    fluid
-                    search
-                    selection
-                    options={formatSkillsets(skillsets.docs)}
-                    onChange={(event, { value }) => setRole(value)}
-                    error={roleIsEmptyError}
-                  />
+                <Button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setOpen(false);
+                  }}
+                  // loading={saving}
+                >
+                  Close
+                </Button>
 
+                <Button
+                  type="submit"
+                  primary
+                  // onClick={submit}
+                  // loading={saving}
+                >
+                  Submit
+                </Button>
 
-                  <div className="field">
-                    <label>
-                      Date
-                    </label>
-
-                    <CalendarContainer>
-                      <Calendar
-                        onChange={data => setDate(data)}
-                        value={date}
-                      />
-                    </CalendarContainer>
-                  </div>
-
-                  <Form.Group widths="equal">
-                    <div className="field required">
-                      <label>
-                        Start Time
-                      </label>
-                      <TimePicker
-                        onChange={value => setTime('startTime', value)}
-                        error={startTimeIsEmptyError}
-                      />
-                    </div>
-
-                    <div className="field required">
-                      <label>
-                        End Time
-                      </label>
-                      <TimePicker
-                        onChange={value => setTime('endTime', value)}
-                        disabled={startTime === null}
-                        error={endTimeIsEmptyError}
-                      />
-                    </div>
-
-                    <Form.Input
-                      label="Duration"
-                      disabled
-                      value={duration}
-                    />
-                  </Form.Group>
-                  <Divider />
-                </>
-              )
-              : null
-          }
-
-          <Button
-            onClick={(e) => {
-              e.preventDefault();
-              setOpen(false);
-            }}
-            loading={saving}
-          >
-            Close
-          </Button>
-
-          <Button
-            type="submit"
-            primary
-            onClick={submit}
-            loading={saving}
-          >
-            Submit
-          </Button>
-        </Form>
-      </Modal.Content>
+                <Button
+                  color="red"
+                  onClick={() => setDeleteConfirmIsOpen(true)}
+                  loading={deleting}
+                >
+                  Delete
+                </Button>
+                <Modal
+                  open={deleteConfirmIsOpen}
+                >
+                  <Modal.Content>
+                    <Header>
+                      Are you sure you want to delete this shift?
+                    </Header>
+                  </Modal.Content>
+                  <Modal.Actions>
+                    <Button
+                      loading={deleting}
+                      onClick={() => setDeleteConfirmIsOpen(false)}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      loading={deleting}
+                      onClick={deleteShift}
+                      primary
+                    >
+                      Confirm
+                    </Button>
+                  </Modal.Actions>
+                </Modal>
+              </Form>
+            </Modal.Content>
+          )
+          : null
+      }
     </Modal>
-  )
-}
+  );
+};
 
 UpdateShiftModal.propTypes = {
   cognitoUser: PropTypes.shape().isRequired,
   user: PropTypes.shape().isRequired,
-  locations: PropTypes.shape().isRequired,
-  skillsets: PropTypes.shape().isRequired,
+  // locations: PropTypes.shape().isRequired,
+  // skillsets: PropTypes.shape().isRequired,
+  shiftDoc: PropTypes.shape(),
   open: PropTypes.bool.isRequired,
   setOpen: PropTypes.func.isRequired,
-  onCreateShift: PropTypes.func.isRequired,
+  onDeleteShift: PropTypes.func.isRequired,
+};
+
+UpdateShiftModal.defaultProps = {
+  shiftDoc: {},
 };
 
 export default connect(
