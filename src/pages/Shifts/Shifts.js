@@ -188,11 +188,12 @@ const Shifts = ({
       </CompanyContainer>
     </UserContainer>
   );
-}
+};
 
 Shifts.propTypes = {
   userReducer: PropTypes.shape().isRequired,
   shifts: PropTypes.shape().isRequired,
+  captureShifts: PropTypes.func.isRequired,
 };
 
 export default connect(

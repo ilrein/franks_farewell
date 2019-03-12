@@ -118,7 +118,7 @@ const NewShiftModal = ({
         setSaving(false);
         return;
       }
-      toast.success(`Created shift on: ${date} for ${duration} hours`);
+      toast.success(`Created shift on: ${dayjs(date).format('MMMM D')} for ${duration} hours`);
       onCreateShift();
       setSaving(false);
     } catch (error) {
@@ -178,7 +178,6 @@ const NewShiftModal = ({
                     selection
                     options={formatSkillsets(skillsets.docs)}
                     onChange={(event, { value }) => {
-                      console.log(value, skillsets.docs);
                       setRole(find(propEq('_id', value))(skillsets.docs));
                     }}
                     error={roleIsEmptyError}
