@@ -257,7 +257,7 @@ const UpdateShiftModal = ({
                     <Button
                       loading={deleting}
                       onClick={deleteShift}
-                      primary
+                      color="red"
                     >
                       Confirm
                     </Button>
