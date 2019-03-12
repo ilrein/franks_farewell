@@ -14,7 +14,8 @@ import Calendar from 'react-calendar';
 import styled from 'styled-components';
 import dayjs from 'dayjs';
 import isNil from 'ramda/src/isNil';
-import isEmpty from 'ramda/src/isEmpty';
+import find from 'ramda/src/find';
+import propEq from 'ramda/src/propEq';
 
 import fadeIn from '../../anime/fadeIn';
 import TimePicker from '../../components/TimePicker';
@@ -46,7 +47,7 @@ const NewShiftModal = ({
   const [jwtToken] = useState(cognitoUser.signInUserSession.accessToken.jwtToken);
 
   const [saving, setSaving] = useState(false);
-  const [locationId, setLocationId] = useState(null);
+  const [location, setLocation] = useState(null);
   const [role, setRole] = useState(null);
   const [date, setDate] = useState(new Date());
   const [startTime, setStartTime] = useState(null);
@@ -91,6 +92,8 @@ const NewShiftModal = ({
 
     setSaving(true);
     try {
+      const { address, name, _id } = location;
+
       const POST = await fetch(API_CREATE_SHIFT, {
         method: 'POST',
         headers: {
@@ -100,7 +103,11 @@ const NewShiftModal = ({
         body: JSON.stringify({
           job: {
             companyId,
-            locationId,
+            location: {
+              address,
+              name,
+              _id,
+            },
             date,
             startTime,
             endTime,
@@ -137,7 +144,7 @@ const NewShiftModal = ({
       setEndTime(moment);
       setDuration(moment.diff(startTime, 'hour'));
     }
-  };  
+  };
 
   return (
     <Modal
@@ -156,11 +163,13 @@ const NewShiftModal = ({
             search
             selection
             options={formatSemanticOptions(locations.docs)}
-            onChange={(event, { value }) => setLocationId(value)}
+            onChange={(event, { value }) => {
+              setLocation(find(propEq('_id', value))(locations.docs));
+            }}
           />
 
           {
-            locationId
+            location
             && skillsets.totalDocs > 0
               ? (
                 <>

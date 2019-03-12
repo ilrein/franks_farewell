@@ -14,7 +14,7 @@ import Calendar from 'react-calendar';
 import styled from 'styled-components';
 import dayjs from 'dayjs';
 import isNil from 'ramda/src/isNil';
-import isEmpty from 'ramda/src/isEmpty';
+// import isEmpty from 'ramda/src/isEmpty';
 
 import fadeIn from '../../anime/fadeIn';
 import TimePicker from '../../components/TimePicker';
@@ -46,7 +46,7 @@ const UpdateShiftModal = ({
   const { companyId } = user;
   const [jwtToken] = useState(cognitoUser.signInUserSession.accessToken.jwtToken);
 
-  console.log(shiftDoc); // eslint-disable-line
+  // console.log(shiftDoc); // eslint-disable-line
 
   // function states
   const [saving, setSaving] = useState(false);

@@ -113,6 +113,7 @@ const Shifts = ({
                       doc.status === 'PENDING'
                         ? (
                           <LinkSegment
+                            key={doc._id}
                             onClick={() => {
                               setOpenUpdate(true);
                               setCurrentDoc(doc);
