@@ -9,7 +9,7 @@ import { arrayOfHours } from './utils';
 const TimePicker = ({
   placeholder,
   onChange,
-  ...restProps,
+  ...restProps
 }) => {
   const format = args => args.map((arg, index) => ({
     key: index,

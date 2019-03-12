@@ -15,9 +15,12 @@ import styled from 'styled-components';
 import dayjs from 'dayjs';
 // import isNil from 'ramda/src/isNil';
 // import isEmpty from 'ramda/src/isEmpty';
+import find from 'ramda/src/find';
+import propEq from 'ramda/src/propEq';
 
 import fadeIn from '../../anime/fadeIn';
 import TimePicker from '../../components/TimePicker';
+import currencyFormatter from '../../utils/currencyFormatter';
 
 import {
   API_UPDATE_SHIFT,
@@ -33,18 +36,12 @@ const CalendarContainer = styled.div`
   margin-bottom: 1rem;
 `;
 
-// const formatter = new Intl.NumberFormat('en-US', {
-//   style: 'currency',
-//   currency: 'USD',
-//   minimumFractionDigits: 2,
-// });
-
 const UpdateShiftModal = ({
   cognitoUser,
   open,
   setOpen,
   // locations,
-  // skillsets,
+  skillsets,
   shiftDoc,
   refreshList,
 }) => {
@@ -62,7 +59,8 @@ const UpdateShiftModal = ({
     if (shiftDoc) {
       console.log(shiftDoc); // eslint-disable-line
       setDate(dayjs(shiftDoc.date).toDate());
-      // setStart(shiftDoc)
+      setStartTime(dayjs(shiftDoc.startTime).format('h:mm A'));
+      setEndTime(dayjs(shiftDoc.endTime).format('h:mm A'));
     }
   }, [shiftDoc]);
   
@@ -76,6 +74,9 @@ const UpdateShiftModal = ({
   const [endTimeIsEmptyError, setEndTimeIsEmptyError] = useState(false);
 
   const updateShift = async () => {
+    const DATE = dayjs(date).format('YYYY-MM-D');
+    const start = dayjs(`${DATE} ${startTime}`).toDate();
+    const end = dayjs(`${DATE} ${endTime}`).toDate();
     setUpdating(true);
     try {
       const update = await fetch(API_UPDATE_SHIFT(shiftDoc._id), {
@@ -87,6 +88,9 @@ const UpdateShiftModal = ({
         body: JSON.stringify({
           job: {
             date,
+            startTime: start,
+            endTime: end,
+            duration,
           },
         }),
       });
@@ -124,20 +128,22 @@ const UpdateShiftModal = ({
     }
   };
 
-  const setTime = (type, time) => {
-    const DATE = dayjs().format('YYYY-MM-D');
-    const moment = dayjs(`${DATE} ${time}`);
-    if (type === 'startTime') {
-      setStartTime(moment);
+  /**
+   * Update duration whenever startTime or endTime changes
+   */
+  useEffect(() => {
+    const DATE = dayjs(date).format('YYYY-MM-D');
+    const start = dayjs(`${DATE} ${startTime}`);
+    const end = dayjs(`${DATE} ${endTime}`);
 
-      if (endTime !== null) {
-        setDuration(endTime.diff(moment, 'hour'));
-      }
-    } else if (type === 'endTime') {
-      setEndTime(moment);
-      setDuration(moment.diff(startTime, 'hour'));
-    }
-  };
+    setDuration(end.diff(start, 'hour'));
+  }, [startTime, endTime]);
+
+  const formatSkillsets = docs => docs.map(doc => ({
+    key: doc._id,
+    value: doc._id,
+    text: `${doc.title} - ${currencyFormatter.format(doc.payrate)}`,
+  }));
 
   return (
     <ModalWrapper
@@ -156,10 +162,17 @@ const UpdateShiftModal = ({
                   value={shiftDoc.location.name}
                 />
 
-                {/* <Form.Input
+                <Form.Dropdown
+                  label="Role/Position"
+                  required
+                  placeholder="Select role"
+                  fluid
+                  search
+                  selection
+                  options={formatSkillsets(skillsets.docs)}
                   disabled
-                  value={shiftDoc.location.name}
-                /> */}
+                  value={shiftDoc.skillset._id}
+                />
 
                 <CalendarContainer>
                   <Calendar
@@ -174,8 +187,9 @@ const UpdateShiftModal = ({
                       Start Time
                     </label>
                     <TimePicker
-                      onChange={value => setTime('startTime', value)}
+                      onChange={value => setStartTime(value)}
                       error={startTimeIsEmptyError}
+                      value={startTime}
                     />
                   </div>
 
@@ -184,9 +198,10 @@ const UpdateShiftModal = ({
                       End Time
                     </label>
                     <TimePicker
-                      onChange={value => setTime('endTime', value)}
+                      onChange={value => setEndTime(value)}
                       disabled={startTime === null}
                       error={endTimeIsEmptyError}
+                      value={endTime}
                     />
                   </div>
 

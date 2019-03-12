@@ -19,6 +19,7 @@ import propEq from 'ramda/src/propEq';
 
 import fadeIn from '../../anime/fadeIn';
 import TimePicker from '../../components/TimePicker';
+import currencyFormatter from '../../utils/currencyFormatter';
 
 import {
   API_CREATE_SHIFT,
@@ -27,12 +28,6 @@ import {
 const CalendarContainer = styled.div`
   animation: ${fadeIn} 1s ease;
 `;
-
-const formatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
-  minimumFractionDigits: 2,
-});
 
 const NewShiftModal = ({
   user,
@@ -68,7 +63,7 @@ const NewShiftModal = ({
   const formatSkillsets = docs => docs.map(doc => ({
     key: doc._id,
     value: doc._id,
-    text: `${doc.title} - ${formatter.format(doc.payrate)}`,
+    text: `${doc.title} - ${currencyFormatter.format(doc.payrate)}`,
   }));
 
   const submit = async () => {
@@ -112,6 +107,7 @@ const NewShiftModal = ({
             date,
             startTime,
             endTime,
+            duration,
           },
         }),
       });
@@ -187,7 +183,6 @@ const NewShiftModal = ({
                     }}
                     error={roleIsEmptyError}
                   />
-
 
                   <div className="field">
                     <label>
