@@ -16,6 +16,7 @@ import {
   API_GET_SHIFTS,
   CAPTURE_SHIFTS,
 } from '../../constants';
+import UserContainer from '../../containers/UserContainer';
 import LocationsContainer from '../../containers/LocationsContainer';
 import ShiftsContainer from '../../containers/ShiftsContainer';
 import SkillsetsContainer from '../../containers/SkillsetsContainer';
@@ -76,89 +77,111 @@ const Shifts = ({
   };
 
   return (
-    <LocationsContainer>
-      <ShiftsContainer>
-        <SkillsetsContainer>
-          <Wrapper>
-            <Nav>
-              <Header>
-                Shifts
-              </Header>
+    <UserContainer>
+      <LocationsContainer>
+        <ShiftsContainer>
+          <SkillsetsContainer>
+            <Wrapper>
+              <Nav>
+                <Header>
+                  Shifts
+                </Header>
 
-              <Button
-                color="green"
-                icon="plus"
-                labelPosition="left"
-                content="New Shift"
-                onClick={() => setOpen(true)}
-              />
-              <NewShiftModal
-                open={open}
-                setOpen={setOpen}
-                onCreateShift={refreshList}
-              />
-              <UpdateShiftModal
-                open={openUpdate}
-                setOpen={setOpenUpdate}
-                onDeleteShift={refreshList}
-                shiftDoc={currentDoc}
-              />
-            </Nav>
-            <Divider />
-            <div>
-              {
-                shifts.docs.length > 0
-                  ? (
-                    shifts.docs.map(doc => (
-                      <LinkSegment
-                        key={doc._id}
-                        onClick={() => {
-                          setOpenUpdate(true);
-                          setCurrentDoc(doc);
-                        }}
-                      >
-                        <Label>
-                          Created:
-                          &nbsp;
-                          {dayjs(doc.createdOn).format('MMM. ddd YYYY @ h:mm A')}
-                        </Label>
-                        <Label
-                          color="yellow"
+                <Button
+                  color="green"
+                  icon="plus"
+                  labelPosition="left"
+                  content="New Shift"
+                  onClick={() => setOpen(true)}
+                />
+                <NewShiftModal
+                  open={open}
+                  setOpen={setOpen}
+                  onCreateShift={refreshList}
+                />
+                <UpdateShiftModal
+                  open={openUpdate}
+                  setOpen={setOpenUpdate}
+                  refreshList={refreshList}
+                  shiftDoc={currentDoc}
+                />
+              </Nav>
+              <Divider />
+              <div>
+                {
+                  shifts.docs.length > 0
+                    ? (
+                      shifts.docs.map(doc => (
+                        <LinkSegment
+                          key={doc._id}
+                          onClick={() => {
+                            setOpenUpdate(true);
+                            setCurrentDoc(doc);
+                          }}
                         >
-                          {doc.status}
-                        </Label>
-                        &nbsp;
-                        <Label>
-                          On:
+                          <Label
+                            color="yellow"
+                            size="large"
+                          >
+                            Status:
+                            &nbsp;
+                            {doc.status}
+                          </Label>
                           &nbsp;
-                          {
-                            dayjs(doc.date).format('MMM. ddd D YYYY')
-                          }
-                        </Label>
-                        &nbsp;
-                        <Label>
-                          From:
+                          <Label
+                            color="blue"
+                            size="large"
+                          >
+                            On:
+                            &nbsp;
+                            {
+                              dayjs(doc.date).format('MMM. D/YY')
+                            }
+                          </Label>
                           &nbsp;
-                          {
-                            dayjs(doc.startTime).format('h:mm A')
-                          }
+                          <Label
+                            color="teal"
+                            size="large"
+                          >
+                            From:
+                            &nbsp;
+                            {
+                              dayjs(doc.startTime).format('h:mm A')
+                            }
+                            &nbsp;
+                            -
+                            &nbsp;
+                            {
+                              dayjs(doc.endTime).format('h:mm A')
+                            }
+                          </Label>
                           &nbsp;
-                          -
+                          <Label
+                            size="large"
+                          >
+                            Updated:
+                            &nbsp;
+                            {dayjs(doc.updatedOn).format('MMM. D/YY @ h:mm A')}
+                          </Label>
                           &nbsp;
-                          {
-                            dayjs(doc.endTime).format('h:mm A')
-                          }
-                        </Label>
-                      </LinkSegment>
-                    ))
-                  )
-                  : <div>No shifts found.</div>
-              }
-            </div>
-          </Wrapper>
-        </SkillsetsContainer>
-      </ShiftsContainer>
-    </LocationsContainer>
+                          <Label
+                            size="large"
+                          >
+                            Created:
+                            &nbsp;
+                            {dayjs(doc.createdOn).format('MMM. D/YY @ h:mm A')}
+                          </Label>
+                        </LinkSegment>
+                      ))
+                    )
+                    : <div>No shifts found.</div>
+                }
+              </div>
+            </Wrapper>
+          </SkillsetsContainer>
+        </ShiftsContainer>
+      </LocationsContainer>
+    </UserContainer>
   );
 }
 

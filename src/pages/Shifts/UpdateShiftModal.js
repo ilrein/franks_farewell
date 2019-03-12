@@ -4,7 +4,7 @@ import {
   Header,
   Button,
   Modal,
-  Divider,
+  // Divider,
 } from 'semantic-ui-react';
 import fetch from 'isomorphic-fetch';
 import { connect } from 'react-redux';
@@ -17,7 +17,7 @@ import dayjs from 'dayjs';
 // import isEmpty from 'ramda/src/isEmpty';
 
 import fadeIn from '../../anime/fadeIn';
-// import TimePicker from '../../components/TimePicker';
+import TimePicker from '../../components/TimePicker';
 
 import {
   API_UPDATE_SHIFT,
@@ -36,26 +36,29 @@ const CalendarContainer = styled.div`
 // });
 
 const UpdateShiftModal = ({
-  user,
   cognitoUser,
   open,
   setOpen,
   // locations,
   // skillsets,
   shiftDoc,
-  onDeleteShift,
+  refreshList,
 }) => {
-  const { companyId } = user;
   const [jwtToken] = useState(cognitoUser.signInUserSession.accessToken.jwtToken);
 
   // update states
   const [updating, setUpdating] = useState(false);
   const [date, setDate] = useState(new Date());
+  const [startTime, setStartTime] = useState(null);
+  const [endTime, setEndTime] = useState(null);
+  const [duration, setDuration] = useState('');
 
+  // Calendar expects a native datetime object
   useEffect(() => {
     if (shiftDoc) {
       console.log(shiftDoc); // eslint-disable-line
       setDate(dayjs(shiftDoc.date).toDate());
+      // setStart(shiftDoc)
     }
   }, [shiftDoc]);
   
@@ -63,28 +66,34 @@ const UpdateShiftModal = ({
   const [deleting, setDeleting] = useState(false);
   const [deleteConfirmIsOpen, setDeleteConfirmIsOpen] = useState(false);
 
-  const updateShift = async () => {
-    console.log(date);
-    // setUpdating(true);
-    // try {
-    //   const update = await fetch(API_UPDATE_SHIFT(shiftDoc._id), {
-    //     method: 'PUT',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       'jwt-token': jwtToken,
-    //     },
-    //     body: JSON.stringify({
-    //       job: {
+  // errors
+  const [roleIsEmptyError, setRoleIsEmptyError] = useState(false);
+  const [startTimeIsEmptyError, setStartTimeEmptyError] = useState(false);
+  const [endTimeIsEmptyError, setEndTimeIsEmptyError] = useState(false);
 
-    //       },
-    //     }),
-    //   });
-    //   const updateResult = await update.json();
-    //   console.log(updateResult);
-    //   setUpdating(false);
-    // } catch (error) {
-    //   console.log(error); // eslint-disable-line
-    // }
+  const updateShift = async () => {
+    setUpdating(true);
+    try {
+      const update = await fetch(API_UPDATE_SHIFT(shiftDoc._id), {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'jwt-token': jwtToken,
+        },
+        body: JSON.stringify({
+          job: {
+            date,
+          },
+        }),
+      });
+      await update.json();
+      setUpdating(false);
+      refreshList();
+      toast.success('Updated shift successfully');
+      setOpen(false);
+    } catch (error) {
+      console.log(error); // eslint-disable-line
+    }
   };
 
   const deleteShift = async () => {
@@ -102,12 +111,27 @@ const UpdateShiftModal = ({
       setDeleting(false);
       setDeleteConfirmIsOpen(false);
       setOpen(false);
-      onDeleteShift();
+      refreshList();
       toast.success('Deleted shift');
     } catch (error) {
       console.log(error); // eslint-disable-line
       setDeleting(false);
       setDeleteConfirmIsOpen(false);
+    }
+  };
+
+  const setTime = (type, time) => {
+    const DATE = dayjs().format('YYYY-MM-D');
+    const moment = dayjs(`${DATE} ${time}`);
+    if (type === 'startTime') {
+      setStartTime(moment);
+
+      if (endTime !== null) {
+        setDuration(endTime.diff(moment, 'hour'));
+      }
+    } else if (type === 'endTime') {
+      setEndTime(moment);
+      setDuration(moment.diff(startTime, 'hour'));
     }
   };
 
@@ -128,12 +152,46 @@ const UpdateShiftModal = ({
                   value={shiftDoc.location.name}
                 />
 
+                {/* <Form.Input
+                  disabled
+                  value={shiftDoc.location.name}
+                /> */}
+
                 <CalendarContainer>
                   <Calendar
                     onChange={data => setDate(data)}
                     value={date}
                   />
                 </CalendarContainer>
+
+                <Form.Group widths="equal">
+                  <div className="field required">
+                    <label>
+                      Start Time
+                    </label>
+                    <TimePicker
+                      onChange={value => setTime('startTime', value)}
+                      error={startTimeIsEmptyError}
+                    />
+                  </div>
+
+                  <div className="field required">
+                    <label>
+                      End Time
+                    </label>
+                    <TimePicker
+                      onChange={value => setTime('endTime', value)}
+                      disabled={startTime === null}
+                      error={endTimeIsEmptyError}
+                    />
+                  </div>
+
+                  <Form.Input
+                    label="Duration"
+                    disabled
+                    value={duration}
+                  />
+                </Form.Group>
 
                 <Button
                   onClick={(e) => {
@@ -197,13 +255,13 @@ const UpdateShiftModal = ({
 
 UpdateShiftModal.propTypes = {
   cognitoUser: PropTypes.shape().isRequired,
-  user: PropTypes.shape().isRequired,
+  // user: PropTypes.shape().isRequired,
   // locations: PropTypes.shape().isRequired,
   // skillsets: PropTypes.shape().isRequired,
   shiftDoc: PropTypes.shape(),
   open: PropTypes.bool.isRequired,
   setOpen: PropTypes.func.isRequired,
-  onDeleteShift: PropTypes.func.isRequired,
+  refreshList: PropTypes.func.isRequired,
 };
 
 UpdateShiftModal.defaultProps = {
@@ -218,7 +276,7 @@ export default connect(
     skillsets,
   }) => ({
     cognitoUser: userReducer.cognitoUser,
-    user: userReducer.user,
+    // user: userReducer.user,
     shifts,
     locations,
     skillsets,
