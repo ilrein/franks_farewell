@@ -123,58 +123,78 @@ const Shifts = ({
                               setCurrentDoc(doc);
                             }}
                           >
-                            <Label
-                              color="yellow"
-                              size="large"
-                            >
-                              Status:
+                            <Label.Group>
+                              <Label
+                                color="yellow"
+                                size="large"
+                              >
+                                Status:
+                                &nbsp;
+                                {doc.status}
+                              </Label>
                               &nbsp;
-                              {doc.status}
-                            </Label>
-                            &nbsp;
-                            <Label
-                              color="blue"
-                              size="large"
-                            >
-                              On:
+                              <Label
+                                color="blue"
+                                size="large"
+                              >
+                                On:
+                                &nbsp;
+                                {
+                                  dayjs(doc.date).format('MMM. D/YY')
+                                }
+                              </Label>
                               &nbsp;
-                              {
-                                dayjs(doc.date).format('MMM. D/YY')
-                              }
-                            </Label>
-                            &nbsp;
-                            <Label
-                              color="teal"
-                              size="large"
-                            >
-                              From:
+                              <Label
+                                color="teal"
+                                size="large"
+                              >
+                                From:
+                                &nbsp;
+                                {
+                                  dayjs(doc.startTime).format('h:mm A')
+                                }
+                                &nbsp;
+                                -
+                                &nbsp;
+                                {
+                                  dayjs(doc.endTime).format('h:mm A')
+                                }
+                              </Label>
                               &nbsp;
-                              {
-                                dayjs(doc.startTime).format('h:mm A')
-                              }
+                              <Label
+                                size="large"
+                                color="olive"
+                              >
+                                Location:
+                                &nbsp;
+                                {doc.location.name}
+                              </Label>
                               &nbsp;
-                              -
+                              <Label
+                                size="large"
+                                color="purple"
+                              >
+                                Role:
+                                &nbsp;
+                                {doc.skillset.title}
+                              </Label>
                               &nbsp;
-                              {
-                                dayjs(doc.endTime).format('h:mm A')
-                              }
-                            </Label>
-                            &nbsp;
-                            <Label
-                              size="large"
-                            >
-                              Updated:
+                              <Label
+                                size="large"
+                              >
+                                Updated:
+                                &nbsp;
+                                {dayjs(doc.updatedOn).format('MMM. D/YY @ h:mm A')}
+                              </Label>
                               &nbsp;
-                              {dayjs(doc.updatedOn).format('MMM. D/YY @ h:mm A')}
-                            </Label>
-                            &nbsp;
-                            <Label
-                              size="large"
-                            >
-                              Created:
-                              &nbsp;
-                              {dayjs(doc.createdOn).format('MMM. D/YY @ h:mm A')}
-                            </Label>
+                              <Label
+                                size="large"
+                              >
+                                Created:
+                                &nbsp;
+                                {dayjs(doc.createdOn).format('MMM. D/YY @ h:mm A')}
+                              </Label>
+                            </Label.Group>
                           </LinkSegment>
                         ))
                       )
