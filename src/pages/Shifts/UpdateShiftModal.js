@@ -20,6 +20,7 @@ import fadeIn from '../../anime/fadeIn';
 // import TimePicker from '../../components/TimePicker';
 
 import {
+  API_UPDATE_SHIFT,
   API_DELETE_SHIFT,
 } from '../../constants';
 
@@ -45,13 +46,33 @@ const UpdateShiftModal = ({
 }) => {
   const { companyId } = user;
   const [jwtToken] = useState(cognitoUser.signInUserSession.accessToken.jwtToken);
+
+  // update states
+  const [updating, setUpdating] = useState(false);
   
   // delete states
   const [deleting, setDeleting] = useState(false);
   const [deleteConfirmIsOpen, setDeleteConfirmIsOpen] = useState(false);
 
-  // update states
-  const [updating, setUpdating] = useState(false);
+  const updateShift = async () => {
+    setUpdating(true);
+    try {
+      const update = await fetch(API_DELETE_SHIFT(shiftDoc._id), {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'jwt-token': jwtToken,
+        },
+        body: JSON.stringify({
+
+        }),
+      });
+      const updateResult = await update.json();
+      console.log(updateResult);
+    } catch (error) {
+      console.log(error); // eslint-disable-line
+    }
+  };
 
   const deleteShift = async () => {
     setDeleting(true);
@@ -107,7 +128,7 @@ const UpdateShiftModal = ({
                 <Button
                   type="submit"
                   primary
-                  // onClick={submit}
+                  onClick={updateShift}
                   loading={updating}
                 >
                   Submit
