@@ -108,10 +108,10 @@ const NewShiftModal = ({
               name,
               _id,
             },
+            skillset: role,
             date,
             startTime,
             endTime,
-            skillset: role,
           },
         }),
       });
@@ -181,7 +181,10 @@ const NewShiftModal = ({
                     search
                     selection
                     options={formatSkillsets(skillsets.docs)}
-                    onChange={(event, { value }) => setRole(value)}
+                    onChange={(event, { value }) => {
+                      console.log(value, skillsets.docs);
+                      setRole(find(propEq('_id', value))(skillsets.docs));
+                    }}
                     error={roleIsEmptyError}
                   />
 

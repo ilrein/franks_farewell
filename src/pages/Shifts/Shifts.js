@@ -16,6 +16,7 @@ import {
   API_GET_SHIFTS,
   CAPTURE_SHIFTS,
 } from '../../constants';
+import fadeIn from '../../anime/fadeIn';
 import UserContainer from '../../containers/UserContainer';
 import LocationsContainer from '../../containers/LocationsContainer';
 import ShiftsContainer from '../../containers/ShiftsContainer';
@@ -35,6 +36,7 @@ const Nav = styled.div`
 `;
 
 const LinkSegment = styled(Segment)`
+  animation: ${fadeIn} 1s ease;
   &:hover {
     cursor: pointer;
     background-color: aliceblue !important;

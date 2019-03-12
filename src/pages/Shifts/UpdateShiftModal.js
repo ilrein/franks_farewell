@@ -24,6 +24,10 @@ import {
   API_DELETE_SHIFT,
 } from '../../constants';
 
+const ModalWrapper = styled(Modal)`
+  animation: ${fadeIn} 1s ease;
+`;
+
 const CalendarContainer = styled.div`
   animation: ${fadeIn} 1s ease;
   margin-bottom: 1rem;
@@ -136,7 +140,7 @@ const UpdateShiftModal = ({
   };
 
   return (
-    <Modal
+    <ModalWrapper
       open={open}
     >
       {
@@ -249,7 +253,7 @@ const UpdateShiftModal = ({
           )
           : null
       }
-    </Modal>
+    </ModalWrapper>
   );
 };
 
