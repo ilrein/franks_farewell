@@ -9,23 +9,23 @@ import {
 import fetch from 'isomorphic-fetch';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-// import { toast } from 'react-toastify';
-// import Calendar from 'react-calendar';
-// import styled from 'styled-components';
+import { toast } from 'react-toastify';
+import Calendar from 'react-calendar';
+import styled from 'styled-components';
 // import dayjs from 'dayjs';
 // import isNil from 'ramda/src/isNil';
 // import isEmpty from 'ramda/src/isEmpty';
 
-// import fadeIn from '../../anime/fadeIn';
+import fadeIn from '../../anime/fadeIn';
 // import TimePicker from '../../components/TimePicker';
 
 import {
   API_DELETE_SHIFT,
 } from '../../constants';
 
-// const CalendarContainer = styled.div`
-//   animation: ${fadeIn} 1s ease;
-// `;
+const CalendarContainer = styled.div`
+  animation: ${fadeIn} 1s ease;
+`;
 
 const formatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
@@ -38,10 +38,10 @@ const UpdateShiftModal = ({
   cognitoUser,
   open,
   setOpen,
-  onDeleteShift,
   // locations,
   // skillsets,
   shiftDoc,
+  onDeleteShift,
 }) => {
   const { companyId } = user;
   const [jwtToken] = useState(cognitoUser.signInUserSession.accessToken.jwtToken);
@@ -49,6 +49,9 @@ const UpdateShiftModal = ({
   // delete states
   const [deleting, setDeleting] = useState(false);
   const [deleteConfirmIsOpen, setDeleteConfirmIsOpen] = useState(false);
+
+  // update states
+  const [updating, setUpdating] = useState(false);
 
   const deleteShift = async () => {
     setDeleting(true);
@@ -64,7 +67,9 @@ const UpdateShiftModal = ({
       await remove.json();
       setDeleting(false);
       setDeleteConfirmIsOpen(false);
+      setOpen(false);
       onDeleteShift();
+      toast.success('Deleted shift');
     } catch (error) {
       console.log(error); // eslint-disable-line
       setDeleting(false);
@@ -94,7 +99,7 @@ const UpdateShiftModal = ({
                     e.preventDefault();
                     setOpen(false);
                   }}
-                  // loading={saving}
+                  loading={updating}
                 >
                   Close
                 </Button>
@@ -103,7 +108,7 @@ const UpdateShiftModal = ({
                   type="submit"
                   primary
                   // onClick={submit}
-                  // loading={saving}
+                  loading={updating}
                 >
                   Submit
                 </Button>
@@ -115,6 +120,7 @@ const UpdateShiftModal = ({
                 >
                   Delete
                 </Button>
+
                 <Modal
                   open={deleteConfirmIsOpen}
                 >

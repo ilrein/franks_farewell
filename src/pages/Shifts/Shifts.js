@@ -70,7 +70,7 @@ const Shifts = ({
     }
   };
 
-  const onCreateShift = () => {
+  const refreshList = () => {
     setOpen(false);
     getShifts();
   };
@@ -95,13 +95,12 @@ const Shifts = ({
               <NewShiftModal
                 open={open}
                 setOpen={setOpen}
-                onCreateShift={onCreateShift}
+                onCreateShift={refreshList}
               />
               <UpdateShiftModal
                 open={openUpdate}
                 setOpen={setOpenUpdate}
-                onCreateShift={onCreateShift}
-                onDeleteShift={onCreateShift}
+                onDeleteShift={refreshList}
                 shiftDoc={currentDoc}
               />
             </Nav>
