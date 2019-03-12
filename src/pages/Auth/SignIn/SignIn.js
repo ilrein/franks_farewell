@@ -30,10 +30,6 @@ class SignIn extends Component {
     errorMsg: null,
   }
 
-  componentDidMount() {
-    //
-  }
-
   setValue = ({ name, value }) => this.setState(prevState => ({
     ...prevState,
     [name]: value,

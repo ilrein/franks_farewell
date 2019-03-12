@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Form,
   Header,
@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import Calendar from 'react-calendar';
 import styled from 'styled-components';
-// import dayjs from 'dayjs';
+import dayjs from 'dayjs';
 // import isNil from 'ramda/src/isNil';
 // import isEmpty from 'ramda/src/isEmpty';
 
@@ -26,13 +26,14 @@ import {
 
 const CalendarContainer = styled.div`
   animation: ${fadeIn} 1s ease;
+  margin-bottom: 1rem;
 `;
 
-const formatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
-  minimumFractionDigits: 2,
-});
+// const formatter = new Intl.NumberFormat('en-US', {
+//   style: 'currency',
+//   currency: 'USD',
+//   minimumFractionDigits: 2,
+// });
 
 const UpdateShiftModal = ({
   user,
@@ -49,29 +50,41 @@ const UpdateShiftModal = ({
 
   // update states
   const [updating, setUpdating] = useState(false);
+  const [date, setDate] = useState(new Date());
+
+  useEffect(() => {
+    if (shiftDoc) {
+      console.log(shiftDoc); // eslint-disable-line
+      setDate(dayjs(shiftDoc.date).toDate());
+    }
+  }, [shiftDoc]);
   
   // delete states
   const [deleting, setDeleting] = useState(false);
   const [deleteConfirmIsOpen, setDeleteConfirmIsOpen] = useState(false);
 
   const updateShift = async () => {
-    setUpdating(true);
-    try {
-      const update = await fetch(API_DELETE_SHIFT(shiftDoc._id), {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'jwt-token': jwtToken,
-        },
-        body: JSON.stringify({
+    console.log(date);
+    // setUpdating(true);
+    // try {
+    //   const update = await fetch(API_UPDATE_SHIFT(shiftDoc._id), {
+    //     method: 'PUT',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //       'jwt-token': jwtToken,
+    //     },
+    //     body: JSON.stringify({
+    //       job: {
 
-        }),
-      });
-      const updateResult = await update.json();
-      console.log(updateResult);
-    } catch (error) {
-      console.log(error); // eslint-disable-line
-    }
+    //       },
+    //     }),
+    //   });
+    //   const updateResult = await update.json();
+    //   console.log(updateResult);
+    //   setUpdating(false);
+    // } catch (error) {
+    //   console.log(error); // eslint-disable-line
+    // }
   };
 
   const deleteShift = async () => {
@@ -114,6 +127,13 @@ const UpdateShiftModal = ({
                   disabled
                   value={shiftDoc.location.name}
                 />
+
+                <CalendarContainer>
+                  <Calendar
+                    onChange={data => setDate(data)}
+                    value={date}
+                  />
+                </CalendarContainer>
 
                 <Button
                   onClick={(e) => {

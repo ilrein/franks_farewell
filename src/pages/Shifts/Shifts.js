@@ -136,15 +136,19 @@ const Shifts = ({
                           }
                         </Label>
                         &nbsp;
-                        {
-                          dayjs(doc.startTime).format('h:mm A')
-                        }
-                        &nbsp;
-                        -
-                        &nbsp;
-                        {
-                          dayjs(doc.endTime).format('h:mm A')
-                        }
+                        <Label>
+                          From:
+                          &nbsp;
+                          {
+                            dayjs(doc.startTime).format('h:mm A')
+                          }
+                          &nbsp;
+                          -
+                          &nbsp;
+                          {
+                            dayjs(doc.endTime).format('h:mm A')
+                          }
+                        </Label>
                       </LinkSegment>
                     ))
                   )
