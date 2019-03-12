@@ -64,7 +64,13 @@ const NewLocationModal = ({
       open={open}
     >
       <Modal.Content>
-        <Form>
+        <Form
+          onKeyPress={(event) => {
+            if (event.which === 13) {
+              event.preventDefault();
+            }
+          }}
+        >
           <Header>
             New Location
           </Header>

@@ -19,16 +19,12 @@ const SkillsetContainer = ({
   userReducer,
   captureSkills,
 }) => {
-  const { user, cognitoUser } = userReducer;
-  const { companyId } = user;
+  const { cognitoUser } = userReducer;
   const [jwtToken] = useState(cognitoUser.signInUserSession.accessToken.jwtToken);
-  /**
-   * Check for locations
-   * @param { companyId } String
-   */
+  
   const getSkills = async () => {
     try {
-      const data = await fetch(`${API_GET_SKILLSETS}?companyId=${companyId}`, {
+      const data = await fetch(`${API_GET_SKILLSETS}`, {
         headers: {
           'Content-Type': 'application/json',
           'jwt-token': jwtToken,
