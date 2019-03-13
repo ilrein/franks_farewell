@@ -2,7 +2,8 @@
   "extends": "airbnb",
   "parser": "babel-eslint",
   "globals": {
-    "window": true
+    "window": true,
+    "localStorage": true
   },
   "rules": {
     "no-console": 1,

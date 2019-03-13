@@ -54,6 +54,7 @@ class MainLayout extends Component {
   logout = (history) => {
     Auth.signOut()
       .then(() => {
+        localStorage.clear();
         toast.info('Signed out');
         history.push('/');
       });
