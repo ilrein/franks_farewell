@@ -27,8 +27,14 @@ const ShiftsContainer = ({
    */
   const getShifts = async () => {
     const { companyId } = user;
+    let URL;
+    if (companyId !== null) {
+      URL = `${API_GET_SHIFTS}?companyId=${companyId}`;
+    } else {
+      URL = `${API_GET_SHIFTS}`;
+    }
     try {
-      const data = await fetch(`${API_GET_SHIFTS}?companyId=${companyId}`, {
+      const data = await fetch(URL, {
         headers: {
           'Content-Type': 'application/json',
           'jwt-token': jwtToken,

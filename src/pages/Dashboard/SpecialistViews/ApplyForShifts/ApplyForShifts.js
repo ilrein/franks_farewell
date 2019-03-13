@@ -1,13 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import {
+  Divider,
+  Header,
+  Message,
+  Table,
+} from 'semantic-ui-react';
 
 import ShiftsContainer from '../../../../containers/ShiftsContainer';
 
 const Wrapper = styled.div`
   padding: 1rem 0;
 `;
+
+const Body = styled.div``;
 /**
  * Check if a user is approved
  * before being able to view shifts
@@ -17,13 +25,62 @@ const ApplyForShifts = ({
   cognitoUser,
   user,
   shifts,
-}) => (
-  <ShiftsContainer>
-    <Wrapper>
-      ApplyForShifts
-    </Wrapper>
-  </ShiftsContainer>
-);
+}) => {
+  const [open, setOpen] = useState(false);
+  console.log(shifts);
+
+  return (
+    <ShiftsContainer>
+      <Wrapper>
+        <Header>
+          Shift Feed
+        </Header>
+        <Divider />
+        <Body>
+          {
+            !user.approved
+              ? (
+                <Message info>
+                  Your account is not approved yet.
+                </Message>
+              )
+              : (
+                <Table>
+                  <Table.Header>
+                    <Table.Row>
+                      <Table.HeaderCell>
+                        One
+                      </Table.HeaderCell>
+                      <Table.HeaderCell>
+                        One
+                      </Table.HeaderCell>
+                      <Table.HeaderCell>
+                        One
+                      </Table.HeaderCell>
+                    </Table.Row>
+                  </Table.Header>
+  
+                  <Table.Body>
+                    <Table.Row>
+                      <Table.Cell>
+                        One
+                      </Table.Cell>
+                      <Table.Cell>
+                        One
+                      </Table.Cell>
+                      <Table.Cell>
+                        One
+                      </Table.Cell>
+                    </Table.Row>
+                  </Table.Body>
+                </Table>
+              )
+          }
+        </Body>
+      </Wrapper>
+    </ShiftsContainer>
+  );
+};
 
 ApplyForShifts.propTypes = {
   user: PropTypes.shape().isRequired,

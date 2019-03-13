@@ -46,15 +46,13 @@ const SpecialistView = ({
                       )
                       : (
                         user.skillsets.map(skill => (
-                          <>
-                            <Label
-                              key={skill._id}
-                              size="massive"
-                              color="blue"
-                            >
-                              {skill.title}
-                            </Label>
-                          </>
+                          <Label
+                            key={skill._id}
+                            size="massive"
+                            color="blue"
+                          >
+                            {skill.title}
+                          </Label>
                         ))
                       )
                   }
