@@ -42,10 +42,9 @@ const ShiftsContainer = ({
       });
 
       const shifts = await data.json();
-      // console.log(shifts);
       captureShifts(shifts);
     } catch (error) {
-      //
+      console.log(error); // eslint-disable-line
     }
   };
 
