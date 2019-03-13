@@ -8,9 +8,11 @@ import {
 import fetch from 'isomorphic-fetch';
 import find from 'ramda/src/find';
 import propEq from 'ramda/src/propEq';
+import PropTypes from 'prop-types';
 
 import {
   API_UPDATE_USER,
+  CAPTURE_USER,
 } from '../../../../constants';
 
 const formatSkillsets = docs => docs.map(doc => ({
@@ -22,7 +24,8 @@ const formatSkillsets = docs => docs.map(doc => ({
 const SetupSkills = ({
   user,
   cognitoUser,
-  skillsets
+  skillsets,
+  captureUser,
 }) => {
   const [jwtToken] = useState(cognitoUser.signInUserSession.accessToken.jwtToken);
 
@@ -55,7 +58,7 @@ const SetupSkills = ({
       });
 
       const updatedUser = await patch.json();
-      console.log(updatedUser);
+      captureUser(updatedUser);
       setSaving(false);
     } catch (error) {
       console.log(error); // eslint-disable-line
@@ -100,6 +103,13 @@ const SetupSkills = ({
   );
 };
 
+SetupSkills.propTypes = {
+  user: PropTypes.shape().isRequired,
+  cognitoUser: PropTypes.shape().isRequired,
+  skillsets: PropTypes.shape().isRequired,
+  captureUser: PropTypes.func.isRequired,
+};
+
 export default connect(
   ({
     userReducer,
@@ -108,5 +118,11 @@ export default connect(
     user: userReducer.user,
     cognitoUser: userReducer.cognitoUser,
     skillsets,
+  }),
+  dispatch => ({
+    captureUser: payload => dispatch({
+      type: CAPTURE_USER,
+      payload,
+    }),
   }),
 )(SetupSkills);

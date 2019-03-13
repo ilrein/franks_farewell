@@ -5,11 +5,13 @@ import PropTypes from 'prop-types';
 import {
   Header,
   Segment,
+  Label,
 } from 'semantic-ui-react';
 
 import ShiftsContainer from '../../../containers/ShiftsContainer';
 import SkillsetsContainer from '../../../containers/SkillsetsContainer';
 import SetupSkills from './SetupSkills';
+import ApplyForShifts from './ApplyForShifts';
 
 const Wrapper = styled.div`
   padding: 2rem;
@@ -45,6 +47,23 @@ const SpecialistView = ({
                         ? (
                           <SetupSkills />
                         )
+                        : (
+                          user.skillsets.map(skill => (
+                            <>
+                              <Label
+                                key={skill._id}
+                                size="massive"
+                                color="blue"
+                              >
+                                {skill.title}
+                              </Label>
+                            </>
+                          ))
+                        )
+                    }
+                    {
+                      user.skillsets.length > 0
+                        ? <ApplyForShifts />
                         : null
                     }
                   </Body>
