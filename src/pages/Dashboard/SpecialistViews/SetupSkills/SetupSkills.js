@@ -5,8 +5,13 @@ import {
   Message,
   Button,
 } from 'semantic-ui-react';
+import fetch from 'isomorphic-fetch';
 import find from 'ramda/src/find';
 import propEq from 'ramda/src/propEq';
+
+import {
+  API_UPDATE_USER,
+} from '../../../../constants';
 
 const formatSkillsets = docs => docs.map(doc => ({
   key: doc._id,
@@ -14,13 +19,48 @@ const formatSkillsets = docs => docs.map(doc => ({
   text: `${doc.title}`,
 }));
 
-const SetupSkills = ({ skillsets }) => {
+const SetupSkills = ({
+  user,
+  cognitoUser,
+  skillsets
+}) => {
+  const [jwtToken] = useState(cognitoUser.signInUserSession.accessToken.jwtToken);
+
   const [skill, setSkill] = useState(null);
   const [saving, setSaving] = useState(null);
   const [uploadedDocsForSkillset, setUploadedDocsForSkillset] = useState(false);
 
-  const save = () => {
-    console.log('save');
+  const save = async () => {
+    setSaving(true);
+    const { _id, title, payrate } = skill;
+    
+    try {
+      const patch = await fetch(API_UPDATE_USER(user._id), {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'jwt-token': jwtToken,
+        },
+        body: JSON.stringify({
+          user: {
+            skillsets: [
+              {
+                skillsetId: _id,
+                title,
+                payrate,
+              },
+            ],
+          },
+        }),
+      });
+
+      const updatedUser = await patch.json();
+      console.log(updatedUser);
+      setSaving(false);
+    } catch (error) {
+      console.log(error); // eslint-disable-line
+      setSaving(false);
+    }
   };
 
   const handleSelectSkill = (value) => {
@@ -61,5 +101,12 @@ const SetupSkills = ({ skillsets }) => {
 };
 
 export default connect(
-  ({ skillsets }) => ({ skillsets }),
+  ({
+    userReducer,
+    skillsets,
+  }) => ({
+    user: userReducer.user,
+    cognitoUser: userReducer.cognitoUser,
+    skillsets,
+  }),
 )(SetupSkills);
