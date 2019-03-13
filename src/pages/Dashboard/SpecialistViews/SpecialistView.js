@@ -8,7 +8,6 @@ import {
   Label,
 } from 'semantic-ui-react';
 
-import ShiftsContainer from '../../../containers/ShiftsContainer';
 import SkillsetsContainer from '../../../containers/SkillsetsContainer';
 import SetupSkills from './SetupSkills';
 import ApplyForShifts from './ApplyForShifts';
@@ -24,79 +23,76 @@ const Body = styled.div``;
  */
 const SpecialistView = ({
   userReducer,
-  shifts,
-  skillsets,
+  // skillsets,
 }) => {
   const { user } = userReducer;
 
   return (
-    <ShiftsContainer>
-      <SkillsetsContainer>
-        <Wrapper>
-          {
-            user
-            && user._id
-              ? (
-                <>
-                  <Header>
-                    {user.email}
-                  </Header>
-                  <Body>
-                    {
-                      user.skillsets.length === 0
-                        ? (
-                          <SetupSkills />
-                        )
-                        : (
-                          user.skillsets.map(skill => (
-                            <>
-                              <Label
-                                key={skill._id}
-                                size="massive"
-                                color="blue"
-                              >
-                                {skill.title}
-                              </Label>
-                            </>
-                          ))
-                        )
-                    }
-                    {
-                      user.skillsets.length > 0
-                        ? <ApplyForShifts />
-                        : null
-                    }
-                  </Body>
-                </>
-              )
-              : (
-                <Segment
-                  loading
-                  basic
-                  style={{
-                    height: '90vh',
-                  }}
-                />
-              )
-          }
-        </Wrapper>
-      </SkillsetsContainer>
-    </ShiftsContainer>
+    <SkillsetsContainer>
+      <Wrapper>
+        {
+          user
+          && user._id
+            ? (
+              <>
+                <Header>
+                  {user.email}
+                </Header>
+                <Body>
+                  {
+                    user.skillsets.length === 0
+                      ? (
+                        <SetupSkills />
+                      )
+                      : (
+                        user.skillsets.map(skill => (
+                          <>
+                            <Label
+                              key={skill._id}
+                              size="massive"
+                              color="blue"
+                            >
+                              {skill.title}
+                            </Label>
+                          </>
+                        ))
+                      )
+                  }
+                  {
+                    user.skillsets.length > 0
+                      ? <ApplyForShifts />
+                      : null
+                  }
+                </Body>
+              </>
+            )
+            : (
+              <Segment
+                loading
+                basic
+                style={{
+                  height: '90vh',
+                }}
+              />
+            )
+        }
+      </Wrapper>
+    </SkillsetsContainer>
   );
 };
 
 SpecialistView.propTypes = {
   userReducer: PropTypes.shape().isRequired,
-  shifts: PropTypes.shape().isRequired,
-  skillsets: PropTypes.shape().isRequired,
+  // shifts: PropTypes.shape().isRequired,
+  // skillsets: PropTypes.shape().isRequired,
 };
 
 export default connect(({
   userReducer,
-  skillsets,
-  shifts,
+  // skillsets,
+  // shifts,
 }) => ({
   userReducer,
-  skillsets,
-  shifts,
+  // skillsets,
+  // shifts,
 }))(SpecialistView);
