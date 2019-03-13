@@ -1,0 +1,9 @@
+{
+    "bucketName": "franks-farewell-storage",
+    "authPolicyName": "s3_amplify_0e8b185e",
+    "unauthPolicyName": "s3_amplify_0e8b185e",
+    "authRoleName": "franksfarewell-20190302161502-authRole",
+    "unauthRoleName": "franksfarewell-20190302161502-unauthRole",
+    "authPermissions": "rw",
+    "unauthPermissions": ""
+}

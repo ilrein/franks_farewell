@@ -31,5 +31,11 @@
 			},
 			"lastPushDirHash": "RLLihu4G7avFYcQez1c9wfrXM6I="
 		}
+	},
+	"storage": {
+		"franksfarewellstorage": {
+			"service": "S3",
+			"providerPlugin": "awscloudformation"
+		}
 	}
 }

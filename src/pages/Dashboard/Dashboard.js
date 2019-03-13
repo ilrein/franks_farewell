@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import SpecialistView from './SpecialistView';
+import SpecialistView from './SpecialistViews/SpecialistView';
 import CompanyContainer from '../../containers/CompanyContainer';
 import LocationsContainer from '../../containers/LocationsContainer';
 import ShiftsContainer from '../../containers/ShiftsContainer';
