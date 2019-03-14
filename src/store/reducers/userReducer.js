@@ -1,6 +1,7 @@
 import {
   CAPTURE_COGNITO_USER,
   CAPTURE_USER,
+  CLEAR_USER,
 } from '../../constants';
 
 function userReducer(state = {
@@ -17,7 +18,12 @@ function userReducer(state = {
       return {
         ...state,
         user: action.payload,
-      }
+      };
+    case CLEAR_USER:
+      return {
+        cognitoUser: {},
+        user: {},
+      };
     default:
       return state;
   }

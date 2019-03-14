@@ -41,7 +41,8 @@ const ApplyForShifts = ({
             !user.approved
               ? (
                 <Message info>
-                  Your account is not approved yet.
+                  Thanks for updating your qualifications. Your account
+                  will be approved shortly and you can begin to book work.
                 </Message>
               )
               : (

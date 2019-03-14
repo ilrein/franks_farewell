@@ -38,6 +38,7 @@ const SetupSkills = ({
     const { _id, title, payrate } = skill;
     
     try {
+      // console.log(user);
       const patch = await fetch(API_UPDATE_USER(user._id), {
         method: 'PUT',
         headers: {

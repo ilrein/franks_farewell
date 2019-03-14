@@ -15,6 +15,9 @@ import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import { connect } from 'react-redux';
 
+import {
+  CLEAR_USER,
+} from '../../constants';
 import AuthContainer from '../../containers/AuthContainer';
 import UserContainer from '../../containers/UserContainer';
 
@@ -52,11 +55,14 @@ class MainLayout extends Component {
   }
 
   logout = (history) => {
+    const { clearUser } = this.props;
+
     Auth.signOut()
       .then(() => {
-        localStorage.clear();
         toast.info('Signed out');
         history.push('/');
+        localStorage.clear();
+        clearUser();
       });
   };
 
@@ -141,6 +147,7 @@ MainLayout.propTypes = {
   children: PropTypes.node.isRequired,
   history: PropTypes.shape().isRequired,
   user: PropTypes.shape(),
+  clearUser: PropTypes.func.isRequired,
 };
 
 MainLayout.defaultProps = {
@@ -148,5 +155,10 @@ MainLayout.defaultProps = {
 };
 
 export default connect(
-  ({ userReducer }) => ({ user: userReducer.user, }),
+  ({ userReducer }) => ({ user: userReducer.user }),
+  dispatch => ({
+    clearUser: () => dispatch({
+      type: CLEAR_USER,
+    }),
+  }),
 )(withRouter(MainLayout));
