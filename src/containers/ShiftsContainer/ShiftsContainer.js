@@ -8,6 +8,9 @@ import fetch from 'isomorphic-fetch';
 import {
   withRouter,
 } from 'react-router-dom';
+import buildQueryString from 'build-query-string';
+import isNil from 'ramda/src/isNil';
+import isEmpty from 'ramda/src/isEmpty';
 
 import {
   API_GET_SHIFTS,
@@ -26,13 +29,23 @@ const ShiftsContainer = ({
    * @param { companyId } String
    */
   const getShifts = async () => {
-    const { companyId } = user;
-    let URL;
-    if (companyId !== null) {
-      URL = `${API_GET_SHIFTS}?companyId=${companyId}`;
-    } else {
-      URL = `${API_GET_SHIFTS}`;
-    }
+    const {
+      companyId,
+      skillsets,
+    } = user;
+
+    /**
+     * https://stackoverflow.com/questions/11704267/in-javascript-how-to-conditionally-add-a-member-to-an-object/38483660
+     */
+    const queryString = buildQueryString({
+      ...(!isNil(companyId) && { companyId }),
+      ...(!isEmpty(skillsets[0].title) && { skillset: skillsets[0].title }),
+    });
+
+    console.log('string', queryString);
+    
+    const URL = `${API_GET_SHIFTS}?${queryString}`;
+
     try {
       const data = await fetch(URL, {
         headers: {

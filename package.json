@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "aws-amplify": "^1.1.19",
+    "build-query-string": "^1.2.1",
     "dayjs": "^1.8.9",
     "dotenv": "^6.2.0",
     "global": "^4.3.2",

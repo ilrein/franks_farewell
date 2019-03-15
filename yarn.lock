@@ -3125,6 +3125,11 @@ buffer@4.9.1, buffer@^4.3.0:
     ieee754 "^1.1.4"
     isarray "^1.0.0"
 
+build-query-string@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/build-query-string/-/build-query-string-1.2.1.tgz#bcee6a746d0862cbdd2f8b56e56e44626464e135"
+  integrity sha512-1fT7Oa4xUF5LMOWgvMt5eK6uFTBMBOp9pMaRmlqWrRggd/bnvz4W+QATPzchqcP9F3TSpXJ+Kyxg0MVmxgn5MA==
+
 builtin-status-codes@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/builtin-status-codes/-/builtin-status-codes-3.0.0.tgz#85982878e21b98e1c66425e03d0174788f569ee8"
