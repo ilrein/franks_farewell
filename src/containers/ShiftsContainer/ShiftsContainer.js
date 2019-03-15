@@ -37,10 +37,17 @@ const ShiftsContainer = ({
     /**
      * https://stackoverflow.com/questions/11704267/in-javascript-how-to-conditionally-add-a-member-to-an-object/38483660
      */
-    const queryString = buildQueryString({
-      ...(!isNil(companyId) && { companyId }),
-      ...(!isEmpty(skillsets[0].title) && { skillset: skillsets[0].title }),
-    });
+    let queryString;
+    if (skillsets.length > 0) {
+      queryString = buildQueryString({
+        ...(!isNil(companyId) && { companyId }),
+        ...(!isEmpty(skillsets[0].title) && { skillset: skillsets[0].title }),
+      });
+    } else {
+      queryString = buildQueryString({
+        ...(!isNil(companyId) && { companyId }),
+      });
+    }
 
     console.log('string', queryString);
     

@@ -47,7 +47,7 @@ const Company = ({
 
   const updateUserWithCompanyId = async (companyId) => {
     try {
-      const updateUser = await fetch(API_UPDATE_USER(ownerSub), {
+      const updateUser = await fetch(API_UPDATE_USER(user._id), {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -83,7 +83,9 @@ const Company = ({
         },
         body: JSON.stringify({
           company: {
-            ownerSub,
+            owner: {
+              _id: user._id,
+            },
             name,
           },
         }),
