@@ -37,7 +37,7 @@ const ApplyForShifts = ({
   shifts,
 }) => {
   const [open, setOpen] = useState(false);
-  console.log(shifts);
+  // console.log(shifts);
 
   return (
     <ShiftsContainer>

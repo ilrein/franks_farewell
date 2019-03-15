@@ -49,7 +49,7 @@ const ShiftsContainer = ({
       });
     }
 
-    console.log('string', queryString);
+    // console.log('string', queryString);
     
     const URL = `${API_GET_SHIFTS}?${queryString}`;
 
