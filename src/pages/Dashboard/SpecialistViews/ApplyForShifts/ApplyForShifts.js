@@ -7,7 +7,9 @@ import {
   Header,
   Message,
   Table,
+  Label,
 } from 'semantic-ui-react';
+import dayjs from 'dayjs';
 
 import ShiftsContainer from '../../../../containers/ShiftsContainer';
 
@@ -16,6 +18,14 @@ const Wrapper = styled.div`
 `;
 
 const Body = styled.div``;
+
+const ClickableRow = styled(Table.Row)`
+  cursor: pointer;
+  transition: all 0.5s ease-in-out;
+  &:hover {
+    background-color: #eee;
+  }
+`;
 /**
  * Check if a user is approved
  * before being able to view shifts
@@ -50,29 +60,47 @@ const ApplyForShifts = ({
                   <Table.Header>
                     <Table.Row>
                       <Table.HeaderCell>
-                        One
+                        Location
                       </Table.HeaderCell>
                       <Table.HeaderCell>
-                        One
+                        Address
                       </Table.HeaderCell>
                       <Table.HeaderCell>
-                        One
+                        Role
+                      </Table.HeaderCell>
+                      <Table.HeaderCell>
+                        Start
+                      </Table.HeaderCell>
+                      <Table.HeaderCell>
+                        End
                       </Table.HeaderCell>
                     </Table.Row>
                   </Table.Header>
   
                   <Table.Body>
-                    <Table.Row>
-                      <Table.Cell>
-                        One
-                      </Table.Cell>
-                      <Table.Cell>
-                        One
-                      </Table.Cell>
-                      <Table.Cell>
-                        One
-                      </Table.Cell>
-                    </Table.Row>
+                    {
+                      shifts.docs.map(doc => (
+                        <ClickableRow key={doc._id}>
+                          <Table.Cell>
+                            {doc.location.name}
+                          </Table.Cell>
+                          <Table.Cell>
+                            {doc.location.address}
+                          </Table.Cell>
+                          <Table.Cell>
+                            <Label>
+                              {doc.skillset.title}
+                            </Label>
+                          </Table.Cell>
+                          <Table.Cell>
+                            {dayjs(doc.startTime).format('ddd. MMM. D/YY @ h:mm A')}
+                          </Table.Cell>
+                          <Table.Cell>
+                            {dayjs(doc.endTime).format('ddd. MMM. D/YY @ h:mm A')}
+                          </Table.Cell>
+                        </ClickableRow>
+                      ))
+                    }
                   </Table.Body>
                 </Table>
               )
