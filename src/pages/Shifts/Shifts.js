@@ -24,6 +24,7 @@ import ShiftsContainer from '../../containers/ShiftsContainer';
 import SkillsetsContainer from '../../containers/SkillsetsContainer';
 import NewShiftModal from './NewShiftModal';
 import UpdateShiftModal from './UpdateShiftModal';
+import ShiftsTable from '../../components/ShiftsTable';
 
 const Wrapper = styled.div`
   padding: 2rem;
@@ -97,6 +98,7 @@ const Shifts = ({
                     labelPosition="left"
                     content="New Shift"
                     onClick={() => setOpen(true)}
+                    disabled={!user.approved}
                   />
                   <NewShiftModal
                     open={open}
@@ -111,7 +113,8 @@ const Shifts = ({
                   />
                 </Nav>
                 <Divider />
-                <div>
+                <ShiftsTable />
+                {/* <div>
                   {
                     shifts.docs.length > 0
                       ? (
@@ -200,7 +203,7 @@ const Shifts = ({
                       )
                       : <div>No shifts found.</div>
                   }
-                </div>
+                </div> */}
               </Wrapper>
             </SkillsetsContainer>
           </ShiftsContainer>
