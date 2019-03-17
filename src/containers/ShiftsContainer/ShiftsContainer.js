@@ -36,6 +36,9 @@ const ShiftsContainer = ({
 
     /**
      * https://stackoverflow.com/questions/11704267/in-javascript-how-to-conditionally-add-a-member-to-an-object/38483660
+     * 
+     * Creating a query string based on props...
+     * should refactor this piece to be less brittle
      */
     let queryString;
     if (skillsets.length > 0) {

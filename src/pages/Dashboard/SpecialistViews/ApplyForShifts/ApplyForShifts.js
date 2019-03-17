@@ -12,6 +12,7 @@ import {
 import dayjs from 'dayjs';
 
 import ShiftsContainer from '../../../../containers/ShiftsContainer';
+import ApplyModal from './ApplyModal';
 
 const Wrapper = styled.div`
   padding: 1rem 0;
@@ -37,7 +38,12 @@ const ApplyForShifts = ({
   shifts,
 }) => {
   const [open, setOpen] = useState(false);
-  // console.log(shifts);
+  const [currentDoc, setCurrentDoc] = useState({ _id: null });
+
+  const openModal = (doc) => {
+    setCurrentDoc(doc);
+    setOpen(true);
+  };
 
   return (
     <ShiftsContainer>
@@ -57,6 +63,17 @@ const ApplyForShifts = ({
               )
               : (
                 <Table>
+                  {
+                    currentDoc._id !== null
+                      ? (
+                        <ApplyModal
+                          open={open}
+                          handleClose={() => setOpen(false)}
+                          doc={currentDoc}
+                        />
+                      )
+                      : null
+                  }
                   <Table.Header>
                     <Table.Row>
                       <Table.HeaderCell>
@@ -80,7 +97,10 @@ const ApplyForShifts = ({
                   <Table.Body>
                     {
                       shifts.docs.map(doc => (
-                        <ClickableRow key={doc._id}>
+                        <ClickableRow
+                          key={doc._id}
+                          onClick={() => openModal(doc)}
+                        >
                           <Table.Cell>
                             {doc.location.name}
                           </Table.Cell>

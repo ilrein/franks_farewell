@@ -10,6 +10,7 @@ import {
 import dayjs from 'dayjs';
 
 import ShiftsContainer from '../../containers/ShiftsContainer';
+import ApprovedContainer from '../../containers/ApprovedContainer';
 
 const Wrapper = styled.div`
   padding: 1rem 0;
@@ -38,70 +39,72 @@ const ShiftsTable = ({
   // console.log(shifts);
 
   return (
-    <ShiftsContainer>
-      <Wrapper>
-        <Body>
-          {
-            !user.approved
-              ? (
-                <Message info>
-                  Thanks for updating your information. Your account
-                  will be approved shortly and you can begin to book work.
-                </Message>
-              )
-              : (
-                <Table>
-                  <Table.Header>
-                    <Table.Row>
-                      <Table.HeaderCell>
-                        Location
-                      </Table.HeaderCell>
-                      <Table.HeaderCell>
-                        Address
-                      </Table.HeaderCell>
-                      <Table.HeaderCell>
-                        Role
-                      </Table.HeaderCell>
-                      <Table.HeaderCell>
-                        Start
-                      </Table.HeaderCell>
-                      <Table.HeaderCell>
-                        End
-                      </Table.HeaderCell>
-                    </Table.Row>
-                  </Table.Header>
+    <ApprovedContainer>
+      <ShiftsContainer>
+        <Wrapper>
+          <Body>
+            {
+              !user.approved
+                ? (
+                  <Message info>
+                    Thanks for updating your information. Your account
+                    will be approved shortly and you can begin to book work.
+                  </Message>
+                )
+                : (
+                  <Table>
+                    <Table.Header>
+                      <Table.Row>
+                        <Table.HeaderCell>
+                          Location
+                        </Table.HeaderCell>
+                        <Table.HeaderCell>
+                          Address
+                        </Table.HeaderCell>
+                        <Table.HeaderCell>
+                          Role
+                        </Table.HeaderCell>
+                        <Table.HeaderCell>
+                          Start
+                        </Table.HeaderCell>
+                        <Table.HeaderCell>
+                          End
+                        </Table.HeaderCell>
+                      </Table.Row>
+                    </Table.Header>
 
-                  <Table.Body>
-                    {
-                      shifts.docs.map(doc => (
-                        <ClickableRow key={doc._id}>
-                          <Table.Cell>
-                            {doc.location.name}
-                          </Table.Cell>
-                          <Table.Cell>
-                            {doc.location.address}
-                          </Table.Cell>
-                          <Table.Cell>
-                            <Label>
-                              {doc.skillset.title}
-                            </Label>
-                          </Table.Cell>
-                          <Table.Cell>
-                            {dayjs(doc.startTime).format('ddd. MMM. D/YY @ h:mm A')}
-                          </Table.Cell>
-                          <Table.Cell>
-                            {dayjs(doc.endTime).format('ddd. MMM. D/YY @ h:mm A')}
-                          </Table.Cell>
-                        </ClickableRow>
-                      ))
-                    }
-                  </Table.Body>
-                </Table>
-              )
-          }
-        </Body>
-      </Wrapper>
-    </ShiftsContainer>
+                    <Table.Body>
+                      {
+                        shifts.docs.map(doc => (
+                          <ClickableRow key={doc._id}>
+                            <Table.Cell>
+                              {doc.location.name}
+                            </Table.Cell>
+                            <Table.Cell>
+                              {doc.location.address}
+                            </Table.Cell>
+                            <Table.Cell>
+                              <Label>
+                                {doc.skillset.title}
+                              </Label>
+                            </Table.Cell>
+                            <Table.Cell>
+                              {dayjs(doc.startTime).format('ddd. MMM. D/YY @ h:mm A')}
+                            </Table.Cell>
+                            <Table.Cell>
+                              {dayjs(doc.endTime).format('ddd. MMM. D/YY @ h:mm A')}
+                            </Table.Cell>
+                          </ClickableRow>
+                        ))
+                      }
+                    </Table.Body>
+                  </Table>
+                )
+            }
+          </Body>
+        </Wrapper>
+      </ShiftsContainer>
+    </ApprovedContainer>
   );
 };
 
