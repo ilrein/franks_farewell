@@ -72,14 +72,15 @@ const SetupSkills = ({
   const handleSelectSkill = (value) => {
     const SKILL = find(propEq('_id', value))(skillsets.docs);
     setSkill(SKILL);
-    console.log(SKILL.requiresDocuments);
     if (SKILL.requiresDocuments) {
-      console.log('need docs');
       setUploadedDocsForSkillset(false);
     } else {
-      console.log('dont need docs');
       setUploadedDocsForSkillset(true);
     }
+  };
+
+  const uploadRequiredDocuments = () => {
+    console.log('uplaoding..');
   };
 
   return (
