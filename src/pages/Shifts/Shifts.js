@@ -5,7 +5,6 @@ import {
   Header,
   Divider,
   Button,
-  Segment,
 } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -16,7 +15,7 @@ import {
   API_GET_SHIFTS,
   CAPTURE_SHIFTS,
 } from '../../constants';
-import fadeIn from '../../anime/fadeIn';
+// import fadeIn from '../../anime/fadeIn';
 import UserContainer from '../../containers/UserContainer';
 import CompanyContainer from '../../containers/CompanyContainer';
 import LocationsContainer from '../../containers/LocationsContainer';

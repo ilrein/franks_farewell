@@ -15,8 +15,8 @@ import styled from 'styled-components';
 import dayjs from 'dayjs';
 // import isNil from 'ramda/src/isNil';
 // import isEmpty from 'ramda/src/isEmpty';
-import find from 'ramda/src/find';
-import propEq from 'ramda/src/propEq';
+// import find from 'ramda/src/find';
+// import propEq from 'ramda/src/propEq';
 
 import fadeIn from '../../anime/fadeIn';
 import TimePicker from '../../components/TimePicker';
@@ -276,7 +276,7 @@ UpdateShiftModal.propTypes = {
   cognitoUser: PropTypes.shape().isRequired,
   // user: PropTypes.shape().isRequired,
   // locations: PropTypes.shape().isRequired,
-  // skillsets: PropTypes.shape().isRequired,
+  skillsets: PropTypes.shape().isRequired,
   shiftDoc: PropTypes.shape(),
   open: PropTypes.bool.isRequired,
   setOpen: PropTypes.func.isRequired,

@@ -31,11 +31,10 @@ const ClickableRow = styled(Table.Row)`
  * @param { approved } Boolean 
  */
 const ShiftsTable = ({
-  cognitoUser,
   user,
   shifts,
-}) => {
-  const [open, setOpen] = useState(false);
+}) => { // eslint-disable-line
+  // const [open, setOpen] = useState(false);
   // console.log(shifts);
 
   return (
@@ -110,7 +109,6 @@ const ShiftsTable = ({
 
 ShiftsTable.propTypes = {
   user: PropTypes.shape().isRequired,
-  cognitoUser: PropTypes.shape().isRequired,
   shifts: PropTypes.shape().isRequired,
 };
 
@@ -120,7 +118,6 @@ export default connect(
     shifts,
   }) => ({
     user: userReducer.user,
-    cognitoUser: userReducer.cognitoUser,
     shifts,
   }),
 )(ShiftsTable);

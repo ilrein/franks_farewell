@@ -15,7 +15,7 @@ export const arrayOfHalfHours = () => {
   const arr = [];
 
   for (let index = 0; index < 24; index += 1) {
-    const hour = dayjs().hour(index);
+    // const hour = dayjs().hour(index);
     const time = dayjs().format('YYYY-MM-D');
     const day = dayjs(time).format('h:mm A');
     arr.push(day);
