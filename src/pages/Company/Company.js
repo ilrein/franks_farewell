@@ -2,6 +2,7 @@ import React, {
   useState,
 } from 'react';
 import {
+  Breadcrumb,
   Form,
   Header,
   Button,
@@ -12,6 +13,7 @@ import fetch from 'isomorphic-fetch';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 import {
   API_CREATE_COMPANY,
@@ -38,7 +40,6 @@ const Company = ({
   captureUser,
 }) => {
   const { user, cognitoUser } = userReducer;
-  const [ownerSub] = useState(user.sub);
   const [jwtToken] = useState(cognitoUser.signInUserSession.accessToken.jwtToken);
 
   const [name, setName] = useState(company.name || '');
@@ -137,6 +138,17 @@ const Company = ({
   return (
     <>
       <Wrapper>
+        <Breadcrumb>
+          <Link to="/dashboard">
+            <Breadcrumb.Section link>
+              Dashboard
+            </Breadcrumb.Section>
+          </Link>
+          <Breadcrumb.Divider />
+          <Breadcrumb.Section>
+            Company
+          </Breadcrumb.Section>
+        </Breadcrumb>
         {
           user
           && user.companyId !== null

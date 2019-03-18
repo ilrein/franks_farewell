@@ -3,13 +3,14 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {
+  Breadcrumb,
   Header,
   Button,
   Divider,
   Card,
 } from 'semantic-ui-react';
 import fetch from 'isomorphic-fetch';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import {
   API_GET_LOCATIONS,
@@ -63,6 +64,17 @@ const Locations = ({
 
   return (
     <Wrapper>
+      <Breadcrumb style={{ padding: '1rem 0' }}>
+        <Link to="/dashboard">
+          <Breadcrumb.Section link>
+            Dashboard
+          </Breadcrumb.Section>
+        </Link>
+        <Breadcrumb.Divider />
+        <Breadcrumb.Section>
+          Locations
+        </Breadcrumb.Section>
+      </Breadcrumb>
       <CompanyContainer>
         <LocationsContainer>
           <Nav>
