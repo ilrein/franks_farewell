@@ -140,7 +140,7 @@ const Company = ({
       <Wrapper>
         <Breadcrumb>
           <Link to="/dashboard">
-            <Breadcrumb.Section link>
+            <Breadcrumb.Section>
               Dashboard
             </Breadcrumb.Section>
           </Link>

@@ -66,7 +66,7 @@ const Locations = ({
     <Wrapper>
       <Breadcrumb style={{ padding: '1rem 0' }}>
         <Link to="/dashboard">
-          <Breadcrumb.Section link>
+          <Breadcrumb.Section>
             Dashboard
           </Breadcrumb.Section>
         </Link>

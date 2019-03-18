@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import {
+  Breadcrumb,
   Header,
   Divider,
   Button,
   Segment,
-  Label,
 } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import fetch from 'isomorphic-fetch';
-import dayjs from 'dayjs';
+import { Link } from 'react-router-dom';
 
 import {
   API_GET_SHIFTS,
@@ -37,22 +37,17 @@ const Nav = styled.div`
   align-items: center;
 `;
 
-const LinkSegment = styled(Segment)`
-  animation: ${fadeIn} 1s ease;
-  &:hover {
-    cursor: pointer;
-    background-color: aliceblue !important;
-  }
+const Heading = styled(Header)`
+  margin: 0 !important;
 `;
 
 const Shifts = ({
   userReducer,
-  shifts,
   captureShifts,
 }) => {
   const [open, setOpen] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
-  const [currentDoc, setCurrentDoc] = useState(null);
+  const [currentDoc] = useState(null);
 
   const { user, cognitoUser } = userReducer;
   const [jwtToken] = useState(cognitoUser.signInUserSession.accessToken.jwtToken);
@@ -81,16 +76,28 @@ const Shifts = ({
   };
 
   return (
-    <UserContainer>
-      <CompanyContainer>
-        <LocationsContainer>
-          <ShiftsContainer>
-            <SkillsetsContainer>
-              <Wrapper>
+    <Wrapper>
+      <Breadcrumb style={{ padding: '1rem 0' }}>
+        <Link to="/dashboard">
+          <Breadcrumb.Section>
+            Dashboard
+          </Breadcrumb.Section>
+        </Link>
+        <Breadcrumb.Divider />
+        <Breadcrumb.Section>
+          Shifts
+        </Breadcrumb.Section>
+      </Breadcrumb>
+
+      <UserContainer>
+        <CompanyContainer>
+          <LocationsContainer>
+            <ShiftsContainer>
+              <SkillsetsContainer>
                 <Nav>
-                  <Header>
+                  <Heading>
                     Shifts
-                  </Header>
+                  </Heading>
 
                   <Button
                     color="green"
@@ -114,18 +121,17 @@ const Shifts = ({
                 </Nav>
                 <Divider />
                 <ShiftsTable />
-              </Wrapper>
-            </SkillsetsContainer>
-          </ShiftsContainer>
-        </LocationsContainer>
-      </CompanyContainer>
-    </UserContainer>
+              </SkillsetsContainer>
+            </ShiftsContainer>
+          </LocationsContainer>
+        </CompanyContainer>
+      </UserContainer>
+    </Wrapper>
   );
 };
 
 Shifts.propTypes = {
   userReducer: PropTypes.shape().isRequired,
-  shifts: PropTypes.shape().isRequired,
   captureShifts: PropTypes.func.isRequired,
 };
 

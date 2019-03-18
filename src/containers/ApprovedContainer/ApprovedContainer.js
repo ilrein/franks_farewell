@@ -14,8 +14,7 @@ const ApprovedContainer = ({
       !user.approved
         ? (
           <Message info>
-            Thanks for updating your qualifications. Your account
-            will be approved shortly and you can begin to book work.
+            Your account is currently awaiting approval.
           </Message>
         )
         : children
