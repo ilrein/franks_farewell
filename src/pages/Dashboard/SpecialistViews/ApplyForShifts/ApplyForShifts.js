@@ -33,7 +33,6 @@ const ClickableRow = styled(Table.Row)`
  * @param { approved } Boolean 
  */
 const ApplyForShifts = ({
-  cognitoUser,
   user,
   shifts,
 }) => {
@@ -133,7 +132,6 @@ const ApplyForShifts = ({
 
 ApplyForShifts.propTypes = {
   user: PropTypes.shape().isRequired,
-  cognitoUser: PropTypes.shape().isRequired,
   shifts: PropTypes.shape().isRequired,
 };
 
@@ -143,7 +141,6 @@ export default connect(
     shifts,
   }) => ({
     user: userReducer.user,
-    cognitoUser: userReducer.cognitoUser,
     shifts,
   }),
 )(ApplyForShifts);
