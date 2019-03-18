@@ -274,8 +274,6 @@ const UpdateShiftModal = ({
 
 UpdateShiftModal.propTypes = {
   cognitoUser: PropTypes.shape().isRequired,
-  // user: PropTypes.shape().isRequired,
-  // locations: PropTypes.shape().isRequired,
   skillsets: PropTypes.shape().isRequired,
   shiftDoc: PropTypes.shape(),
   open: PropTypes.bool.isRequired,
