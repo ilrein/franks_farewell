@@ -4,6 +4,7 @@ import React, {
 } from 'react';
 import fetch from 'isomorphic-fetch';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import {
   API_GET_USER,
@@ -81,6 +82,12 @@ const UserContainer = ({
       {children}
     </>
   );
+};
+
+UserContainer.propTypes = {
+  userReducer: PropTypes.shape().isRequired,
+  captureUser: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 const mapDispatchToProps = dispatch => ({
