@@ -8,7 +8,7 @@ export const CLEAR_USER = 'CLEAR_USER';
 
 // User endpoints
 export const API_GET_USERS = `${process.env.REACT_APP_API_URL}/api/users`;
-export const API_GET_USER = ID => `${process.env.REACT_APP_API_URL}/api/users/${ID}`;
+export const API_GET_USER = SUB => `${process.env.REACT_APP_API_URL}/api/users/${SUB}`;
 export const API_UPDATE_USER = ID => `${process.env.REACT_APP_API_URL}/api/users/${ID}`;
 export const API_CREATE_USER = `${process.env.REACT_APP_API_URL}/api/users/create`;
 

@@ -3,7 +3,10 @@
   "parser": "babel-eslint",
   "globals": {
     "window": true,
-    "localStorage": true
+    "localStorage": true,
+    "describe": true,
+    "it": true,
+    "expect": true
   },
   "rules": {
     "no-console": 1,

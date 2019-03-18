@@ -64,12 +64,12 @@ const UserContainer = ({
           captureUser(newUser);
           return;
         } catch (error) {
-          console.log(error);
+          console.log(error); // eslint-disable-line
         }
       }
       captureUser(user);
     } catch (error) {
-      console.log(error);
+      console.log(error); // eslint-disable-line
     }
   };
 
