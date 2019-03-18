@@ -9,6 +9,7 @@ import fetch from 'isomorphic-fetch';
 import find from 'ramda/src/find';
 import propEq from 'ramda/src/propEq';
 import PropTypes from 'prop-types';
+import { toast } from 'react-toastify';
 
 import {
   API_UPDATE_USER,
@@ -61,6 +62,7 @@ const SetupSkills = ({
       const updatedUser = await patch.json();
       captureUser(updatedUser);
       setSaving(false);
+      toast.success('Successfully updated skillset');
     } catch (error) {
       console.log(error); // eslint-disable-line
       setSaving(false);
@@ -70,9 +72,12 @@ const SetupSkills = ({
   const handleSelectSkill = (value) => {
     const SKILL = find(propEq('_id', value))(skillsets.docs);
     setSkill(SKILL);
+    console.log(SKILL.requiresDocuments);
     if (SKILL.requiresDocuments) {
+      console.log('need docs');
       setUploadedDocsForSkillset(false);
     } else {
+      console.log('dont need docs');
       setUploadedDocsForSkillset(true);
     }
   };
@@ -92,6 +97,16 @@ const SetupSkills = ({
         placeholder="Specialty"
       />
       <br />
+      {
+        skill
+        && skill.requiresDocuments
+          ? (
+            <div>
+              needs
+            </div>
+          )
+          : null
+      }
       <Button
         primary
         onClick={save}
