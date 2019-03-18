@@ -15,6 +15,7 @@ import {
   API_UPDATE_USER,
   CAPTURE_USER,
 } from '../../../../constants';
+import UploadDoc from './UploadDoc';
 
 const formatSkillsets = docs => docs.map(doc => ({
   key: doc._id,
@@ -79,10 +80,6 @@ const SetupSkills = ({
     }
   };
 
-  const uploadRequiredDocuments = () => {
-    console.log('uplaoding..');
-  };
-
   return (
     <>
       <Message
@@ -101,11 +98,7 @@ const SetupSkills = ({
       {
         skill
         && skill.requiresDocuments
-          ? (
-            <div>
-              needs
-            </div>
-          )
+          ? <UploadDoc skill={skill} />
           : null
       }
       <Button

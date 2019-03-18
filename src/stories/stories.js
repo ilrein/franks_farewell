@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React from 'react';
 import 'semantic-ui-css/semantic.min.css';
 import { storiesOf } from '@storybook/react'; // eslint-disable-line
@@ -11,6 +12,7 @@ import Weekday from '../components/Calendar/Weekday';
 // More
 import PlacesAutoComplete from '../components/PlacesAutoComplete';
 import TimePicker from '../components/TimePicker';
+import DropZone from '../components/DropZone';
 
 storiesOf('Calendar', module)
   .add('Container', () => (
@@ -46,5 +48,12 @@ storiesOf('TimePicker', module)
   .add('default', () => (
     <TimePicker
       onChange={time => action(time)}
+    />
+  ));
+
+storiesOf('DropZone', module)
+  .add('default', () => (
+    <DropZone
+      handleDrop={files => console.log(files)}
     />
   ));
