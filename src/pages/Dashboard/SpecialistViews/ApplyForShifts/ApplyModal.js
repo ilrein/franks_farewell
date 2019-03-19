@@ -32,7 +32,6 @@ const ApplyModal = ({
   const [jwtToken] = useState(cognitoUser.signInUserSession.accessToken.jwtToken);
 
   const submit = async () => {
-    console.log(doc); // eslint-disable-line
     setSubmitting(true);
 
     const updatedDoc = JSON.stringify({
