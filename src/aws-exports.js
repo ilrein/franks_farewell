@@ -5,7 +5,9 @@ const awsmobile =  {
     "aws_cognito_identity_pool_id": "us-east-1:63cc7c89-555b-495b-8535-779a73c363ea",
     "aws_cognito_region": "us-east-1",
     "aws_user_pools_id": "us-east-1_cVOel1B24",
-    "aws_user_pools_web_client_id": "6ru77heo3kod8vcjnkg8t9icvt"
+    "aws_user_pools_web_client_id": "6ru77heo3kod8vcjnkg8t9icvt",
+    "aws_user_files_s3_bucket": "franks-farewell-storage",
+    "aws_user_files_s3_bucket_region": "us-east-1"
 };
 
 

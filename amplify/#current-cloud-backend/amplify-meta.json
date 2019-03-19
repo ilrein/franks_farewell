@@ -19,7 +19,7 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/franksfarewell-20190302161502-deployment/amplify-cfn-templates/auth/cognito352f21fa-cloudformation-template.yml",
 				"logicalId": "authcognito352f21fa"
 			},
-			"lastPushTimeStamp": "2019-03-02T21:18:37.526Z",
+			"lastPushTimeStamp": "2019-03-19T22:51:40.171Z",
 			"output": {
 				"AppClientSecret": "7oo0no8l03pog3l4ve7evepatljc2ttk8ghp5l8bopven6t2qs9",
 				"UserPoolId": "us-east-1_cVOel1B24",
@@ -30,6 +30,22 @@
 				"UserPoolName": "cognito352f21fa_userpool_352f21fa"
 			},
 			"lastPushDirHash": "RLLihu4G7avFYcQez1c9wfrXM6I="
+		}
+	},
+	"storage": {
+		"franksfarewellstorage": {
+			"service": "S3",
+			"providerPlugin": "awscloudformation",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/franksfarewell-20190302161502-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
+				"logicalId": "storagefranksfarewellstorage"
+			},
+			"lastPushTimeStamp": "2019-03-19T22:51:40.174Z",
+			"output": {
+				"BucketName": "franks-farewell-storage",
+				"Region": "us-east-1"
+			},
+			"lastPushDirHash": "IhqzZvmcOIyAFiOI6geMLAiiq6M="
 		}
 	}
 }

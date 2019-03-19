@@ -127,6 +127,21 @@
 					"authSelections": "identityPoolAndUserPool"
 				}
 			}
+		},
+		"storagefranksfarewellstorage": {
+			"Type": "AWS::CloudFormation::Stack",
+			"Properties": {
+				"TemplateURL": "https://s3.amazonaws.com/franksfarewell-20190302161502-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
+				"Parameters": {
+					"bucketName": "franks-farewell-storage",
+					"authPolicyName": "s3_amplify_0e8b185e",
+					"unauthPolicyName": "s3_amplify_0e8b185e",
+					"authRoleName": "franksfarewell-20190302161502-authRole",
+					"unauthRoleName": "franksfarewell-20190302161502-unauthRole",
+					"authPermissions": "rw",
+					"unauthPermissions": ""
+				}
+			}
 		}
 	},
 	"Outputs": {

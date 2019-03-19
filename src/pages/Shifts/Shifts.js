@@ -26,7 +26,10 @@ import UpdateShiftModal from './UpdateShiftModal';
 import ShiftsTable from '../../components/ShiftsTable';
 
 const Wrapper = styled.div`
-  padding: 2rem;
+  transition: all 0.4s ease-in-out;
+  @media (min-width: 767px) {
+    padding: 2rem;
+  }
 `;
 
 const Nav = styled.div`
