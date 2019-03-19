@@ -51,8 +51,6 @@ const ShiftsContainer = ({
         ...(!isNil(companyId) && { companyId }),
       });
     }
-
-    // console.log('string', queryString);
     
     const URL = `${API_GET_SHIFTS}?${queryString}`;
 

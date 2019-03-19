@@ -11,6 +11,7 @@ import dayjs from 'dayjs';
 
 import ShiftsContainer from '../../containers/ShiftsContainer';
 import ApprovedContainer from '../../containers/ApprovedContainer';
+import labelColor from '../../utils/labelColor';
 
 const Wrapper = styled.div`
   padding: 1rem 0;
@@ -25,6 +26,7 @@ const ClickableRow = styled(Table.Row)`
     background-color: #eee;
   }
 `;
+
 /**
  * Check if a user is approved
  * before being able to view shifts
@@ -55,6 +57,9 @@ const ShiftsTable = ({
                     <Table.Header>
                       <Table.Row>
                         <Table.HeaderCell>
+                          Status
+                        </Table.HeaderCell>
+                        <Table.HeaderCell>
                           Location
                         </Table.HeaderCell>
                         <Table.HeaderCell>
@@ -76,6 +81,11 @@ const ShiftsTable = ({
                       {
                         shifts.docs.map(doc => (
                           <ClickableRow key={doc._id}>
+                            <Table.Cell>
+                              <Label color={labelColor[doc.status]}>
+                                {doc.status}
+                              </Label>
+                            </Table.Cell>
                             <Table.Cell>
                               {doc.location.name}
                             </Table.Cell>
