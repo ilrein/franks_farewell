@@ -16,6 +16,7 @@ import {
   CAPTURE_SHIFTS,
 } from '../../constants';
 // import fadeIn from '../../anime/fadeIn';
+import Wrapper from '../../components/Wrapper';
 import UserContainer from '../../containers/UserContainer';
 import CompanyContainer from '../../containers/CompanyContainer';
 import LocationsContainer from '../../containers/LocationsContainer';
@@ -24,13 +25,6 @@ import SkillsetsContainer from '../../containers/SkillsetsContainer';
 import NewShiftModal from './NewShiftModal';
 import UpdateShiftModal from './UpdateShiftModal';
 import ShiftsTable from '../../components/ShiftsTable';
-
-const Wrapper = styled.div`
-  transition: all 0.4s ease-in-out;
-  @media (min-width: 767px) {
-    padding: 2rem;
-  }
-`;
 
 const Nav = styled.div`
   display: flex;
@@ -54,10 +48,10 @@ const Shifts = ({
   const { user, cognitoUser } = userReducer;
   const [jwtToken] = useState(cognitoUser.signInUserSession.accessToken.jwtToken);
 
-  const getShifts = async () => {
+  const getShifts = async (activePage = 1) => {
     const { companyId } = user;
     try {
-      const data = await fetch(`${API_GET_SHIFTS}?companyId=${companyId}`, {
+      const data = await fetch(`${API_GET_SHIFTS}?companyId=${companyId}&page=${activePage}`, {
         headers: {
           'Content-Type': 'application/json',
           'jwt-token': jwtToken,
@@ -65,11 +59,14 @@ const Shifts = ({
       });
 
       const SHIFTS = await data.json();
-      // console.log(shifts);
       captureShifts(SHIFTS);
     } catch (error) {
-      //
+      console.log(error); // eslint-disable-line
     }
+  };
+
+  const onPageChange = (activePage) => {
+    getShifts(activePage);
   };
 
   const refreshList = () => {
@@ -127,6 +124,7 @@ const Shifts = ({
                     setOpenUpdateModal(true);
                     setCurrentDoc(selectedDoc);
                   }}
+                  onPageChange={onPageChange}
                 />
               </SkillsetsContainer>
             </ShiftsContainer>

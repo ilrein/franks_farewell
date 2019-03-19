@@ -128,7 +128,8 @@ const NewShiftModal = ({
   };
 
   const setTime = (type, time) => {
-    const DATE = dayjs().format('YYYY-MM-D');
+    const DATE = dayjs(date).format('YYYY-MM-D');
+
     const moment = dayjs(`${DATE} ${time}`);
     if (type === 'startTime') {
       setStartTime(moment);

@@ -57,7 +57,7 @@ const UpdateShiftModal = ({
   // Calendar expects a native datetime object
   useEffect(() => {
     if (shiftDoc) {
-      console.log(shiftDoc); // eslint-disable-line
+      // console.log(shiftDoc); // eslint-disable-line
       setDate(dayjs(shiftDoc.date).toDate());
       setStartTime(dayjs(shiftDoc.startTime).format('h:mm A'));
       setEndTime(dayjs(shiftDoc.endTime).format('h:mm A'));
