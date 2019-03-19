@@ -9,6 +9,8 @@ import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
 import styled from 'styled-components';
 import fetch from 'isomorphic-fetch';
+import { connect } from 'react-redux';
+import { toast } from 'react-toastify';
 
 import {
   API_UPDATE_SHIFT,
@@ -22,23 +24,45 @@ const ApplyModal = ({
   open,
   handleClose,
   doc,
+  user,
+  cognitoUser,
 }) => {
   const [submitting, setSubmitting] = useState(false);
 
+  const [jwtToken] = useState(cognitoUser.signInUserSession.accessToken.jwtToken);
+
   const submit = async () => {
-    console.log(doc);
-    console.log('submit');
-    // setSubmitting(true);
+    console.log(doc); // eslint-disable-line
+    setSubmitting(true);
 
-    // const update = await fetch(`${API_UPDATE_SHIFT}`, {
-    //   method: 'put',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: {
+    const updatedDoc = JSON.stringify({
+      job: {
+        ...doc,
+        specialist: {
+          _id: user._id,
+        },
+        status: 'ACCEPTED',
+      },
+    });
 
-    //   },
-    // });
+    try {
+      const update = await fetch(`${API_UPDATE_SHIFT(doc._id)}`, {
+        method: 'put',
+        headers: {
+          'Content-Type': 'application/json',
+          'jwt-token': jwtToken,
+        },
+        body: updatedDoc,
+      });
+
+      await update.json();
+      setSubmitting(false);
+      handleClose();
+      toast.success('Successfully accepted shift');
+    } catch (error) {
+      console.log(error); // eslint-disable-line
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -99,6 +123,13 @@ ApplyModal.propTypes = {
   open: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
   doc: PropTypes.shape().isRequired,
+  user: PropTypes.shape().isRequired,
+  cognitoUser: PropTypes.shape().isRequired,
 };
 
-export default ApplyModal;
+export default connect(
+  ({ userReducer }) => ({
+    user: userReducer.user,
+    cognitoUser: userReducer.cognitoUser,
+  }),
+)(ApplyModal);

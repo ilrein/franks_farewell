@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import {
   Icon,
 } from 'semantic-ui-react';
+import PropTypes from 'prop-types';
 
 const Wrapper = styled.div`
   padding: 1rem;
@@ -53,6 +54,10 @@ const DropZone = ({ handleDrop }) => {
       }
     </div>
   );
+};
+
+DropZone.propTypes = {
+  handleDrop: PropTypes.func.isRequired,
 };
 
 export default DropZone;
