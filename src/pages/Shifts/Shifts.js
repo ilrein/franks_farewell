@@ -45,8 +45,8 @@ const Shifts = ({
   captureShifts,
 }) => {
   const [open, setOpen] = useState(false);
-  const [openUpdate, setOpenUpdate] = useState(false);
-  const [currentDoc] = useState(null);
+  const [openUpdateModal, setOpenUpdateModal] = useState(false);
+  const [currentDoc, setCurrentDoc] = useState(null);
 
   const { user, cognitoUser } = userReducer;
   const [jwtToken] = useState(cognitoUser.signInUserSession.accessToken.jwtToken);
@@ -112,14 +112,19 @@ const Shifts = ({
                     onCreateShift={refreshList}
                   />
                   <UpdateShiftModal
-                    open={openUpdate}
-                    setOpen={setOpenUpdate}
+                    open={openUpdateModal}
+                    setOpen={setOpenUpdateModal}
                     refreshList={refreshList}
                     shiftDoc={currentDoc}
                   />
                 </Nav>
                 <Divider />
-                <ShiftsTable />
+                <ShiftsTable
+                  onRowClick={(selectedDoc) => {
+                    setOpenUpdateModal(true);
+                    setCurrentDoc(selectedDoc);
+                  }}
+                />
               </SkillsetsContainer>
             </ShiftsContainer>
           </LocationsContainer>

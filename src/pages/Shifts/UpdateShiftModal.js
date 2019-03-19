@@ -4,7 +4,7 @@ import {
   Header,
   Button,
   Modal,
-  // Divider,
+  Message,
 } from 'semantic-ui-react';
 import fetch from 'isomorphic-fetch';
 import { connect } from 'react-redux';
@@ -157,112 +157,135 @@ const UpdateShiftModal = ({
                 <Header>
                   Update Shift
                 </Header>
-                <Form.Input
-                  disabled
-                  value={shiftDoc.location.name}
-                />
+                {
+                  shiftDoc.status !== 'PENDING'
+                    ? (
+                      <>
+                        <Message>
+                          Only shifts that are&nbsp;
+                          <b>pending</b>
+                          &nbsp;may be modified
+                        </Message>
+                        <Button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setOpen(false);
+                          }}
+                          loading={updating}
+                        >
+                          Close
+                        </Button>
+                      </>
+                    )
+                    : (
+                      <>
+                        <Form.Input
+                          disabled
+                          value={shiftDoc.location.name}
+                        />
 
-                <Form.Dropdown
-                  label="Role/Position"
-                  required
-                  placeholder="Select role"
-                  fluid
-                  search
-                  selection
-                  options={formatSkillsets(skillsets.docs)}
-                  disabled
-                  value={shiftDoc.skillset._id}
-                />
+                        <Form.Dropdown
+                          label="Role/Position"
+                          required
+                          placeholder="Select role"
+                          fluid
+                          search
+                          selection
+                          options={formatSkillsets(skillsets.docs)}
+                          disabled
+                          value={shiftDoc.skillset._id}
+                        />
 
-                <CalendarContainer>
-                  <Calendar
-                    onChange={data => setDate(data)}
-                    value={date}
-                  />
-                </CalendarContainer>
+                        <CalendarContainer>
+                          <Calendar
+                            onChange={data => setDate(data)}
+                            value={date}
+                          />
+                        </CalendarContainer>
 
-                <Form.Group widths="equal">
-                  <div className="field required">
-                    <label>
-                      Start Time
-                    </label>
-                    <TimePicker
-                      onChange={value => setStartTime(value)}
-                      // error={startTimeIsEmptyError}
-                      value={startTime}
-                    />
-                  </div>
+                        <Form.Group widths="equal">
+                          <div className="field required">
+                            <label>
+                              Start Time
+                            </label>
+                            <TimePicker
+                              onChange={value => setStartTime(value)}
+                              value={startTime}
+                            />
+                          </div>
 
-                  <div className="field required">
-                    <label>
-                      End Time
-                    </label>
-                    <TimePicker
-                      onChange={value => setEndTime(value)}
-                      disabled={startTime === null}
-                      // error={endTimeIsEmptyError}
-                      value={endTime}
-                    />
-                  </div>
+                          <div className="field required">
+                            <label>
+                              End Time
+                            </label>
+                            <TimePicker
+                              onChange={value => setEndTime(value)}
+                              disabled={startTime === null}
+                              value={endTime}
+                            />
+                          </div>
 
-                  <Form.Input
-                    label="Duration"
-                    disabled
-                    value={duration}
-                  />
-                </Form.Group>
+                          <Form.Input
+                            label="Duration"
+                            disabled
+                            value={duration}
+                          />
+                        </Form.Group>
 
-                <Button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setOpen(false);
-                  }}
-                  loading={updating}
-                >
-                  Close
-                </Button>
+                        <Button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setOpen(false);
+                          }}
+                          loading={updating}
+                        >
+                          Close
+                        </Button>
 
-                <Button
-                  type="submit"
-                  primary
-                  onClick={updateShift}
-                  loading={updating}
-                >
-                  Submit
-                </Button>
+                        <Button
+                          type="submit"
+                          primary
+                          onClick={updateShift}
+                          loading={updating}
+                        >
+                          Submit
+                        </Button>
 
-                <Button
-                  color="red"
-                  onClick={() => setDeleteConfirmIsOpen(true)}
-                  loading={deleting}
-                >
-                  Delete
-                </Button>
+                        <Button
+                          color="red"
+                          onClick={() => setDeleteConfirmIsOpen(true)}
+                          loading={deleting}
+                        >
+                          Delete
+                        </Button>
 
-                <Modal
-                  open={deleteConfirmIsOpen}
-                >
-                  <Modal.Content>
-                    <Header>
-                      Are you sure you want to delete this shift?
-                    </Header>
-                  </Modal.Content>
-                  <Modal.Actions>
-                    <Button
-                      loading={deleting}
-                      onClick={() => setDeleteConfirmIsOpen(false)}
-                    >
-                      Cancel
-                    </Button>
-                    <Button
-                      loading={deleting}
-                      onClick={deleteShift}
-                      color="red"
-                    >
-                      Confirm
-                    </Button>
-                  </Modal.Actions>
-                </Modal>
+                        <Modal
+                          open={deleteConfirmIsOpen}
+                        >
+                          <Modal.Content>
+                            <Header>
+                              Are you sure you want to delete this shift?
+                            </Header>
+                          </Modal.Content>
+                          <Modal.Actions>
+                            <Button
+                              loading={deleting}
+                              onClick={() => setDeleteConfirmIsOpen(false)}
+                            >
+                              Cancel
+                            </Button>
+                            <Button
+                              loading={deleting}
+                              onClick={deleteShift}
+                              color="red"
+                            >
+                              Confirm
+                            </Button>
+                          </Modal.Actions>
+                        </Modal>
+                      </>
+                    )
+                }
               </Form>
             </Modal.Content>
           )

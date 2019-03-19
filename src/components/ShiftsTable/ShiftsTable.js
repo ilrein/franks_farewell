@@ -35,6 +35,7 @@ const ClickableRow = styled(Table.Row)`
 const ShiftsTable = ({
   user,
   shifts,
+  onRowClick,
 }) => { // eslint-disable-line
   // const [open, setOpen] = useState(false);
   // console.log(shifts);
@@ -80,7 +81,10 @@ const ShiftsTable = ({
                     <Table.Body>
                       {
                         shifts.docs.map(doc => (
-                          <ClickableRow key={doc._id}>
+                          <ClickableRow
+                            key={doc._id}
+                            onClick={() => onRowClick(doc)}
+                          >
                             <Table.Cell>
                               <Label color={labelColor[doc.status]}>
                                 {doc.status}
@@ -120,6 +124,7 @@ const ShiftsTable = ({
 ShiftsTable.propTypes = {
   user: PropTypes.shape().isRequired,
   shifts: PropTypes.shape().isRequired,
+  onRowClick: PropTypes.func.isRequired,
 };
 
 export default connect(

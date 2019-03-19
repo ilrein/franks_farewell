@@ -45,7 +45,7 @@ const ApplyForShifts = ({
   const [jwtToken] = useState(cognitoUser.signInUserSession.accessToken.jwtToken);
   const [fetchedShifts, setSetchedShifts] = useState(false);
 
-  const [page, setPage] = useState(1);
+  const [page] = useState(1);
 
   const getShifts = async () => {
     try {
