@@ -53,6 +53,7 @@ const UpdateShiftModal = ({
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
   const [duration, setDuration] = useState('');
+  const [status, updateStatus] = useState(shiftDoc.status);
 
   // Calendar expects a native datetime object
   useEffect(() => {
@@ -128,6 +129,31 @@ const UpdateShiftModal = ({
     }
   };
 
+  const updateShiftStatus = async () => {
+    setUpdating(true);
+    try {
+      const update = await fetch(API_UPDATE_SHIFT(shiftDoc._id), {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'jwt-token': jwtToken,
+        },
+        body: JSON.stringify({
+          job: {
+            status,
+          },
+        }),
+      });
+      await update.json();
+      setUpdating(false);
+      refreshList();
+      toast.success('Updated shift successfully');
+      setOpen(false);
+    } catch (error) {
+      console.log(error); // eslint-disable-line
+    }
+  };
+
   /**
    * Update duration whenever startTime or endTime changes
    */
@@ -145,6 +171,22 @@ const UpdateShiftModal = ({
     text: `${doc.title} - ${currencyFormatter.format(doc.payrate)}`,
   }));
 
+  const formatStatus = () => {
+    const STATUS = [
+      'PENDING',
+      'ACCEPTED',
+      'STARTED',
+      'COMPLETED',
+      'CANCELLED',
+    ];
+
+    return STATUS.map(value => ({
+      key: value,
+      value,
+      text: value,
+    }));
+  };
+
   return (
     <ModalWrapper
       open={open}
@@ -161,11 +203,22 @@ const UpdateShiftModal = ({
                   shiftDoc.status !== 'PENDING'
                     ? (
                       <>
-                        <Message>
-                          Only shifts that are&nbsp;
-                          <b>pending</b>
-                          &nbsp;may be modified
-                        </Message>
+                        <Form.Dropdown
+                          label="Status"
+                          fluid
+                          selection
+                          options={formatStatus()}
+                          onChange={(event, { value }) => updateStatus(value)}
+                          value={status}
+                        />
+                        <Button
+                          type="submit"
+                          primary
+                          onClick={updateShiftStatus}
+                          loading={updating}
+                        >
+                          Submit
+                        </Button>
                         <Button
                           onClick={(e) => {
                             e.preventDefault();

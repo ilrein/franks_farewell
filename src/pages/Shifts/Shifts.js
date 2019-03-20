@@ -111,12 +111,18 @@ const Shifts = ({
                     setOpen={setOpen}
                     onCreateShift={refreshList}
                   />
-                  <UpdateShiftModal
-                    open={openUpdateModal}
-                    setOpen={setOpenUpdateModal}
-                    refreshList={refreshList}
-                    shiftDoc={currentDoc}
-                  />
+                  {
+                    currentDoc
+                      ? (
+                        <UpdateShiftModal
+                          open={openUpdateModal}
+                          setOpen={setOpenUpdateModal}
+                          refreshList={refreshList}
+                          shiftDoc={currentDoc}
+                        />
+                      )
+                      : null
+                  }
                 </Nav>
                 <Divider />
                 <ShiftsTable
