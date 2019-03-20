@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -8,22 +7,16 @@ import {
   Label,
 } from 'semantic-ui-react';
 
+import Wrapper from '../../../components/Wrapper';
 import SkillsetsContainer from '../../../containers/SkillsetsContainer';
 import SetupSkills from './SetupSkills';
 import ApplyForShifts from './ApplyForShifts';
-
-const Wrapper = styled.div`
-  padding: 2rem;
-`;
-
-const Body = styled.div``;
 /**
  * Shows a list of possible positions
  * if the current user has not specified one for themselves yet
  */
 const SpecialistView = ({
   userReducer,
-  // skillsets,
 }) => {
   const { user } = userReducer;
 
@@ -38,7 +31,7 @@ const SpecialistView = ({
                 <Header>
                   {user.email}
                 </Header>
-                <Body>
+                <>
                   {
                     user.skillsets.length === 0
                       ? (
@@ -61,7 +54,7 @@ const SpecialistView = ({
                       ? <ApplyForShifts />
                       : null
                   }
-                </Body>
+                </>
               </>
             )
             : (
@@ -81,16 +74,10 @@ const SpecialistView = ({
 
 SpecialistView.propTypes = {
   userReducer: PropTypes.shape().isRequired,
-  // shifts: PropTypes.shape().isRequired,
-  // skillsets: PropTypes.shape().isRequired,
 };
 
 export default connect(({
   userReducer,
-  // skillsets,
-  // shifts,
 }) => ({
   userReducer,
-  // skillsets,
-  // shifts,
 }))(SpecialistView);
