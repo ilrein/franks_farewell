@@ -4,9 +4,9 @@ import {
   API_GET_SHIFTS,
 } from '../../../constants';
 
-const getShiftsBySpecialist = async (jwtToken, specialistId) => {
+const getShiftsBySpecialist = async (jwtToken, specialistId, page = 1) => {
   try {
-    const get = await fetch(`${API_GET_SHIFTS}?specialistId=${specialistId}`, {
+    const get = await fetch(`${API_GET_SHIFTS}?specialistId=${specialistId}&page=${page}`, {
       headers: {
         'Content-Type': 'application/json',
         'jwt-token': jwtToken,

@@ -141,8 +141,12 @@ const ShiftsTable = ({
 ShiftsTable.propTypes = {
   user: PropTypes.shape().isRequired,
   shifts: PropTypes.shape().isRequired,
-  onRowClick: PropTypes.func.isRequired,
+  onRowClick: PropTypes.func,
   onPageChange: PropTypes.func.isRequired,
+};
+
+ShiftsTable.defaultProps = {
+  onRowClick: () => {},
 };
 
 export default connect(
