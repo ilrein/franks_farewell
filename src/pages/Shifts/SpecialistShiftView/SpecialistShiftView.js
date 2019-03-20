@@ -4,9 +4,11 @@ import {
   Header,
   Table,
   Label,
+  Pagination,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
+import styled from 'styled-components';
 
 import {
   CAPTURE_SHIFTS,
@@ -14,6 +16,10 @@ import {
 import getShiftsBySpecialistId from '../../../utils/requests/shifts/getShiftsBySpecialist';
 import Wrapper from '../../../components/Wrapper';
 import labelColor from '../../../utils/labelColor';
+
+const Pages = styled(Pagination)`
+  float: right;
+`;
 
 const SpecialistShiftView = ({
   user,
@@ -28,6 +34,8 @@ const SpecialistShiftView = ({
     const list = await getShiftsBySpecialistId(token, specialistId);
     captureShifts(list);
   };
+
+  const onPageChange = page => getUserShifts(jwtToken, user._id, page);
 
   useEffect(() => {
     if (user._id) {
@@ -99,6 +107,23 @@ const SpecialistShiftView = ({
               ))
             }
           </Table.Body>
+          {
+            shifts.totalPages
+              ? (
+                <Table.Footer>
+                  <Table.Row>
+                    <Table.HeaderCell colSpan="7">
+                      <Pages
+                        defaultActivePage={1}
+                        totalPages={shifts.totalPages}
+                        onPageChange={(event, { activePage }) => onPageChange(activePage)}
+                      />
+                    </Table.HeaderCell>
+                  </Table.Row>
+                </Table.Footer>
+              )
+              : null
+          }
         </Table>
       </>
     </Wrapper>
