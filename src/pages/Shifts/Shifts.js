@@ -15,6 +15,7 @@ import {
   API_GET_SHIFTS,
   CAPTURE_SHIFTS,
 } from '../../constants';
+import SpecialistShiftView from './SpecialistShiftView';
 // import fadeIn from '../../anime/fadeIn';
 import Wrapper from '../../components/Wrapper';
 import UserContainer from '../../containers/UserContainer';
@@ -75,69 +76,74 @@ const Shifts = ({
   };
 
   return (
-    <Wrapper>
-      <Breadcrumb style={{ padding: '1rem 0' }}>
-        <Link to="/dashboard">
-          <Breadcrumb.Section>
-            Dashboard
-          </Breadcrumb.Section>
-        </Link>
-        <Breadcrumb.Divider />
-        <Breadcrumb.Section>
-          Shifts
-        </Breadcrumb.Section>
-      </Breadcrumb>
+    <UserContainer>
+      {
+        user.type === 'admin'
+          ? (
+            <Wrapper>
+              <Breadcrumb style={{ padding: '1rem 0' }}>
+                <Link to="/dashboard">
+                  <Breadcrumb.Section>
+                    Dashboard
+                  </Breadcrumb.Section>
+                </Link>
+                <Breadcrumb.Divider />
+                <Breadcrumb.Section>
+                  Shifts
+                </Breadcrumb.Section>
+              </Breadcrumb>
+              <CompanyContainer>
+                <LocationsContainer>
+                  <ShiftsContainer>
+                    <SkillsetsContainer>
+                      <Nav>
+                        <Heading>
+                          Shifts
+                        </Heading>
 
-      <UserContainer>
-        <CompanyContainer>
-          <LocationsContainer>
-            <ShiftsContainer>
-              <SkillsetsContainer>
-                <Nav>
-                  <Heading>
-                    Shifts
-                  </Heading>
-
-                  <Button
-                    color="green"
-                    icon="plus"
-                    labelPosition="left"
-                    content="New Shift"
-                    onClick={() => setOpen(true)}
-                    disabled={!user.approved}
-                  />
-                  <NewShiftModal
-                    open={open}
-                    setOpen={setOpen}
-                    onCreateShift={refreshList}
-                  />
-                  {
-                    currentDoc
-                      ? (
-                        <UpdateShiftModal
-                          open={openUpdateModal}
-                          setOpen={setOpenUpdateModal}
-                          refreshList={refreshList}
-                          shiftDoc={currentDoc}
+                        <Button
+                          color="green"
+                          icon="plus"
+                          labelPosition="left"
+                          content="New Shift"
+                          onClick={() => setOpen(true)}
+                          disabled={!user.approved}
                         />
-                      )
-                      : null
-                  }
-                </Nav>
-                <Divider />
-                <ShiftsTable
-                  onRowClick={(selectedDoc) => {
-                    setOpenUpdateModal(true);
-                    setCurrentDoc(selectedDoc);
-                  }}
-                  onPageChange={onPageChange}
-                />
-              </SkillsetsContainer>
-            </ShiftsContainer>
-          </LocationsContainer>
-        </CompanyContainer>
-      </UserContainer>
-    </Wrapper>
+                        <NewShiftModal
+                          open={open}
+                          setOpen={setOpen}
+                          onCreateShift={refreshList}
+                        />
+                        {
+                          currentDoc
+                            ? (
+                              <UpdateShiftModal
+                                open={openUpdateModal}
+                                setOpen={setOpenUpdateModal}
+                                refreshList={refreshList}
+                                shiftDoc={currentDoc}
+                              />
+                            )
+                            : null
+                        }
+                      </Nav>
+                      <Divider />
+                      <ShiftsTable
+                        onRowClick={(selectedDoc) => {
+                          setOpenUpdateModal(true);
+                          setCurrentDoc(selectedDoc);
+                        }}
+                        onPageChange={onPageChange}
+                      />
+                    </SkillsetsContainer>
+                  </ShiftsContainer>
+                </LocationsContainer>
+              </CompanyContainer>
+            </Wrapper>
+          )
+          : <SpecialistShiftView />
+      }
+    </UserContainer>
   );
 };
 

@@ -22,6 +22,12 @@ const SpecialistNavOptions = () => (
         Dashboard
       </Hover>
     </Link>
+    <Link to="/shifts">
+      <Hover>
+        <Icon name="calendar" />
+        Shifts
+      </Hover>
+    </Link>
   </>
 );
 
