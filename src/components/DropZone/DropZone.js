@@ -20,7 +20,6 @@ const Wrapper = styled.div`
 
 const DropZone = ({ handleDrop }) => {
   const onDrop = useCallback((acceptedFiles) => {
-    console.log(acceptedFiles); // eslint-disable-line
     handleDrop(acceptedFiles);
   }, []);
 

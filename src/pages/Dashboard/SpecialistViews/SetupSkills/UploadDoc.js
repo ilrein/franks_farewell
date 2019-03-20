@@ -1,5 +1,7 @@
 import React from 'react';
 
+import DropZone from '../../../../components/DropZone';
+
 const UploadDoc = ({ skill }) => {
   const { documentsRequired } = skill;
 
@@ -8,15 +10,17 @@ const UploadDoc = ({ skill }) => {
   };
 
   return (
-    <div>
+    <>
       {
         documentsRequired.map(doc => (
           <div key={doc.name}>
-            {doc.name}
+            <DropZone
+              handleDrop={files => console.log(files)}
+            />
           </div>
         ))
       }
-    </div>
+    </>
   );
 };
 
