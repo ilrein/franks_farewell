@@ -98,7 +98,14 @@ const SetupSkills = ({
       {
         skill
         && skill.requiresDocuments
-          ? <UploadDoc skill={skill} user={user} token={jwtToken} />
+          ? (
+            <UploadDoc
+              skill={skill}
+              user={user}
+              token={jwtToken}
+              onSuccess={setUploadedDocsForSkillset}
+            />
+          )
           : null
       }
       <Button

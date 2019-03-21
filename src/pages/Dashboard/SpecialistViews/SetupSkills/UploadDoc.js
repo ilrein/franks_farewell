@@ -17,6 +17,7 @@ const UploadDoc = ({
   skill,
   user,
   token,
+  onSuccess,
 }) => {
   const { documentsRequired } = skill;
   const [hasUploaded, setHasUploaded] = useState(false);
@@ -24,44 +25,37 @@ const UploadDoc = ({
 
   const uploadRequiredDocuments = (files, type) => {
     // console.log(files[0]);
-    // setUploading(true);
+    setUploading(true);
     
-    // Storage.put(`${type}-${uuidv4()}`, files[0], { level: 'public' })
-    //   .then(async (res) => {
-    //     console.log(res);
-
-    //     const body = JSON.stringify({
-    //       user: {
-    //         ...user,
-    //         skillsets: [
-    //           {
-    //             ...user.skillsets[0],
-    //             documentsUploaded: [{
-    //               ...user.documentsUploaded,
-    //               type,
-    //               uri: res.key,
-    //             }],
-    //           },
-    //         ],
-    //       },
-    //     });
+    Storage.put(`${type}-${uuidv4()}`, files[0], { level: 'public' })
+      .then(async (res) => {
+        const body = JSON.stringify({
+          user: {
+            ...user,
+            documentsUploaded: [{
+              ...user.documentsUploaded,
+              name: type,
+              uri: res.key,
+            }],
+          },
+        });
         
-    //     const updateUser = await fetch(API_UPDATE_USER(user._id), {
-    //       method: 'PUT',
-    //       headers: {
-    //         'Content-Type': 'application/json',
-    //         'jwt-token': token,
-    //       },
-    //       body,
-    //     });
+        const updateUser = await fetch(API_UPDATE_USER(user._id), {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'jwt-token': token,
+          },
+          body,
+        });
 
-    //     const userUpdateResult = await updateUser.json();
-    //     console.log(userUpdateResult);
+        await updateUser.json();
 
-    //     setUploading(false);
-    //     setHasUploaded(true);
-    //   })
-    //   .catch(e => console.log(e)); // eslint-disable-line
+        setUploading(false);
+        setHasUploaded(true);
+        onSuccess(true);
+      })
+      .catch(e => console.log(e)); // eslint-disable-line
   };
 
   return (
@@ -81,6 +75,7 @@ const UploadDoc = ({
             <Segment
               basic
               loading={uploading}
+              style={{ padding: 0 }}
             >
               {
                 !hasUploaded
