@@ -7,6 +7,11 @@ import {
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
+const Container = styled.div`
+  border: 1px dashed grey;
+  margin-bottom: 1rem;
+`;
+
 const Wrapper = styled.div`
   padding: 1rem;
   display: flex;
@@ -18,7 +23,7 @@ const Wrapper = styled.div`
   border-radius: 5px;
 `;
 
-const DropZone = ({ handleDrop }) => {
+const DropZone = ({ handleDrop, ...restProps }) => {
   const onDrop = useCallback((acceptedFiles) => {
     handleDrop(acceptedFiles);
   }, []);
@@ -26,7 +31,10 @@ const DropZone = ({ handleDrop }) => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   return (
-    <div {...getRootProps()}>
+    <Container
+      {...getRootProps()}
+      {...restProps}
+    >
       <input {...getInputProps()} />
       {
         isDragActive
@@ -51,7 +59,7 @@ const DropZone = ({ handleDrop }) => {
             )
           )
       }
-    </div>
+    </Container>
   );
 };
 
