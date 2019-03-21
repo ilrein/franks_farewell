@@ -43,6 +43,7 @@ const ApplyForShifts = ({
   captureShifts,
 }) => {
   const [jwtToken] = useState(cognitoUser.signInUserSession.accessToken.jwtToken);
+  const [refreshToken] = useState(cognitoUser.signInUserSession.refreshToken.token);
   const [fetchedShifts, setSetchedShifts] = useState(false);
 
   const [page] = useState(1);
@@ -53,6 +54,7 @@ const ApplyForShifts = ({
         headers: {
           'Content-Type': 'application/json',
           'jwt-token': jwtToken,
+          'refresh-token': refreshToken,
         },
       });
       const list = await get.json();
@@ -99,6 +101,7 @@ const ApplyForShifts = ({
                         open={open}
                         handleClose={() => setOpen(false)}
                         doc={currentDoc}
+                        onSuccess={() => getShifts()}
                       />
                     )
                     : null

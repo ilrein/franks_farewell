@@ -26,6 +26,7 @@ const ApplyModal = ({
   doc,
   user,
   cognitoUser,
+  onSuccess,
 }) => {
   const [submitting, setSubmitting] = useState(false);
 
@@ -58,6 +59,7 @@ const ApplyModal = ({
       setSubmitting(false);
       handleClose();
       toast.success('Successfully accepted shift');
+      onSuccess();
     } catch (error) {
       console.log(error); // eslint-disable-line
       setSubmitting(false);
